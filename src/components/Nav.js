@@ -10,55 +10,59 @@ const NavWrapper = styled.div`
     display: flex;
     justify-content: center;
     
-    .navContainer{
-        padding:  0 65px;
-        height: 90px;
-        width: 1600px;
-        display: flex;
-        align-items: center;
-        
-        .logoIcon{
-            width: 90px;
-        }
+`
+const NavContainer = styled.div`
+    padding:  0 65px;
+    height: 90px;
+    width: 1600px;
+    display: flex;
+    align-items: center;
+`
+const LogoIcon = styled.img`
+    width: 90px;
+`
 
-        .navMenu{
-            width: 100%;
-            display: flex;
-            justify-content: flex-end;
-   
-            .menuContainer{
-                a{
-                    font-size: 18px;
-                    margin: 0 26px;
-                }
-            }
-            .iconsContainer{
-                margin-left : 44px;
-                .icon{
-                    margin-left: 20px;
-                }
-            }
-        }
+const NavMenu = styled.div`
+    width: 100%;
+    display: flex;
+    justify-content: flex-end;
+`
+
+const MenuContainer = styled.div`
+    a{
+        font-size: 18px;
+        margin: 0 26px;
     }
 `
+
+const IconContainer = styled.div`
+    display: flex;
+    margin-left: 44px;
+    align-items: center;
+    .icon{
+        font-size: 18px;
+        margin-left: 20px;
+    }
+`
+
 function Nav(props) {
     return (
         <nav>
             <NavWrapper>
-                <div className='navContainer'>
-                    <img src="./assets/icons/logo.png" className="logoIcon"/>
-                    <div className='navMenu'>
-                        <div className='menuContainer'>
+                <NavContainer>
+                    <LogoIcon src="./assets/icons/logo.png"/>
+                    <NavMenu>
+                        <MenuContainer>
                             <a>SHOP</a>
                             <a>PROMOTION</a>
                             <a>BRAND</a>
-                        </div>
-                        <div className='iconsContainer'>
+                        </MenuContainer>
+                        <IconContainer>
                             <FiUser className='icon userIcon'/>
                             <FiSearch className='icon searchIcon'/>
-                        </div>
-                    </div>
-                </div>
+                        </IconContainer>
+                    </NavMenu>
+                </NavContainer>
             </NavWrapper>
         </nav>
     );
