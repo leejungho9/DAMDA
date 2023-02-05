@@ -21,7 +21,6 @@ const NavContainer = styled.div`
 const LogoIcon = styled.img`
     width: 90px;
 `
-
 const NavMenu = styled.div`
     width: 100%;
     display: flex;
