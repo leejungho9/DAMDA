@@ -4,11 +4,13 @@ import styled from "styled-components";
 const PrmotionWrapper = styled.div`
   width: 100%;
   height: 800px;
+  margin-top: 120px;
 `;
 const PromotionMainTitle = styled.h3`
   text-align: center;
   margin-bottom: 65px;
   font-family: "LINESeedKR-Bd";
+  font-size: 22px;
 `;
 const PrmotionMainImage = styled.div`
   width: 1050px;
@@ -31,7 +33,7 @@ const PromotionInfo = styled.div`
 
 const PromotionTitle = styled.h3`
   font-family: "LINESeedKR-Bd";
-  font-size: 22px;
+  font-size: 24px;
   margin: 0;
   margin-bottom: 65px;
 `;
