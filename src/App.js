@@ -4,6 +4,7 @@ import Nav from "./components/Nav";
 import Banner from "./components/Mainbanner";
 import BestSeller from "./components/Bestseller";
 import Promotion from "./components/Promotion";
+import Advertisement from "./components/Advertisement";
 
 function App() {
   return (
@@ -11,6 +12,7 @@ function App() {
       <Nav />
       <Banner />
       <BestSeller />
+      <Advertisement/>
       <Promotion />
     </>
   );
