@@ -4,20 +4,14 @@ import data from "../assets/data/BestsellerData.json"
 
 const SellerTitle = styled.div`
   span {
-    font-family: 'LINESeedKR-Bd';
+    font-family: "LINESeedKR-Bd";
     font-size: 22px;
-  }
-  
-  @font-face {
-    font-family: 'LINESeedKR-Bd';
-    src: url('https://cdn.jsdelivr.net/gh/projectnoonnu/noonfonts_11-01@1.0/LINESeedKR-Bd.woff2') format('woff2');
-    font-weight: normal;
-    font-style: normal;
   }
   * {
     display: flex;
     justify-content: center;
     width: 100%;
+    margin-top: 120px;
   }
 `;
 
@@ -49,32 +43,37 @@ const SellerUl = styled.ul`
   width: 100%;
 `;
 const SellerDecription = styled.span`
+  font-family: "LINESeedKR-Rg";
   display: flex;
   flex-direction: column;
   padding: 40px 25px 0 25px;
 `;
 const ItemName = styled.span`
+  font-family: "LINESeedKR-Rg";
   display: flex;
   justify-content: space-between;
   font-size: 23px;
 `;
 const ItemTitle = styled.span`
+  font-family: "LINESeedKR-Rg";
   padding-top: 45px;
   font-size: 20px;
 `;
 const ItemDiscount = styled.span`
+  font-family: "LINESeedKR-Rg";
   font-size: 20px;
   padding-top: 16px;
   padding-bottom: 16px;
 `;
 const DecriptionPrice = styled.span`
+  font-family: "LINESeedKR-Rg";
   padding-right: 16px;
   font-size: 18px;
 `;
 const DiscountPrice = styled.span`
+  font-family: "LINESeedKR-Bd";
   padding-right: 16px;
   font-size: 20px;
-  font-weight: 700;
   color: #f28b39;
 `;
 
