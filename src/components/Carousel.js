@@ -15,7 +15,7 @@ const CarouselUl = styled.ul`
 `;
 
 const CarouselLi = styled.li`
-  position: fixed;
+  /* position: fixed; */
   background-color: #f28b39;
   width: 80px;
   height: 14px;
