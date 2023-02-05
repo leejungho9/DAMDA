@@ -15,7 +15,7 @@ const PromotionMainTitle = styled.h3`
 const PrmotionMainImage = styled.div`
   width: 1050px;
   height: 700px;
-  background-image: url("./assets/images/img2.jpg");
+  background-image: url("images/img2.jpg");
   background-repeat: no-repeat;
   background-position: center;
 `;
@@ -58,7 +58,7 @@ const ItemContainer = styled.div`
 const ItemImage = styled.div`
   width: 250px;
   height: 250px;
-  background-image: url("./assets/images/img6.jpg");
+  background-image: url("images/img6.jpg");
   background-repeat: no-repeat;
 `;
 const ItemInfo = styled.div`

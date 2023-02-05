@@ -49,7 +49,7 @@ function Nav(props) {
         <nav>
             <NavWrapper>
                 <NavContainer>
-                    <LogoIcon src="./assets/icons/logo.png"/>
+                    <LogoIcon src="icons/logo.png"/>
                     <NavMenu>
                         <MenuContainer>
                             <a>SHOP</a>
