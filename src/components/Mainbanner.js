@@ -6,7 +6,9 @@ const MainbannerWrapper = styled.div`
     height: 750px;
     position: relative;
     background-image : url('./assets/images/img9.jpg');
-
+    background-repeat: no-repeat;
+    background-size : cover;
+    background-position: center;
 
 `
 function Mainbanner(props) {
