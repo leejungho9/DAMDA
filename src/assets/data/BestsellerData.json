@@ -1,0 +1,31 @@
+{
+  "data" : [
+    {
+      "id":"1",
+      "name":"허니순",
+      "price":"200000",
+      "item_title":"꿀진담 2종 세트",
+      "discount":"50",
+      "score":"4.2",
+      "url":"images/img8.jpg"
+    },
+    {
+      "id":"2",
+      "name":"허니순",
+      "item_title":"꿀진담 2종 세트",
+      "price":"200000",
+      "discount":"50",
+      "score":"4.2",
+      "url":"images/img7.jpg"
+    },
+    {
+      "id":"3",
+      "name":"허니순",
+      "price":"200000",
+      "item_title":"꿀진담 2종 세트",
+      "discount":"50",
+      "score":"4.2",
+      "url":"images/img4.jpg"
+    }
+  ]
+}
