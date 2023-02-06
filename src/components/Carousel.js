@@ -1,4 +1,4 @@
-import React,{ useRef,useState,useEffect } from "react";
+import React,{ useRef,useEffect } from "react";
 import styled from "styled-components";
 
 const CarouselUl = styled.ul`
@@ -15,14 +15,11 @@ const CarouselUl = styled.ul`
 `;
 
 const CarouselLi = styled.li`
-  /* position: fixed; */
   background-color: #f28b39;
   width: 80px;
   height: 14px;
   border-radius: 14px;
   cursor: pointer;
-  transition: ${(props) => (!props.idx ? '' : 'all 0.5s ease-in-out')};
-  transform: ${(props) => `translateX(+` + props.idx * 80 +'px)'};
 `;
 const CarouselWrapper = styled.div`
   display: flex;
@@ -34,35 +31,18 @@ const CarouselWrapper = styled.div`
     list-style: none;
   }
 `
-
-function Carousel() {
+function Carousel({ slideIdx }) {
   const slideRef = useRef(null);
-  const [slideIdx,setSlideIdx] = useState(0)
 
   useEffect(() => {
-    const timer = setInterval(
-      () => {
-        nextSlide()
-    },2500
-    )
-    return () => {
-        clearInterval(timer)
-    }
-  }, [slideIdx])
-
-  const nextSlide = () => {
-    if(slideIdx < 2) {
-      setSlideIdx(slideIdx+1)
-    } 
-    else if(slideIdx >= 2) {
-      setSlideIdx(0)
-    }
-  }
+    slideRef.current.style.transition = 'all 0.5s ease-in-out';
+    slideRef.current.style.transform = `translateX(+${slideIdx}00%)`;
+  },[slideIdx])
   
   return (
     <CarouselWrapper>
-      <CarouselUl ref={slideRef}>
-        <CarouselLi idx={slideIdx}/>
+      <CarouselUl>
+        <CarouselLi ref={slideRef} idx={slideIdx}/>
       </CarouselUl>
     </CarouselWrapper>
   )
