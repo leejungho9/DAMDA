@@ -4,21 +4,21 @@ import styled from "styled-components";
 const CarouselUl = styled.ul`
   display: flex;
   justify-content: space-between;
-  width: 240px;
-  height: 14px;
+  width: 150px;
+  height: 9px;
   border: solid 1px;
   border-color: #f28b39;
   padding: 0;
   margin: 0;
-  margin-top: 120px;
-  border-radius: 14px;
+  margin-top: 90px;
+  border-radius: 10px;
 `;
 
 const CarouselLi = styled.li`
   background-color: #f28b39;
-  width: 80px;
-  height: 14px;
-  border-radius: 14px;
+  width: 50px;
+  height: 9px;
+  border-radius: 10px;
   cursor: pointer;
 `;
 const CarouselWrapper = styled.div`
