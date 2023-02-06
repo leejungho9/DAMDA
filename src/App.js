@@ -4,7 +4,6 @@ import Banner from "./components/Mainbanner";
 import BestSeller from "./components/Bestseller";
 import Promotion from "./components/Promotion";
 import Advertisement from "./components/Advertisement";
-import Carousel from "./components/Carousel";
 import Brand from "./components/Brand";
 
 function App() {
@@ -13,7 +12,6 @@ function App() {
       <Nav />
       <Banner />
       <BestSeller />
-      <Carousel/>
       <Advertisement/>
       <Promotion />
       <Brand/>
