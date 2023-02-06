@@ -1,6 +1,7 @@
-import React from "react";
+import React,{ useRef,useState,useEffect } from "react";
 import styled from "styled-components";
 import data from "../assets/data/BestsellerData.json"
+import Carousel from "./Carousel";
 
 const SellerTitle = styled.div`
   span {
@@ -26,6 +27,8 @@ const SellerCard = styled.div`
   padding: 0;
   margin: 0;
   }
+  display: flex;
+  justify-content: center;
 `;
 const SellerImg = styled.img`
     width: 500px;
@@ -37,8 +40,6 @@ const SellerLi = styled.li`
 const SellerUl = styled.ul`
   display: flex;
   flex-direction: row;
-  align-items: center;
-  justify-content: center;
   padding-top: 65px;
   width: 100%;
 `;
@@ -76,8 +77,40 @@ const DiscountPrice = styled.span`
   font-size: 20px;
   color: #f28b39;
 `;
+const SliderContainer = styled.div`
+  max-width: 1600px;
+  display: flex;
+`;
 
 function BestSeller() {
+  const slideRef = useRef(null);
+  const [slideIdx,setSlideIdx] = useState(0)
+
+  useEffect(() => {
+    const timer = setInterval(
+      () => {
+        nextSlide()
+    },5000
+    )
+    return () => {
+        clearInterval(timer)
+    }
+  }, [slideIdx])
+
+  useEffect(() => {
+    slideRef.current.style.transition = 'all 0.5s ease-in-out';
+    slideRef.current.style.transform = `translateX(-${slideIdx}00%)`;
+  },[slideIdx])
+
+  const nextSlide = () => {
+    if(slideIdx < 2) {
+      setSlideIdx(slideIdx+1)
+    } 
+    else if(slideIdx >= 2) {
+      setSlideIdx(0)
+    }
+  }
+
   const createdCard = data.data.map((el,index) => {
     let buyPrice = (el.price*(el.discount/100)).toString().replace(/\B(?=(\d{3})+(?!\d))/g, ',');
     let realPrice = el.price.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ',');
@@ -102,8 +135,13 @@ function BestSeller() {
     <>
       <SellerTitle><span>BEST SELLER</span></SellerTitle>
       <SellerCard>
-        <SellerUl>{createdCard}</SellerUl>
+        <SliderContainer idx={slideIdx} ref={slideRef}>
+          <SellerUl>{createdCard}</SellerUl>
+          <SellerUl>{createdCard}</SellerUl>
+          <SellerUl>{createdCard}</SellerUl>
+        </SliderContainer>
       </SellerCard>
+      <Carousel slideIdx={slideIdx}/>
     </>
   )
 }
