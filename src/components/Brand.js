@@ -47,7 +47,7 @@ const BrandName = styled.p`
 function Brand(props) {
   return (
     <BrandWrapper>
-      <BrandMainTitle>Brand</BrandMainTitle>
+      <BrandMainTitle>BRAND</BrandMainTitle>
       <BrandBoxContainer>
         <BrandBox>
           <BrandName>일상이 예술, 예술이 일상 아트앤에디션</BrandName>
