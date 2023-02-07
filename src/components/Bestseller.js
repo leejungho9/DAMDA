@@ -107,7 +107,7 @@ function BestSeller() {
         ulRef.current[slideIdx].style.opacity = `1`
       }
       else {
-        ulRef.current[index].style.opacity = `0.3`
+        ulRef.current[index].style.opacity = `0`
       }
     })
 
