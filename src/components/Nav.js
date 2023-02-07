@@ -52,7 +52,7 @@ function Nav(props) {
                     <Link to="/"><LogoIcon src="icons/logo.png"/></Link>
                     <NavMenu>
                         <MenuContainer>
-                            <Link to="/login"><a>SHOP</a></Link>
+                            <Link to="/shop"><a>SHOP</a></Link>
                             <a>PROMOTION</a>
                             <a>BRAND</a>
                         </MenuContainer>
