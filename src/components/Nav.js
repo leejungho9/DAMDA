@@ -29,8 +29,10 @@ const NavMenu = styled.div`
 
 const MenuContainer = styled.div`
     a{
-        font-size: 18px;
+        font-family: Arial;
+        font-size: 16px;
         margin: 0 26px;
+        cursor: pointer;
     }
 `
 
