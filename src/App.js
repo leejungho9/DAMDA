@@ -1,20 +1,21 @@
 import "./App.css";
+import { BrowserRouter, Routes, Route } from 'react-router-dom';
 import Nav from "./components/Nav";
-import Banner from "./components/Mainbanner";
-import BestSeller from "./components/Bestseller";
-import Promotion from "./components/Promotion";
-import Advertisement from "./components/Advertisement";
-import Brand from "./components/Brand";
+import Main from "./pages/Main";
+import Login from "./pages/Login";
+import Shop from "./pages/Shop";
 
 function App() {
   return (
     <>
-      <Nav />
-      <Banner />
-      <BestSeller />
-      <Advertisement/>
-      <Promotion />
-      <Brand/>
+      <BrowserRouter>
+        <Nav />
+        <Routes>
+          <Route path="/" element={<Main />}></Route>
+          <Route path="/login" element={<Login />}></Route>
+          <Route path="/shop" element={<Shop />}></Route>
+        </Routes>
+      </BrowserRouter>
     </>
   );
 }
