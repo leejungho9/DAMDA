@@ -3,6 +3,11 @@
   padding : 0;
 }
 
+a{
+  text-decoration: none;
+  color: #3e3e3e;
+}
+
 @font-face {
   font-family: 'LINESeedKR-Bd';
   src: url('./styles/fonts/LINESeedKR-Bd.ttf');
