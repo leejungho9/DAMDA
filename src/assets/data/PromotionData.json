@@ -1,0 +1,18 @@
+{
+  "data" : [
+    {
+      "p_id":"1",
+      "p_title" : "다가오는 추석, 선물 찾고계세요?",
+      "p_des" : "단 한달 동안 진행하는 종려나무숲 선물패키지 이벤트입니다. 사랑하는 가족, 친구, 친지 마음을 담은 특별한 선물을 담다에서 준비하세요.",
+      "p_start_date" : "2023-04-02",
+      "p_end_date" : "2023-05-02",
+      "company":"허니순",
+      "item_title":"꿀진담 2종 세트",
+      "price":"200000",
+      "discount":"50",
+      "score":"4.2",
+      "url":"images/promotion_main.jpg",
+      "sub_url":"images/promotion_sub.jpg"
+    }
+  ]
+}
