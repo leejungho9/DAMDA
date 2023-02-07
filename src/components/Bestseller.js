@@ -31,6 +31,7 @@ const SellerCard = styled.div`
   justify-content: center;
 `;
 const SellerImg = styled.img`
+    border-radius: 15px;
     width: 400px;
     height: 540px;
 `;
