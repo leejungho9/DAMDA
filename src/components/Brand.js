@@ -14,16 +14,15 @@ const BrandMainTitle = styled.h3`
 
 const BrandBoxContainer = styled.div`
   display: flex;
-  width: 1600px;
+  width: 1300px;
   height: 310px;
   flex-wrap: wrap;
   align-content: space-between;
   justify-content: space-evenly;
   margin: 0 auto;
-  box-sizing: border-box;
 `
 const BrandBox = styled.div`
-  width: 755px;
+  width: 610px;
   height: 140px;
   border: 1px solid black;
   display: flex;
@@ -36,7 +35,6 @@ const BrandBox = styled.div`
       opacity: 1;
     }
   }
-
 `
 const BrandName = styled.p`
   font-size: 20px;

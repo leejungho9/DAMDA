@@ -31,8 +31,9 @@ const SellerCard = styled.div`
   justify-content: center;
 `;
 const SellerImg = styled.img`
-    width: 500px;
-    height: 660px;
+    border-radius: 15px;
+    width: 400px;
+    height: 540px;
 `;
 const SellerLi = styled.li`
   padding-left: 25px;
@@ -53,32 +54,31 @@ const ItemName = styled.span`
   font-family: "LINESeedKR-Rg";
   display: flex;
   justify-content: space-between;
-  font-size: 23px;
+  font-size: 16px;
 `;
 const ItemTitle = styled.span`
   font-family: "LINESeedKR-Rg";
-  padding-top: 45px;
-  font-size: 20px;
+  padding-top: 30px;
+  font-size: 16px;
 `;
 const ItemDiscount = styled.span`
   font-family: "LINESeedKR-Rg";
-  font-size: 20px;
-  padding-top: 16px;
-  padding-bottom: 16px;
+  padding: 7px 0;
+  font-size: 16px;
 `;
 const DecriptionPrice = styled.span`
   font-family: "LINESeedKR-Rg";
   padding-right: 16px;
-  font-size: 18px;
+  font-size: 15px;
 `;
 const DiscountPrice = styled.span`
   font-family: "LINESeedKR-Bd";
   padding-right: 16px;
-  font-size: 20px;
+  font-size: 16px;
   color: #f28b39;
 `;
 const SliderContainer = styled.div`
-  max-width: 1600px;
+  max-width: 1300px;
   display: flex;
 `;
 
