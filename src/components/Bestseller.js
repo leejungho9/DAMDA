@@ -33,7 +33,7 @@ const SellerCard = styled.div`
 const SellerImg = styled.img`
     border-radius: 15px;
     width: 400px;
-    height: 540px;
+    height: 480px;
 `;
 const SellerLi = styled.li`
   padding-left: 25px;
@@ -43,6 +43,7 @@ const SellerUl = styled.ul`
   flex-direction: row;
   padding-top: 65px;
   width: 100%;
+  transition: all 0.5s;
 `;
 const SellerDecription = styled.span`
   font-family: "LINESeedKR-Rg";
@@ -84,6 +85,7 @@ const SliderContainer = styled.div`
 
 function BestSeller() {
   const slideRef = useRef(null);
+  const ulRef = useRef([]);
   const [slideIdx,setSlideIdx] = useState(0)
 
   useEffect(() => {
@@ -100,6 +102,15 @@ function BestSeller() {
   useEffect(() => {
     slideRef.current.style.transition = 'all 0.5s ease-in-out';
     slideRef.current.style.transform = `translateX(-${slideIdx}00%)`;
+    ulRef.current.map((el,index) => {
+      if(slideIdx === index) {
+        ulRef.current[slideIdx].style.opacity = `1`
+      }
+      else {
+        ulRef.current[index].style.opacity = `0.3`
+      }
+    })
+
   },[slideIdx])
 
   const nextSlide = () => {
@@ -136,9 +147,9 @@ function BestSeller() {
       <SellerTitle><span>BEST SELLER</span></SellerTitle>
       <SellerCard>
         <SliderContainer idx={slideIdx} ref={slideRef}>
-          <SellerUl>{createdCard}</SellerUl>
-          <SellerUl>{createdCard}</SellerUl>
-          <SellerUl>{createdCard}</SellerUl>
+          <SellerUl ref={ref => (ulRef.current[0] = ref)}>{createdCard}</SellerUl>
+          <SellerUl ref={ref => (ulRef.current[1] = ref)}>{createdCard}</SellerUl>
+          <SellerUl ref={ref => (ulRef.current[2] = ref)}>{createdCard}</SellerUl>
         </SliderContainer>
       </SellerCard>
       <Carousel slideIdx={slideIdx}/>
