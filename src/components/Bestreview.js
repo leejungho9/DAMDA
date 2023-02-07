@@ -33,7 +33,7 @@ const ReviewCard = styled.div`
 const ReviewImg = styled.img`
     border-radius: 15px;
     width: 610px;
-    height: 480px;
+    height: 400px;
 `;
 const ReviewLi = styled.li`
   padding-left: 25px;
