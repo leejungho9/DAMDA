@@ -7,7 +7,7 @@ const LoginWrapper = styled.div`
   justify-content: center;
   align-items: center;
   width: 100%;
-  margin-top: 98px;
+  padding-top: 98px;
 `
 const LoginTitle = styled.span`
   margin-top: 150px;

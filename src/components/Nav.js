@@ -1,6 +1,7 @@
 import React from 'react';
 import styled from 'styled-components';
 import { FiUser, FiSearch } from "react-icons/fi";
+import { Link } from 'react-router-dom';
 
 const NavWrapper = styled.div`
     position: absolute;
@@ -9,7 +10,6 @@ const NavWrapper = styled.div`
     height: 90px;
     display: flex;
     justify-content: center;
-    
 `
 const NavContainer = styled.div`
     padding:  0 65px;
@@ -49,15 +49,15 @@ function Nav(props) {
         <nav>
             <NavWrapper>
                 <NavContainer>
-                    <LogoIcon src="icons/logo.png"/>
+                    <Link to="/"><LogoIcon src="icons/logo.png"/></Link>
                     <NavMenu>
                         <MenuContainer>
-                            <a>SHOP</a>
+                            <Link to="/login"><a>SHOP</a></Link>
                             <a>PROMOTION</a>
                             <a>BRAND</a>
                         </MenuContainer>
                         <IconContainer>
-                            <FiUser className='icon userIcon'/>
+                            <Link to="/login"><FiUser className='icon userIcon'/></Link>
                             <FiSearch className='icon searchIcon'/>
                         </IconContainer>
                     </NavMenu>
