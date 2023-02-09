@@ -1,7 +1,8 @@
-import React from "react";
+import React,{ useState,useRef,useEffect } from "react";
 import styled from "styled-components";
 import { FiUser, FiSearch } from "react-icons/fi";
 import { Link } from "react-router-dom";
+import Sidebar from './Sidebar';
 
 const NavWrapper = styled.div`
   position: absolute;
@@ -46,7 +47,7 @@ const IconContainer = styled.div`
   align-items: center;
   .icon {
     cursor: pointer;
-    font-size: 18px;
+    font-size: 20px;
     margin-left: 20px;
     .icon:hover {
       font-weight: bold;
@@ -54,31 +55,43 @@ const IconContainer = styled.div`
   }
 `;
 
+const SidebarContainer = styled.div`
+    position: absolute;
+    z-index: 999;
+`
+
 function Nav(props) {
-  return (
-    <nav>
-      <NavWrapper>
-        <NavContainer>
-          <Link to="/">
-            <LogoIcon src="icons/logo.png" />
-          </Link>
-          <NavMenu>
-            <MenuContainer>
-              <Link to="/shop">SHOP</Link>
-              <a>PROMOTION</a>
-              <a>BRAND</a>
-            </MenuContainer>
-            <IconContainer>
-              <Link to="/login">
-                <FiUser className="icon userIcon" />
-              </Link>
-              <FiSearch className="icon searchIcon" />
-            </IconContainer>
-          </NavMenu>
-        </NavContainer>
-      </NavWrapper>
-    </nav>
-  );
+  const [isSidebar,setSidebar] = useState(false);
+
+  useEffect(() => {
+    console.log(isSidebar)
+  },[isSidebar])
+  
+return (
+  <nav>
+    <NavWrapper>
+      <NavContainer>
+        <Link to="/">
+          <LogoIcon src="icons/logo.png" />
+        </Link>
+        <NavMenu>
+          <MenuContainer>
+            <Link to="/shop">SHOP</Link>
+            <a>PROMOTION</a>
+            <a>BRAND</a>
+          </MenuContainer>
+          <IconContainer>
+            <Link to="/login">
+              <FiUser className="icon userIcon" />
+            </Link>
+            <FiSearch onClick={() => setSidebar(!isSidebar)} className="icon searchIcon" />
+          </IconContainer>
+        </NavMenu>
+      </NavContainer>
+    </NavWrapper>
+    <SidebarContainer><Sidebar isSidebar={isSidebar} setSidebar={setSidebar}/></SidebarContainer>
+  </nav>
+);
 }
 
 export default Nav;
