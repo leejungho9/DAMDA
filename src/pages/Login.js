@@ -1,4 +1,4 @@
-import React,{ useRef,useEffect } from "react";
+import React from "react";
 import styled from "styled-components";
 
 const LoginWrapper = styled.div`
@@ -13,7 +13,7 @@ const LoginTitle = styled.span`
   margin-top: 150px;
   font-family: "LINESeedKR-Bd";
   font-weight: 800;
-  font-size: 25px;
+  font-size: 18px;
 `
 const LoginBox = styled.div`
   display: flex;
@@ -27,27 +27,32 @@ const LoginBox = styled.div`
   }
 `
 const EmailInput = styled.input`
-  font-size: 20px;
+  font-size: 15px;
   padding-bottom: 20px;
   padding-left: 15px;
   font-weight: 500;
   color: #868686;
   border: none;
-  border-bottom: solid;
+  border-bottom: solid 1px;
   width: 400px;
 `
 const PwInput = styled.input`
   margin-top: 60px;
-  font-size: 20px;
+  font-size: 15px;
   font-weight: 500;
   color: #868686;
-  padding-bottom: 20px;
+  padding-bottom: 15px;
   padding-left: 15px;
   border: none;
-  border-bottom: solid;
+  border-bottom: solid 1px;
   width: 400px;
 `
 const KakaoBtn = styled.div`
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-size: 15px;
+    font-weight: 800;
     margin-top: 95px;
     background-color: #FEE500;
     width: 400px;
@@ -57,6 +62,12 @@ const KakaoBtn = styled.div`
 `
 
 const NaverBtn = styled.div`
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-size: 16px;
+    font-weight: 800;
+    color: #fff;
     margin-top: 15px;
     background-color: #03C75A;
     width: 400px;
@@ -65,6 +76,11 @@ const NaverBtn = styled.div`
     cursor: pointer;
 `
 const SigninBtn = styled.div`
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-size: 16px;
+    font-weight: 800;
     margin-top: 15px;
     margin-bottom: 140px;
     background-color: #fff;
@@ -89,8 +105,8 @@ const LoginBtn = styled.button`
 `
 const LoginOption = styled.div`
   display: flex;
-  align-items: center;
   flex-direction: row;
+  align-items: baseline;
   justify-content: space-between;
   width: 100%;
 `
@@ -102,13 +118,14 @@ const LoginOptionBox = styled.div`
 `
 
 const AutoLogin = styled.input`
-  width: 24px;
-  height: 24px;
+  display: flex;
+  width: 18px;
+  height: 18px;
   margin-left: 15px;
   margin-right: 20px;
 `
 const AutoLoginLabel = styled.label`
-  font-size: 20px;
+  font-size: 15px;
   color: #868686;
   cursor: pointer;
   font-family: "LINESeedKR-Rg";
@@ -128,9 +145,9 @@ function Login({ slideIdx }) {
         </LoginOption>
 
       </LoginBox>
-      <a><KakaoBtn /></a>
-      <a><NaverBtn /></a>
-      <a><SigninBtn /></a>
+      <a><KakaoBtn>카카오 로그인</KakaoBtn></a>
+      <a><NaverBtn>네이버 로그인</NaverBtn></a>
+      <a><SigninBtn>회원가입 하기</SigninBtn></a>
     </LoginWrapper>
   )
 }
