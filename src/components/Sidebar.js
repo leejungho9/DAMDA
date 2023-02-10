@@ -74,23 +74,33 @@ const PriceContainer = styled.div`
 `
 
 const SelectValue = styled.div`
-  width: 10px;
-  height: 5px;
   position: absolute;
-  top: -20px;
-  text-align: center;
-  font-size: 10px;
-  font-weight: bold;
-
-  &::after{
-    content: '';
-    border-top: 7px solid #f28b39;
-    border-left: 5px solid #f7f8f8;
-    border-right: 5px solid #f7f8f8;
+  top : -25%;
+  span {
+    line-height: 24px;
+    text-align: center;
+    color: #858585;
+    font-size: 12px;
+    display: block;
     position: absolute;
-    top: 30px;
-    left: 0;
+    left: 50%;
+    transform: translate(-50%, 0);
+
+    &::before{
+      content: "";
+      position: absolute;
+      width: 0;
+      height: 0;
+      border-top: 8px solid #f28b39;
+      border-left: 6px solid transparent;
+      border-right: 6px solid transparent;
+      top: 100%;
+      left: 50%;
+      margin-left: -5px;
+      margin-top: -1px;
+    }
   }
+
 `
 const PriceRange = styled.input.attrs({ type: "range" })`
   width: 100%;
@@ -102,18 +112,18 @@ const PriceRange = styled.input.attrs({ type: "range" })`
     content: "";
     display: block;
     background: #f28b39;
-    width: 10px;
+    width: 12px;
+    height: 12px;
     border-radius: 50%;
-    height: 10px;
     margin-top: -4px;
   }
   &::after {
     content: "";
     display: block;
     background: #f28b39;
-    width: 10px;
+    width: 12px;
+    height: 12px;
     border-radius: 50%;
-    height: 10px;
     margin-top: -4px;
   }
   &::-webkit-slider-thumb {
@@ -167,10 +177,14 @@ function Sidebar({ isSidebar, setSidebar }) {
   const [value, setValue] = useState(0);
 
   const rangeChange = () => {
-    
+    let min = rangeRef.current.min
+    let max = rangeRef.current.max
+
     setValue(rangeRef.current.value)
-    valueRef.current.style.left = `${Number(value)}`+ '%' 
-    console.log(value)
+    const newValue = Number((value - min) * 100 / (max- min)),
+    newPosition = 20 - (newValue * 0.4);
+    valueRef.current.style.left = `calc(${newValue}% + (${newPosition}px))`;
+    // console.log(value)
   }
   
 
@@ -197,8 +211,8 @@ function Sidebar({ isSidebar, setSidebar }) {
         </TagContainer>
           <TopSearched>금액대</TopSearched>
         <PriceContainer>
-          <SelectValue ref={valueRef}>{Number(value)*1000}</SelectValue>
-          <PriceRange ref={rangeRef} value={value} onChange={rangeChange}  max={100}/>
+          <SelectValue ref={valueRef}><span>{value}</span></SelectValue>
+          <PriceRange ref={rangeRef} value={value} onChange={rangeChange}  min={0}max={200000}/>
         </PriceContainer>
         <TopSearched>배송</TopSearched>
         <RadioContainer>
