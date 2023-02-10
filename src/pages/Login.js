@@ -58,6 +58,7 @@ const KakaoBtn = styled.div`
     width: 400px;
     height: 53px;
     border-radius: 53px;
+    font-family: "LINESeedKR-Rg";
     cursor: pointer;
 `
 
@@ -73,6 +74,7 @@ const NaverBtn = styled.div`
     width: 400px;
     height: 53px;
     border-radius: 53px;
+    font-family: "LINESeedKR-Rg";
     cursor: pointer;
 `
 const SigninBtn = styled.div`
@@ -88,6 +90,7 @@ const SigninBtn = styled.div`
     height: 53px;
     border: solid 1px;
     border-radius: 53px;
+    font-family: "LINESeedKR-Rg";
     cursor: pointer;
 `
 const LoginBtn = styled.button`
@@ -99,7 +102,8 @@ const LoginBtn = styled.button`
     border: none;
     border-radius: 43px;
     color: #fff;
-    font-size: 20px;
+    font-size: 15px;
+    font-weight: 600;
     cursor: pointer;
     font-family: "LINESeedKR-Rg";
 `
