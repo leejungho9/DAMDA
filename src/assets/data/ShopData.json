@@ -1,0 +1,58 @@
+{
+  "data" : [
+    {
+      "id":"1",
+      "name":"허니순",
+      "price":"200000",
+      "item_title":"꿀진담 2종 세트",
+      "discount":"50",
+      "score":"4.2",
+      "url":"images/shop/SHOP_1.jpg"
+    },
+    {
+      "id":"2",
+      "name":"허니순",
+      "item_title":"꿀진담 2종 세트",
+      "price":"200000",
+      "discount":"50",
+      "score":"4.2",
+      "url":"images/shop/SHOP_2.jpg"
+    },
+    {
+      "id":"3",
+      "name":"허니순",
+      "price":"200000",
+      "item_title":"꿀진담 2종 세트",
+      "discount":"50",
+      "score":"4.2",
+      "url":"images/shop/SHOP_3.jpg"
+    },
+    {
+      "id":"4",
+      "name":"허니순",
+      "price":"200000",
+      "item_title":"꿀진담 2종 세트",
+      "discount":"50",
+      "score":"4.2",
+      "url":"images/shop/SHOP_4.jpg"
+    },
+    {
+      "id":"5",
+      "name":"허니순",
+      "item_title":"꿀진담 2종 세트",
+      "price":"200000",
+      "discount":"50",
+      "score":"4.2",
+      "url":"images/shop/SHOP_5.jpg"
+    },
+    {
+      "id":"6",
+      "name":"허니순",
+      "price":"200000",
+      "item_title":"꿀진담 2종 세트",
+      "discount":"50",
+      "score":"4.2",
+      "url":"images/shop/SHOP_6.jpg"
+    }
+  ]
+}
