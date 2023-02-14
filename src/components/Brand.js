@@ -24,22 +24,21 @@ const BrandBoxContainer = styled.div`
 const BrandBox = styled.div`
   width: 610px;
   height: 140px;
-  border: 1px solid black;
+  border: 1px solid #d6d6d6;
   display: flex;
   justify-content: center;
   align-items: center;
+  cursor: pointer;
+  background-image: url(${(props) => props.src});
+  background-repeat: no-repeat;
+  background-position: center;
+
   &:hover{  
-    background-color : #00000070;
-    color : blue;
+    background-color : #f3f3f3;
     p {
       opacity: 1;
     }
   }
-`
-const BrandName = styled.p`
-  font-size: 20px;
-  color : white;
-  opacity: 0;
 `
 
 function Brand(props) {
@@ -47,17 +46,13 @@ function Brand(props) {
     <BrandWrapper>
       <BrandMainTitle>BRAND</BrandMainTitle>
       <BrandBoxContainer>
-        <BrandBox>
-          <BrandName>일상이 예술, 예술이 일상 아트앤에디션</BrandName>
+        <BrandBox src={"images/brand1.png"}>
         </BrandBox>
-        <BrandBox>
-          <BrandName>일상이 예술, 예술이 일상 아트앤에디션</BrandName>
+        <BrandBox src={"images/brand2.png"}>
         </BrandBox>
-        <BrandBox>
-          <BrandName>일상이 예술, 예술이 일상 아트앤에디션</BrandName>
+        <BrandBox src={"images/brand3.png"}>
         </BrandBox>
-        <BrandBox>
-          <BrandName>일상이 예술, 예술이 일상 아트앤에디션</BrandName>
+        <BrandBox src={"images/brand4.png"}>
         </BrandBox>
 
       </BrandBoxContainer>
