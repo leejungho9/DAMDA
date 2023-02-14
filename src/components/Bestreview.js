@@ -65,8 +65,10 @@ const ItemTitle = styled.span`
 const ItemComment = styled.span`
   font-family: "LINESeedKR-Rg";
   padding: 7px 0;
-  font-size: 16px;
+  font-size: 14px;
   margin-top: 10px;
+  line-height: 1.5rem;
+  
 `;
 const SliderContainer = styled.div`
   max-width: 1300px;
