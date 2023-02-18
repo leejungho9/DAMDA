@@ -79,7 +79,7 @@ function Footer(props) {
             <AdressLl><AddressSpan>사업자등록번호 : 723-32-90183</AddressSpan></AdressLl>
           </AddressUl>
           <AddressUl>
-            <AdressLl><AddressSpan className="firstSpan">월-금 9:00- 18:00 </AddressSpan></AdressLl>
+            <AdressLl><AddressSpan className="firstSpan">MON-FRI  9:00 - 18:00</AddressSpan></AdressLl>
             <AdressLl><AddressSpan strong={true}>회사소개</AddressSpan></AdressLl>
             <AdressLl><AddressSpan strong={true}>이용약관</AddressSpan></AdressLl>
             <AdressLl><AddressSpan strong={true}>개인정보처리방침</AddressSpan></AdressLl>
