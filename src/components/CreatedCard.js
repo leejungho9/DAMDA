@@ -1,4 +1,5 @@
 import React from "react";
+import { useNavigate } from "react-router-dom";
 import styled from "styled-components";
 
 const CardWrapper = styled.div`
@@ -50,10 +51,16 @@ const ItemPrice = styled.span`
 
 function CreatedCard({ data }) {
   let priceFormatting = data.price.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ',');
-  
+
+  const navigate = useNavigate();
+
+  function goToDetail (){
+    navigate(`/shop/${data.id}`, {state: data})
+  }
+
   return (
     <CardWrapper key={data.id}>
-      <CardImg src={data.url} />
+      <CardImg src={data.url} onClick={goToDetail} />
       <CardDecription>
         <ItemName>
           <strong>{data.name}</strong>

@@ -1,8 +1,9 @@
-import React,{ useState,useRef,useEffect } from "react";
+import React,{ useState,useEffect } from "react";
 import styled from "styled-components";
 import { FiUser, FiSearch } from "react-icons/fi";
 import { Link } from "react-router-dom";
 import Sidebar from './Sidebar';
+import { BsCart4, BsHeart } from "react-icons/bs";
 
 const NavWrapper = styled.div`
   position: absolute;
@@ -29,7 +30,7 @@ const NavMenu = styled.div`
 `;
 
 const MenuContainer = styled.div`
-
+  margin-right: 54px;
   a {
     font-family: Arial;
     font-size: 16px;
@@ -41,17 +42,71 @@ const MenuContainer = styled.div`
   }
 `;
 
-const IconContainer = styled.div`
+const IconsContainer = styled.div`
   display: flex;
-  margin-left: 44px;
+  align-items: center;
+  position: relative;
+  z-index: 1;
+  .icon {
+    cursor: pointer;
+    font-size: 20px;
+    .icon:hover {
+      font-weight: bold;
+    }
+  }
+  .searchIcon {
+    margin-left: 20px;
+  }
+
+  .iconMenuBox{
+    z-index: -1;
+    top: -10px;
+    left: -10px;
+    width: 42px;
+    height: 143px;
+    background-color: #f7f8f8;
+    position: absolute;
+    display: none;
+    border-radius: 30px;
+    display: none;
+
+    .cartIcon{
+      position: absolute;
+      top: 55px;
+      right: 0;
+      left: 0;
+      margin: auto;
+    }
+    .heartIcon{
+      position: absolute;
+      top: 110px;
+      right: 0;
+      left: 0;
+      margin: auto;
+    }
+  }
+
+  &:hover .iconMenuBox {
+    display: block;
+  }
+
+`;
+
+const IconMenuBox = styled.div`
+
+`
+const SearchContainer = styled.div`
+  display: flex;
   align-items: center;
   .icon {
     cursor: pointer;
     font-size: 20px;
-    margin-left: 20px;
     .icon:hover {
       font-weight: bold;
     }
+  }
+  .searchIcon {
+    margin-left: 20px;
   }
 `;
 
@@ -72,7 +127,7 @@ return (
     <NavWrapper>
       <NavContainer>
         <Link to="/">
-          <LogoIcon src="icons/logo.png" />
+          <LogoIcon src={`${process.env.PUBLIC_URL}/icons/logo.png`} />
         </Link>
         <NavMenu>
           <MenuContainer>
@@ -80,12 +135,18 @@ return (
             <a>PROMOTION</a>
             <a>BRAND</a>
           </MenuContainer>
-          <IconContainer>
+          <IconsContainer>
             <Link to="/login">
               <FiUser className="icon userIcon" />
             </Link>
-            <FiSearch onClick={() => setSidebar(!isSidebar)} className="icon searchIcon" />
-          </IconContainer>
+            <IconMenuBox className="iconMenuBox">
+              <BsCart4 className="icon cartIcon"/>
+              <BsHeart className="icon heartIcon"/>
+            </IconMenuBox>
+          </IconsContainer>
+          <SearchContainer>
+          <FiSearch onClick={() => setSidebar(!isSidebar)} className="icon searchIcon" />
+          </SearchContainer>
         </NavMenu>
       </NavContainer>
     </NavWrapper>
