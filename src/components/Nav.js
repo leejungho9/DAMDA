@@ -127,7 +127,7 @@ return (
     <NavWrapper>
       <NavContainer>
         <Link to="/">
-          <LogoIcon src="icons/logo.png" />
+          <LogoIcon src={`${process.env.PUBLIC_URL}/icons/logo.png`} />
         </Link>
         <NavMenu>
           <MenuContainer>
