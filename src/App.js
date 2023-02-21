@@ -6,8 +6,14 @@ import Login from "./pages/Login";
 import Shop from "./pages/Shop";
 import Footer from "./components/Footer";
 import ShopDetail from "./pages/ShopDetail";
+import { useEffect } from "react";
+import { analytics } from "./Firebase";
+
 
 function App() {
+  useEffect(()=> {
+    console.log(analytics)
+  })
   return (
     <>
       <BrowserRouter>
