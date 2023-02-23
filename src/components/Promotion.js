@@ -1,6 +1,10 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import styled from "styled-components";
 import data from "../assets/data/PromotionData.json";
+import { firebase } from "../Firebase";
+import { ref, onValue } from "firebase/database";
+
+
 const PrmotionWrapper = styled.div`
   width: 100%;
   margin-top: 120px;
@@ -91,26 +95,38 @@ const ItemPrice = styled.p`
 `;
 
 function Promotion(props) {
+  const [isPromotions, setIsPromotions] = useState([]);
+  //firebase promotions data 받아오기 
+  useEffect(() => {
+    const value = ref(firebase, "promotions/");
+    onValue(value, (snapshot) => {
+      const data = snapshot.val();
+      console.log(data)
+      setIsPromotions([data]);
+    });
+  }, []);
+
+
   return (
     <PrmotionWrapper>
       <PromotionMainTitle>PROMOTION</PromotionMainTitle>
-      {data.data.map((el) => {
-        let buyPrice = (el.price * (el.discount / 100))
+      {isPromotions && isPromotions.map((promotion) => {
+        let buyPrice = (promotion.product1.price * (promotion.product1.discount / 100))
           .toString()
           .replace(/\B(?=(\d{3})+(?!\d))/g, ",");
         return (
-          <PromotionContainer key={el.p_id}>
-            <PrmotionMainImage src={el.url}/>
+          <PromotionContainer key={promotion.promotion_id}>
+            <PrmotionMainImage src={promotion.url}/>
             <PromotionInfo>
-              <PromotionTitle>{el.p_title}</PromotionTitle>
-              <PromotionDate>{el.p_start_date}</PromotionDate>
-              <PromotionDes>{el.p_des}</PromotionDes>
+              <PromotionTitle>{promotion.title}</PromotionTitle>
+              <PromotionDate>{promotion.start_date}</PromotionDate>
+              <PromotionDes>{promotion.desc}</PromotionDes>
               <ItemContainer>
-                <ItemImage src={el.sub_url} />
+                <ItemImage src={promotion.sub_url} />
                 <ItemInfo>
-                  <ItemCompany>{el.company}</ItemCompany>
-                  <ItemName>{el.item_title}</ItemName>
-                  <ItemDiscount>{el.discount}%</ItemDiscount>
+                  <ItemCompany>{promotion.product1.company}</ItemCompany>
+                  <ItemName>{promotion.product1.title}</ItemName>
+                  <ItemDiscount>{promotion.product1.discount}%</ItemDiscount>
                   <ItemPrice>{buyPrice}</ItemPrice>
                 </ItemInfo>
               </ItemContainer>
