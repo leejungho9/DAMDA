@@ -1,6 +1,6 @@
-import React,{ useRef,useState,useEffect } from "react";
+import React, { useRef, useState, useEffect } from "react";
 import styled from "styled-components";
-import data from "../assets/data/BestreviewData.json"
+import data from "../assets/data/BestreviewData.json";
 import Carousel from "./Carousel";
 
 const ReviewTitle = styled.div`
@@ -17,23 +17,27 @@ const ReviewTitle = styled.div`
 `;
 
 const ReviewCard = styled.div`
-  li:nth-child(2){
+  li:nth-child(2) {
     padding-right: 25px;
   }
-  dl, li, menu, ol, ul {
+  dl,
+  li,
+  menu,
+  ol,
+  ul {
     list-style: none;
   }
   * {
-  padding: 0;
-  margin: 0;
+    padding: 0;
+    margin: 0;
   }
   display: flex;
   justify-content: center;
 `;
 const ReviewImg = styled.img`
-    border-radius: 15px;
-    width: 610px;
-    height: 400px;
+  border-radius: 15px;
+  width: 610px;
+  height: 400px;
 `;
 const ReviewLi = styled.li`
   padding-left: 25px;
@@ -68,7 +72,6 @@ const ItemComment = styled.span`
   font-size: 14px;
   margin-top: 10px;
   line-height: 1.5rem;
-  
 `;
 const SliderContainer = styled.div`
   max-width: 1300px;
@@ -78,72 +81,72 @@ const SliderContainer = styled.div`
 function BestReview() {
   const slideRef = useRef(null);
   const ulRef = useRef([]);
-  const [slideIdx,setSlideIdx] = useState(0)
+  const [slideIdx, setSlideIdx] = useState(0);
 
   useEffect(() => {
-    const timer = setInterval(
-      () => {
-        nextSlide()
-    },5000
-    )
+    const timer = setInterval(() => {
+      if (slideIdx < 2) {
+        setSlideIdx(slideIdx + 1);
+      } else if (slideIdx >= 2) {
+        setSlideIdx(0);
+      }
+    }, 5000);
     return () => {
-        clearInterval(timer)
-    }
-  }, [slideIdx])
+      clearInterval(timer);
+    };
+  }, [slideIdx]);
 
   useEffect(() => {
-    slideRef.current.style.transition = 'all 0.5s ease-in-out';
+    slideRef.current.style.transition = "all 0.5s ease-in-out";
     slideRef.current.style.transform = `translateX(-${slideIdx}00%)`;
-    ulRef.current.map((el,index) => {
-      if(slideIdx === index) {
-        ulRef.current[slideIdx].style.opacity = `1`
+    // eslint-disable-next-line array-callback-return
+    ulRef.current.map((el, index) => {
+      if (slideIdx === index) {
+        ulRef.current[slideIdx].style.opacity = `1`;
+      } else {
+        ulRef.current[index].style.opacity = `0`;
       }
-      else {
-        ulRef.current[index].style.opacity = `0`
-      }
-    })
+    });
+  }, [slideIdx]);
 
-  },[slideIdx])
-
-  const nextSlide = () => {
-    if(slideIdx < 2) {
-      setSlideIdx(slideIdx+1)
-    } 
-    else if(slideIdx >= 2) {
-      setSlideIdx(0)
-    }
-  }
-
-  const createdCard = data.data.map((el,index) => {
+  const createdCard = data.data.map((el, index) => {
     return (
-        <ReviewLi key={el.id}>
-          <ReviewImg src={el.url} />
-          <ReviewDecription>
-              <ItemName>
-                <strong>{el.name}</strong>
-                <span>
-                  <strong>{el.score}</strong> / 5.0
-                </span>
-              </ItemName>
-              <ItemTitle>{el.item_title}</ItemTitle>
-                <ItemComment>{el.comment}</ItemComment>
-          </ReviewDecription>
-        </ReviewLi>
-    )
-  })
+      <ReviewLi key={el.id}>
+        <ReviewImg src={el.url} />
+        <ReviewDecription>
+          <ItemName>
+            <strong>{el.name}</strong>
+            <span>
+              <strong>{el.score}</strong> / 5.0
+            </span>
+          </ItemName>
+          <ItemTitle>{el.item_title}</ItemTitle>
+          <ItemComment>{el.comment}</ItemComment>
+        </ReviewDecription>
+      </ReviewLi>
+    );
+  });
   return (
     <>
-      <ReviewTitle><span>BEST REVIEW</span></ReviewTitle>
+      <ReviewTitle>
+        <span>BEST REVIEW</span>
+      </ReviewTitle>
       <ReviewCard>
         <SliderContainer idx={slideIdx} ref={slideRef}>
-          <ReviewUl ref={ref => (ulRef.current[0] = ref)}>{createdCard}</ReviewUl>
-          <ReviewUl ref={ref => (ulRef.current[1] = ref)}>{createdCard}</ReviewUl>
-          <ReviewUl ref={ref => (ulRef.current[2] = ref)}>{createdCard}</ReviewUl>
+          <ReviewUl ref={(ref) => (ulRef.current[0] = ref)}>
+            {createdCard}
+          </ReviewUl>
+          <ReviewUl ref={(ref) => (ulRef.current[1] = ref)}>
+            {createdCard}
+          </ReviewUl>
+          <ReviewUl ref={(ref) => (ulRef.current[2] = ref)}>
+            {createdCard}
+          </ReviewUl>
         </SliderContainer>
       </ReviewCard>
-      <Carousel slideIdx={slideIdx}/>
+      <Carousel slideIdx={slideIdx} />
     </>
-  )
+  );
 }
 
 export default BestReview;
