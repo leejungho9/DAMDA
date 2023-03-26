@@ -1,9 +1,7 @@
 import React, { useEffect, useState } from "react";
 import styled from "styled-components";
-import data from "../assets/data/PromotionData.json";
-import { firebase } from "../Firebase";
+import { analytics, firebase } from "../Firebase";
 import { ref, onValue } from "firebase/database";
-
 
 const PrmotionWrapper = styled.div`
   width: 100%;
@@ -96,44 +94,47 @@ const ItemPrice = styled.p`
 
 function Promotion(props) {
   const [isPromotions, setIsPromotions] = useState([]);
-  //firebase promotions data 받아오기 
+  //firebase promotions data 받아오기
   useEffect(() => {
     const value = ref(firebase, "promotions/");
     onValue(value, (snapshot) => {
       const data = snapshot.val();
-      console.log(data)
+      console.log(data);
       setIsPromotions([data]);
     });
   }, []);
 
-
   return (
     <PrmotionWrapper>
       <PromotionMainTitle>PROMOTION</PromotionMainTitle>
-      {isPromotions && isPromotions.map((promotion) => {
-        let buyPrice = (promotion.product1.price * (promotion.product1.discount / 100))
-          .toString()
-          .replace(/\B(?=(\d{3})+(?!\d))/g, ",");
-        return (
-          <PromotionContainer key={promotion.promotion_id}>
-            <PrmotionMainImage src={promotion.url}/>
-            <PromotionInfo>
-              <PromotionTitle>{promotion.title}</PromotionTitle>
-              <PromotionDate>{promotion.start_date}</PromotionDate>
-              <PromotionDes>{promotion.desc}</PromotionDes>
-              <ItemContainer>
-                <ItemImage src={promotion.sub_url} />
-                <ItemInfo>
-                  <ItemCompany>{promotion.product1.company}</ItemCompany>
-                  <ItemName>{promotion.product1.title}</ItemName>
-                  <ItemDiscount>{promotion.product1.discount}%</ItemDiscount>
-                  <ItemPrice>{buyPrice}</ItemPrice>
-                </ItemInfo>
-              </ItemContainer>
-            </PromotionInfo>
-          </PromotionContainer>
-        );
-      })}
+      {isPromotions &&
+        isPromotions.map((promotion) => {
+          let buyPrice = (
+            promotion.product1.price *
+            (promotion.product1.discount / 100)
+          )
+            .toString()
+            .replace(/\B(?=(\d{3})+(?!\d))/g, ",");
+          return (
+            <PromotionContainer key={promotion.promotion_id}>
+              <PrmotionMainImage src={promotion.url} />
+              <PromotionInfo>
+                <PromotionTitle>{promotion.title}</PromotionTitle>
+                <PromotionDate>{promotion.start_date}</PromotionDate>
+                <PromotionDes>{promotion.desc}</PromotionDes>
+                <ItemContainer>
+                  <ItemImage src={promotion.sub_url} />
+                  <ItemInfo>
+                    <ItemCompany>{promotion.product1.company}</ItemCompany>
+                    <ItemName>{promotion.product1.title}</ItemName>
+                    <ItemDiscount>{promotion.product1.discount}%</ItemDiscount>
+                    <ItemPrice>{buyPrice}</ItemPrice>
+                  </ItemInfo>
+                </ItemContainer>
+              </PromotionInfo>
+            </PromotionContainer>
+          );
+        })}
     </PrmotionWrapper>
   );
 }
