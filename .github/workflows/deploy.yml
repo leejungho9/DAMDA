@@ -3,11 +3,9 @@ name: damda
 
 on:
   push:
-    branches:
-       - sub-branch    # sub-branch[dev] 
+    branches:[main]
   pull_request:
-    branches:
-       - sub-branch    # sub-branch[dev] 
+    branches:[main]
 
 jobs:
   build:
