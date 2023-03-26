@@ -1,5 +1,5 @@
 # master-deploy-work.yml
-name: damda
+name: DAMDA
 
 on:
   push:
