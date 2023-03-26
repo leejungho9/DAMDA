@@ -13,7 +13,7 @@ jobs:
       - name: Checkout source code
         uses: actions/checkout@master
 
-      - name: Cache node modules  # node modules 캐싱
+      - name: Cache node modules # node modules 캐싱
         uses: actions/cache@v1
         with:
           path: node_modules
@@ -36,4 +36,4 @@ jobs:
           aws s3 cp \
             --recursive \
             --region ap-northeast-2 \
-            dist s3://damda
+            dist s3://damda-s3
