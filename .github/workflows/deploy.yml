@@ -1,30 +1,36 @@
-# master-deploy-work.yml
-name: DAMDA
-
+# .github/workflows/client.yml
+name: damda
 on:
   push:
     branches:
       - dev
-
 jobs:
   build:
-    runs-on: ubuntu-18.04
+    runs-on: ubuntu-20.04
     steps:
-      - name: Checkout source code
-        uses: actions/checkout@master
-
-      - name: Install Dependencies
-        run: npm run install
-
+      - name: Checkout source code.
+        uses: actions/checkout@v2
+      - name: Install dependencies
+        run: npm install
+        working-directory: ./my-agora-states-client
       - name: Build
         run: npm run build
-
-      - name: Deploy
+        working-directory: ./my-agora-states-client
+      - name: SHOW AWS CLI VERSION
         env:
           AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
           AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+          AWS_EC2_METADATA_DISABLED: true
         run: |
-          aws s3 cp \
-            --recursive \
+          aws --version
+      - name: Sync Bucket
+        env:
+          AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
+          AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+          AWS_EC2_METADATA_DISABLED: true
+        run: |
+          aws s3 sync \
             --region ap-northeast-2 \
             build s3://damda-s3 \
+            --delete
+        working-directory: "./my-agora-states-client"
