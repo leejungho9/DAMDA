@@ -16,7 +16,9 @@ jobs:
 
       - name: Build
         run: CI='' npm run build
-        run : | 
+
+      - name: Generate Environment Variables File for Production
+        run: |
           echo "REACT_APP_APIKEY=$REACT_APP_APIKEY" >> .env.
           echo "REACT_APP_AUTHDOMAIN=$REACT_APP_AUTHDOMAIN" >> .env.
           echo "REACT_APP_DATABASE=$REACT_APP_DATABASE" >> .env.
@@ -34,7 +36,6 @@ jobs:
           REACT_APP_MESSAGINGSENDERID: ${{ secrets.REACT_APP_MESSAGINGSENDERID }}
           REACT_APP_APPID: ${{ secrets.REACT_APP_APPID }}
           REACT_APP_MEASUREMENTID: ${{ secrets.REACT_APP_MEASUREMENTID }}
-
 
       - name: SHOW AWS CLI VERSION
         env:
