@@ -24,7 +24,6 @@ jobs:
           REACT_APP_MESSAGINGSENDERID: ${{ secrets.REACT_APP_MESSAGINGSENDERID }}
           REACT_APP_APPID: ${{ secrets.REACT_APP_APPID }}
           REACT_APP_MEASUREMENTID: ${{ secrets.REACT_APP_MEASUREMENTID }}
-
           run: CI='' npm run build
 
       - name: SHOW AWS CLI VERSION
