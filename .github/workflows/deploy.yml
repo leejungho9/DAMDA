@@ -15,17 +15,27 @@ jobs:
         run: npm install
 
       - name: Build
-        env:
-        REACT_APP_APIKEY: ${{secrets.REACT_APP_APIKEY }}
-        REACT_APP_AUTHDOMAIN: ${{secrets.REACT_APP_AUTHDOMAIN }}
-        REACT_APP_DATABASE: ${{secrets.REACT_APP_DATABASE }}
-        REACT_APP_PROJECT_ID: ${{secrets.REACT_APP_PROJECT_ID }}
-        REACT_APP_STORAGE_BUCKET: ${{secrets.REACT_APP_STORAGE_BUCKET }}
-        REACT_APP_MESSAGINGSENDERID: ${{secrets.REACT_APP_MESSAGINGSENDERID }}
-        REACT_APP_APPID: ${{secrets.REACT_APP_APPID }}
-        REACT_APP_MEASUREMENTID: ${{secrets.REACT_APP_MEASUREMENTID }}
+        run: CI='' npm run build
 
-        run: npm run build
+      - name: Generate Environment Variables File for Production
+        run: |
+          echo "REACT_APP_APIKEY=$REACT_APP_APIKEY" >> .env.
+          echo "REACT_APP_DATABASE_URL=$REACT_APP_DATABASE_URL" >> .env.
+          echo "REACT_APP_AUTH_DOMAIN=$REACT_APP_AUTH_DOMAIN" >> .env.
+          echo "REACT_APP_PROJECT_ID=$REACT_APP_PROJECT_ID" >> .env.
+          echo "REACT_APP_STORAGE_BUCKET=$REACT_APP_STORAGE_BUCKET" >> .env.
+          echo "REACT_APP_MESSAGIN_ID=$REACT_APP_MESSAGIN_ID" >> .env.
+          echo "REACT_APP_APP_ID=$REACT_APP_APP_ID" >> .env.
+          echo "REACT_APP_MEASUREMENT_ID=$REACT_APP_MEASUREMENT_ID" >> .env.
+        env:
+          REACT_APP_APIKEY: ${{ secrets.REACT_APP_APIKEY }}
+          REACT_APP_DATABASE_URL: ${{ secrets.REACT_APP_DATABASE_URL }}
+          REACT_APP_AUTH_DOMAIN: ${{ secrets.REACT_APP_AUTH_DOMAIN }}
+          REACT_APP_PROJECT_ID: ${{ secrets.REACT_APP_PROJECT_ID }}
+          REACT_APP_STORAGE_BUCKET: ${{ secrets.REACT_APP_STORAGE_BUCKET }}
+          REACT_APP_MESSAGIN_ID: ${{ secrets.REACT_APP_MESSAGIN_ID }}
+          REACT_APP_APP_ID: ${{ secrets.REACT_APP_APP_ID }}
+          REACT_APP_MEASUREMENT_ID: ${{ secrets.REACT_APP_MEASUREMENT_ID }}
 
       - name: SHOW AWS CLI VERSION
         env:
@@ -44,5 +54,3 @@ jobs:
           aws s3 sync \
             --region ap-northeast-2 \
             build s3://damda-s3 \
-            --delete
-        working-directory: "./my-agora-states-client"
