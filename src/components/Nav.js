@@ -1,8 +1,8 @@
-import React,{ useState,useEffect } from "react";
+import React, { useState, useEffect } from "react";
 import styled from "styled-components";
 import { FiUser, FiSearch } from "react-icons/fi";
 import { Link } from "react-router-dom";
-import Sidebar from './Sidebar';
+import Sidebar from "./Sidebar";
 import { BsCart4, BsHeart } from "react-icons/bs";
 
 const NavWrapper = styled.div`
@@ -21,7 +21,7 @@ const NavContainer = styled.div`
   align-items: center;
 `;
 const LogoIcon = styled.img`
-  width: 90px;
+  width: 140px;
 `;
 const NavMenu = styled.div`
   width: 100%;
@@ -37,7 +37,7 @@ const MenuContainer = styled.div`
     margin: 0 26px;
     cursor: pointer;
     &:hover {
-      color : black;
+      color: black;
     }
   }
 `;
@@ -58,7 +58,7 @@ const IconsContainer = styled.div`
     margin-left: 20px;
   }
 
-  .iconMenuBox{
+  .iconMenuBox {
     z-index: -1;
     top: -10px;
     left: -10px;
@@ -70,14 +70,14 @@ const IconsContainer = styled.div`
     border-radius: 30px;
     display: none;
 
-    .cartIcon{
+    .cartIcon {
       position: absolute;
       top: 55px;
       right: 0;
       left: 0;
       margin: auto;
     }
-    .heartIcon{
+    .heartIcon {
       position: absolute;
       top: 110px;
       right: 0;
@@ -89,12 +89,9 @@ const IconsContainer = styled.div`
   &:hover .iconMenuBox {
     display: block;
   }
-
 `;
 
-const IconMenuBox = styled.div`
-
-`
+const IconMenuBox = styled.div``;
 const SearchContainer = styled.div`
   display: flex;
   align-items: center;
@@ -111,48 +108,53 @@ const SearchContainer = styled.div`
 `;
 
 const SidebarContainer = styled.div`
-    position: absolute;
-    z-index: 999;
-`
+  position: absolute;
+  z-index: 999;
+`;
 
 function Nav(props) {
-  const [isSidebar,setSidebar] = useState(false);
+  const [isSidebar, setSidebar] = useState(false);
 
   useEffect(() => {
-    console.log(isSidebar)
-  },[isSidebar])
-  
-return (
-  <nav>
-    <NavWrapper>
-      <NavContainer>
-        <Link to="/">
-          <LogoIcon src={`${process.env.PUBLIC_URL}/icons/logo.png`} />
-        </Link>
-        <NavMenu>
-          <MenuContainer>
-            <Link to="/shop">SHOP</Link>
-            <a>PROMOTION</a>
-            <a>BRAND</a>
-          </MenuContainer>
-          <IconsContainer>
-            <Link to="/login">
-              <FiUser className="icon userIcon" />
-            </Link>
-            <IconMenuBox className="iconMenuBox">
-              <BsCart4 className="icon cartIcon"/>
-              <BsHeart className="icon heartIcon"/>
-            </IconMenuBox>
-          </IconsContainer>
-          <SearchContainer>
-          <FiSearch onClick={() => setSidebar(!isSidebar)} className="icon searchIcon" />
-          </SearchContainer>
-        </NavMenu>
-      </NavContainer>
-    </NavWrapper>
-    <SidebarContainer><Sidebar isSidebar={isSidebar} setSidebar={setSidebar}/></SidebarContainer>
-  </nav>
-);
+    console.log(isSidebar);
+  }, [isSidebar]);
+
+  return (
+    <nav>
+      <NavWrapper>
+        <NavContainer>
+          <Link to="/">
+            <LogoIcon src={`${process.env.PUBLIC_URL}/icons/logo.png`} />
+          </Link>
+          <NavMenu>
+            <MenuContainer>
+              <Link to="/shop">SHOP</Link>
+              <a>PROMOTION</a>
+              <a>BRAND</a>
+            </MenuContainer>
+            <IconsContainer>
+              <Link to="/login">
+                <FiUser className="icon userIcon" />
+              </Link>
+              <IconMenuBox className="iconMenuBox">
+                <BsCart4 className="icon cartIcon" />
+                <BsHeart className="icon heartIcon" />
+              </IconMenuBox>
+            </IconsContainer>
+            <SearchContainer>
+              <FiSearch
+                onClick={() => setSidebar(!isSidebar)}
+                className="icon searchIcon"
+              />
+            </SearchContainer>
+          </NavMenu>
+        </NavContainer>
+      </NavWrapper>
+      <SidebarContainer>
+        <Sidebar isSidebar={isSidebar} setSidebar={setSidebar} />
+      </SidebarContainer>
+    </nav>
+  );
 }
 
 export default Nav;
