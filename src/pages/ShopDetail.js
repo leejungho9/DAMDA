@@ -1,21 +1,21 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import { useLocation, useParams } from "react-router-dom";
 import styled from "styled-components";
 import { BsCart4 } from "react-icons/bs";
-import { AiOutlineHeart} from "react-icons/ai";
+import { AiOutlineHeart } from "react-icons/ai";
 import { SiNaver } from "react-icons/si";
-import { CiCircleMinus, CiCirclePlus} from "react-icons/ci";
-
+import { CiCircleMinus, CiCirclePlus } from "react-icons/ci";
+import { ref, onValue } from "firebase/database";
+import { firebase } from "../Firebase";
+import BestDetailReview from "../components/BestDetailReview";
+import LineBar from "../components/BorderBar";
 const ShopDetailWrapper = styled.div`
-  display: flex;
-  justify-content: center;
   padding-top: 90px;
+  margin: 0 auto;
+  width: 1300px;
 `;
 
 const ShopDetailContainer = styled.div`
-  /* border: 1px solid red; */
-  width: 1300px;
-  /* height: 800px; */
   margin-top: 50px;
   display: flex;
 `;
@@ -28,10 +28,10 @@ const ShopImageGalleryBox = styled.div`
   margin-top: 23px;
 `;
 
-const ShopImage = styled.div`
+const ShopImage = styled.img`
   width: 100px;
   height: 100px;
-  background-color: red;
+  object-fit: cover;
 `;
 const ShopDetailImg = styled.img`
   width: 600px;
@@ -75,10 +75,8 @@ const ShopIconsBox = styled.div`
   }
 `;
 
-const BorderBar = styled.div`
+const BorderBar = styled(LineBar)`
   width: 630px;
-  height: 2px;
-  background-color: #efefef;
   margin-top: 15px;
   margin-bottom: 35px;
 `;
@@ -89,7 +87,6 @@ const ShopDetailPrice = styled.div`
   font-weight: bold;
   font-family: "LINESeedKR-Rg";
 `;
-
 
 const ShopDetailInfoBox = styled.div`
   margin-top: 85px;
@@ -109,7 +106,6 @@ const InfoSpan = styled.p`
   margin-right: 80px;
 `;
 
-
 const QuantityBox = styled(InfoBox)`
   display: flex;
   align-items: center;
@@ -121,12 +117,11 @@ const ShopDetailQuantity = styled.div`
   align-items: center;
   width: 100px;
   justify-content: space-between;
-.icon{
-  cursor: pointer;
-  font-size: 25px;
-}
-
-`
+  .icon {
+    cursor: pointer;
+    font-size: 25px;
+  }
+`;
 const PayBox = styled.div`
   width: 630px;
   display: flex;
@@ -149,13 +144,26 @@ const PayButton = styled.div`
     margin-right: 10px;
   }
 `;
+
 function ShopDetail(props) {
   const { id } = useParams();
   const { state } = useLocation();
-  console.log(state);
-  console.log(id);
+  const [detail, setDetail] = useState([]);
+  useEffect(() => {
+    const value = ref(firebase, "detail/");
+    onValue(value, (snapshot) => {
+      const data = snapshot.val();
+      setDetail(
+        ...data.filter((el) => {
+          return el.did === Number(id);
+        })
+      );
+    });
+  }, []);
 
-  let priceFormatting = state.price.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ',');
+  let priceFormatting = state.price
+    .toString()
+    .replace(/\B(?=(\d{3})+(?!\d))/g, ",");
   return (
     <ShopDetailWrapper>
       <ShopDetailContainer>
@@ -164,13 +172,13 @@ function ShopDetail(props) {
             src={`${process.env.PUBLIC_URL}/${state.url}`}
             alt="shop디테일"
           />
-        <ShopImageGalleryBox>
-          <ShopImage />
-          <ShopImage />
-          <ShopImage />
-          <ShopImage />
-          <ShopImage />
-        </ShopImageGalleryBox>
+          <ShopImageGalleryBox>
+            <ShopImage src={`${process.env.PUBLIC_URL}/${detail.url1}`} />
+            <ShopImage src={`${process.env.PUBLIC_URL}/${detail.url2}`} />
+            <ShopImage src={`${process.env.PUBLIC_URL}/${detail.url3}`} />
+            <ShopImage src={`${process.env.PUBLIC_URL}/${detail.url4}`} />
+            <ShopImage src={`${process.env.PUBLIC_URL}/${detail.url5}`} />
+          </ShopImageGalleryBox>
         </ShopDetailImgBox>
         <ShopDetailContentBox>
           <ShopDetailTitleBox>
@@ -202,11 +210,16 @@ function ShopDetail(props) {
           </ShopDetailInfoBox>
           <BorderBar />
           <QuantityBox>
-            <InfoSpan>수량</InfoSpan> <ShopDetailQuantity><CiCircleMinus className="icon minusIcon"/> 3 <CiCirclePlus className="icon plusIcon"/></ShopDetailQuantity >
+            <InfoSpan>수량</InfoSpan>
+            <ShopDetailQuantity>
+              <CiCircleMinus className="icon minusIcon" /> 3
+              <CiCirclePlus className="icon plusIcon" />
+            </ShopDetailQuantity>
           </QuantityBox>
           <BorderBar />
           <QuantityBox>
-            <InfoSpan>총금액</InfoSpan> <ShopDetailPrice>300,000</ShopDetailPrice>
+            <InfoSpan>총금액</InfoSpan>
+            <ShopDetailPrice>300,000</ShopDetailPrice>
           </QuantityBox>
           <PayBox>
             <PayButton color={`#01C73C`}>
@@ -217,6 +230,7 @@ function ShopDetail(props) {
           </PayBox>
         </ShopDetailContentBox>
       </ShopDetailContainer>
+      <BestDetailReview item={state} />
     </ShopDetailWrapper>
   );
 }
