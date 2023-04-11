@@ -58,12 +58,10 @@ const ReviewContentText = styled.span`
 
 const BorderBar = styled(LineBar)`
   width: 100%;
-  margin-top: 15px;
-  margin-bottom: 35px;
+  margin-bottom: 100px;
 `;
 
 const BestDetailReview = ({ item }) => {
-  console.log(item);
   return (
     <ReviewWrapper>
       <ReviewContainer>
