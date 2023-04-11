@@ -10,9 +10,6 @@
   /* 파이어폭스 */
 }
 
-*::-webkit-scrollbar {
-  display: none;
-}
 
 dl,
 li,
