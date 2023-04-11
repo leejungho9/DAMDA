@@ -9,6 +9,7 @@ import { ref, onValue } from "firebase/database";
 import { firebase } from "../Firebase";
 import BestDetailReview from "../components/BestDetailReview";
 import LineBar from "../components/BorderBar";
+import ImageDetailSkeleton from "../components/Skeleton/ImageDetailSkeleton";
 const ShopDetailWrapper = styled.div`
   padding-top: 90px;
   margin: 0 auto;
@@ -22,7 +23,7 @@ const ShopDetailContainer = styled.div`
 const ShopDetailImgBox = styled.div``;
 
 const ShopImageGalleryBox = styled.div`
-  display: flex;
+  display: ${(props) => (props.isLoading ? "none" : "flex")};
   width: 600px;
   justify-content: space-between;
   margin-top: 23px;
@@ -149,6 +150,11 @@ function ShopDetail(props) {
   const { id } = useParams();
   const { state } = useLocation();
   const [detail, setDetail] = useState([]);
+
+  const [isLoading, setIsLoading] = useState(true);
+  const handleImageLoading = () => {
+    setIsLoading(false);
+  };
   useEffect(() => {
     const value = ref(firebase, "detail/");
     onValue(value, (snapshot) => {
@@ -172,12 +178,37 @@ function ShopDetail(props) {
             src={`${process.env.PUBLIC_URL}/${state.url}`}
             alt="shop디테일"
           />
-          <ShopImageGalleryBox>
-            <ShopImage src={`${process.env.PUBLIC_URL}/${detail.url1}`} />
-            <ShopImage src={`${process.env.PUBLIC_URL}/${detail.url2}`} />
-            <ShopImage src={`${process.env.PUBLIC_URL}/${detail.url3}`} />
-            <ShopImage src={`${process.env.PUBLIC_URL}/${detail.url4}`} />
-            <ShopImage src={`${process.env.PUBLIC_URL}/${detail.url5}`} />
+          {isLoading && (
+            <ShopImageGalleryBox>
+              <ImageDetailSkeleton />
+            </ShopImageGalleryBox>
+          )}
+          <ShopImageGalleryBox isLoading={isLoading}>
+            <ShopImage
+              onLoad={handleImageLoading}
+              alt="상품 디테일 이미지"
+              src={`${process.env.PUBLIC_URL}/${detail.url1}`}
+            />
+            <ShopImage
+              onLoad={handleImageLoading}
+              alt="상품 디테일 이미지"
+              src={`${process.env.PUBLIC_URL}/${detail.url2}`}
+            />
+            <ShopImage
+              onLoad={handleImageLoading}
+              alt="상품 디테일 이미지"
+              src={`${process.env.PUBLIC_URL}/${detail.url3}`}
+            />
+            <ShopImage
+              onLoad={handleImageLoading}
+              alt="상품 디테일 이미지"
+              src={`${process.env.PUBLIC_URL}/${detail.url4}`}
+            />
+            <ShopImage
+              onLoad={handleImageLoading}
+              alt="상품 디테일 이미지"
+              src={`${process.env.PUBLIC_URL}/${detail.url5}`}
+            />
           </ShopImageGalleryBox>
         </ShopDetailImgBox>
         <ShopDetailContentBox>
