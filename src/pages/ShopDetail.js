@@ -146,6 +146,20 @@ const PayButton = styled.div`
   }
 `;
 
+const DetialTitle = styled.h3`
+  font-size: 18px;
+  margin-right: 50px;
+  font-family: "LINESeedKR-Rg";
+`;
+const DetailImageBox = styled.div`
+  width: 80%;
+  height: auto;
+  margin: 0 auto;
+`;
+const DetailImage = styled.img`
+  margin-top: 35px;
+  width: 100%;
+`;
 function ShopDetail(props) {
   const { id } = useParams();
   const { state } = useLocation();
@@ -262,6 +276,13 @@ function ShopDetail(props) {
         </ShopDetailContentBox>
       </ShopDetailContainer>
       <BestDetailReview item={state} />
+      <DetialTitle>상품 상세</DetialTitle>
+      <DetailImageBox>
+        <DetailImage
+          src={`${process.env.PUBLIC_URL}/${detail.detailurl}`}
+          alt="상품상세 이미지"
+        />
+      </DetailImageBox>
     </ShopDetailWrapper>
   );
 }
