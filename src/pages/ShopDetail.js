@@ -4,12 +4,11 @@ import styled from "styled-components";
 import { BsCart4 } from "react-icons/bs";
 import { AiOutlineHeart } from "react-icons/ai";
 import { SiNaver } from "react-icons/si";
-import { CiCircleMinus, CiCirclePlus } from "react-icons/ci";
-import { ref, onValue } from "firebase/database";
-import { firebase } from "../Firebase";
 import BestDetailReview from "../components/BestDetailReview";
 import LineBar from "../components/BorderBar";
 import ImageDetailSkeleton from "../components/Skeleton/ImageDetailSkeleton";
+import QuantityCounts from "../components/Counts/QuantityCounts";
+import { getDetailProducts } from "../apis/apis";
 const ShopDetailWrapper = styled.div`
   padding-top: 90px;
   margin: 0 auto;
@@ -113,16 +112,14 @@ const QuantityBox = styled(InfoBox)`
   margin-bottom: 35px;
   justify-content: space-between;
 `;
-const ShopDetailQuantity = styled.div`
+
+const AmountBox = styled(InfoBox)`
   display: flex;
   align-items: center;
-  width: 100px;
+  margin-bottom: 35px;
   justify-content: space-between;
-  .icon {
-    cursor: pointer;
-    font-size: 25px;
-  }
 `;
+
 const PayBox = styled.div`
   width: 630px;
   display: flex;
@@ -164,26 +161,30 @@ function ShopDetail(props) {
   const { id } = useParams();
   const { state } = useLocation();
   const [detail, setDetail] = useState([]);
+  const [quantity, setQuantity] = useState(1);
 
   const [isLoading, setIsLoading] = useState(true);
   const handleImageLoading = () => {
     setIsLoading(false);
   };
+
   useEffect(() => {
-    const value = ref(firebase, "detail/");
-    onValue(value, (snapshot) => {
-      const data = snapshot.val();
-      setDetail(
-        ...data.filter((el) => {
-          return el.did === Number(id);
-        })
-      );
-    });
+    const fetchData = async () => {
+      try {
+        const products = await getDetailProducts(id);
+        setDetail(products);
+        setIsLoading(false);
+      } catch (error) {
+        console.log(error);
+      }
+    };
+
+    fetchData();
   }, []);
 
-  let priceFormatting = state.price
-    .toString()
-    .replace(/\B(?=(\d{3})+(?!\d))/g, ",");
+  const priceFormatting = (price) => {
+    return price.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
+  };
   return (
     <ShopDetailWrapper>
       <ShopDetailContainer>
@@ -227,15 +228,15 @@ function ShopDetail(props) {
         </ShopDetailImgBox>
         <ShopDetailContentBox>
           <ShopDetailTitleBox>
-            <ShopContentName>{state.name}</ShopContentName>
-            <ShopContentItemTitle>{state.item_title}</ShopContentItemTitle>
+            <ShopContentName>{state.company}</ShopContentName>
+            <ShopContentItemTitle>{state.title}</ShopContentItemTitle>
             <ShopIconsBox>
               <BsCart4 className="icons cartIcon" />
               <AiOutlineHeart className="icons heartIcon" />
             </ShopIconsBox>
           </ShopDetailTitleBox>
           <BorderBar />
-          <ShopDetailPrice>{priceFormatting}</ShopDetailPrice>
+          <ShopDetailPrice>{priceFormatting(state.price)}</ShopDetailPrice>
           <ShopDetailInfoBox>
             <InfoBox>
               <InfoSpan>크기</InfoSpan> 15*30*2cm
@@ -256,16 +257,15 @@ function ShopDetail(props) {
           <BorderBar />
           <QuantityBox>
             <InfoSpan>수량</InfoSpan>
-            <ShopDetailQuantity>
-              <CiCircleMinus className="icon minusIcon" /> 3
-              <CiCirclePlus className="icon plusIcon" />
-            </ShopDetailQuantity>
+            <QuantityCounts quantity={quantity} setQuantity={setQuantity} />
           </QuantityBox>
           <BorderBar />
-          <QuantityBox>
+          <AmountBox>
             <InfoSpan>총금액</InfoSpan>
-            <ShopDetailPrice>300,000</ShopDetailPrice>
-          </QuantityBox>
+            <ShopDetailPrice>
+              {priceFormatting(state.price * quantity)}{" "}
+            </ShopDetailPrice>
+          </AmountBox>
           <PayBox>
             <PayButton color={`#01C73C`}>
               <SiNaver className="naverIcon" />
