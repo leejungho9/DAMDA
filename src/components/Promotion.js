@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import styled from "styled-components";
-import { analytics, firebase } from "../Firebase";
 import { ref, onValue } from "firebase/database";
+import db from "../Firebase";
 
 const PrmotionWrapper = styled.div`
   width: 100%;
@@ -96,7 +96,7 @@ function Promotion(props) {
   const [isPromotions, setIsPromotions] = useState([]);
   //firebase promotions data 받아오기
   useEffect(() => {
-    const value = ref(firebase, "promotions/");
+    const value = ref(db, "promotions/");
     onValue(value, (snapshot) => {
       const data = snapshot.val();
       console.log(data);
