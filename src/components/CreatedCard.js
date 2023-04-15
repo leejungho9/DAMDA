@@ -16,6 +16,7 @@ const CardWrapper = styled.div`
 const CardImg = styled.img`
   width: 300px;
   height: 300px;
+  cursor: pointer;
 `;
 const CardDecription = styled.div`
   font-family: "LINESeedKR-Rg";
@@ -50,25 +51,27 @@ const ItemPrice = styled.span`
 `;
 
 function CreatedCard({ data }) {
-  let priceFormatting = data.price.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ',');
+  let priceFormatting = data.price
+    .toString()
+    .replace(/\B(?=(\d{3})+(?!\d))/g, ",");
 
   const navigate = useNavigate();
 
-  function goToDetail (){
-    navigate(`/shop/${data.id}`, {state: data})
+  function goToDetail() {
+    navigate(`/shop/${data.pid}`, { state: data });
   }
 
   return (
-    <CardWrapper key={data.id}>
+    <CardWrapper key={data.pid}>
       <CardImg src={data.url} onClick={goToDetail} />
       <CardDecription>
         <ItemName>
-          <strong>{data.name}</strong>
+          <strong>{data.title}</strong>
           <span>
             <strong>{data.score}</strong> / 5.0
           </span>
         </ItemName>
-        <ItemTitle>{data.item_title}</ItemTitle>
+        <ItemTitle>{data.company}</ItemTitle>
         <ItemPrice>{priceFormatting}</ItemPrice>
       </CardDecription>
     </CardWrapper>
