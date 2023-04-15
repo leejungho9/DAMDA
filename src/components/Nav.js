@@ -6,7 +6,6 @@ import Sidebar from "./Sidebar";
 import { BsCart4, BsHeart } from "react-icons/bs";
 
 const NavWrapper = styled.div`
-  position: absolute;
   z-index: 1;
   width: 100%;
   height: 90px;
@@ -137,7 +136,9 @@ function Nav(props) {
                 <FiUser className="icon userIcon" />
               </Link>
               <IconMenuBox className="iconMenuBox">
-                <BsCart4 className="icon cartIcon" />
+                <Link to="/cart">
+                  <BsCart4 className="icon cartIcon" />
+                </Link>
                 <BsHeart className="icon heartIcon" />
               </IconMenuBox>
             </IconsContainer>
