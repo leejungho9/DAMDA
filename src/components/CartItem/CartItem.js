@@ -1,6 +1,8 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import styled from "styled-components";
 import QuantityCounts from "../Counts/QuantityCounts";
+import { getCartItem } from "../../apis/apis";
+import { Link } from "react-router-dom";
 const ProductImg = styled.img`
   width: 68px;
   height: 68px;
@@ -8,27 +10,54 @@ const ProductImg = styled.img`
 `;
 
 const CartItem = () => {
+  const [cartItems, setCartItems] = useState([]);
+
+  useEffect(() => {
+    const fetchCartItems = async (dispatch) => {
+      try {
+        const cartItems = await getCartItem();
+        setCartItems(cartItems);
+      } catch (error) {
+        console.error(error);
+      }
+    };
+
+    fetchCartItems();
+  }, []);
+
+  const priceFormatting = (price) => {
+    return price.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
+  };
   return (
-    <tr>
-      <td className="t_1">
-        <input type="checkbox" />
-      </td>
-      <td className="t_2">
-        <ProductImg
-          src={`${process.env.PUBLIC_URL}/images/shopDetail/shop_detail01.jpg`}
-          alt="장바구니 이미지"
-        />
-      </td>
-      <td className="t_3">
-        허니순 <br />
-        꿀진담 2종 세트
-      </td>
-      <td className="t_4">
-        <QuantityCounts />
-      </td>
-      <td className="t_5">150,000</td>
-      <td className="t_6">X</td>
-    </tr>
+    <>
+      {cartItems.map((item) => (
+        <tr key={item.pid}>
+          <td className="t_1">
+            <input type="checkbox" />
+          </td>
+          <td className="t_2">
+            <Link to={`/shop/${item.pid}`}>
+              <ProductImg
+                src={`${process.env.PUBLIC_URL}/${item.url}`}
+                alt="장바구니 이미지"
+              />
+            </Link>
+          </td>
+
+          <td className="t_3">
+            {item.company}
+            <br />
+            {item.name}
+          </td>
+
+          <td className="t_4">
+            <QuantityCounts quantity={item.quantity} />
+          </td>
+          <td className="t_5">{priceFormatting(item.price)}</td>
+          <td className="t_6">X</td>
+        </tr>
+      ))}
+    </>
   );
 };
 
