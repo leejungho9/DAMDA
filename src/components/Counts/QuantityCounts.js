@@ -1,6 +1,7 @@
 import React from "react";
 import { AiOutlineMinus, AiOutlinePlus } from "react-icons/ai";
 import styled from "styled-components";
+import { useDispatch } from "react-redux";
 
 const ShopDetailQuantity = styled.div`
   display: flex;
@@ -41,6 +42,11 @@ const QuantityCounts = ({ quantity, setQuantity }) => {
     }
   };
 
+  const dispatch = useDispatch();
+
+  const plusQuantity = () => {
+    // dispatch(plusQuantity({ pid, quantity }));
+  };
   return (
     <ShopDetailQuantity>
       <QuantityButton className="icon minusIcon" onClick={downQuantity}>
@@ -48,7 +54,7 @@ const QuantityCounts = ({ quantity, setQuantity }) => {
       </QuantityButton>
       <QuantitDiv>{quantity}</QuantitDiv>
       <QuantityButton className="icon plusIcon" onClick={upQuantity}>
-        <AiOutlinePlus size={12} />
+        <AiOutlinePlus size={12} onClick={plusQuantity} />
       </QuantityButton>
     </ShopDetailQuantity>
   );
