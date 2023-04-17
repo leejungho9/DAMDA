@@ -8,7 +8,9 @@ import BestDetailReview from "../components/BestDetailReview";
 import LineBar from "../components/BorderBar";
 import ImageDetailSkeleton from "../components/Skeleton/ImageDetailSkeleton";
 import QuantityCounts from "../components/Counts/QuantityCounts";
-import { getDetailProducts } from "../apis/apis";
+import { getCartItem, getDetailProducts } from "../apis/apis";
+import db from "../Firebase";
+import { push, ref, set } from "firebase/database";
 const ShopDetailWrapper = styled.div`
   padding-top: 90px;
   margin: 0 auto;
@@ -185,6 +187,31 @@ function ShopDetail(props) {
   const priceFormatting = (price) => {
     return price.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
   };
+
+  const checkCart = async () => {
+    const cartItems = await getCartItem();
+    return cartItems.some((item) => Number(item.pid) === Number(id));
+  };
+  const AddCartHandler = async () => {
+    let check = await checkCart();
+    if (check) {
+      alert("이미 장바구니에 추가된 상품입니다.");
+    } else {
+      const cartRef = ref(db, "cart_items/U01");
+      const data = {
+        pid: Number(id),
+        title: state.title,
+        company: state.company,
+        quantity: quantity,
+        url: state.url,
+        price: state.price * quantity,
+      };
+
+      const newCartRef = push(cartRef);
+      set(newCartRef, data);
+      alert("상품이 정상적으로 장바구니에 담겼습니다.");
+    }
+  };
   return (
     <ShopDetailWrapper>
       <ShopDetailContainer>
@@ -231,7 +258,7 @@ function ShopDetail(props) {
             <ShopContentName>{state.company}</ShopContentName>
             <ShopContentItemTitle>{state.title}</ShopContentItemTitle>
             <ShopIconsBox>
-              <BsCart4 className="icons cartIcon" />
+              <BsCart4 className="icons cartIcon" onClick={AddCartHandler} />
               <AiOutlineHeart className="icons heartIcon" />
             </ShopIconsBox>
           </ShopDetailTitleBox>
