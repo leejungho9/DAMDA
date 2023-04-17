@@ -1,8 +1,9 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect } from "react";
 import styled from "styled-components";
 import QuantityCounts from "../Counts/QuantityCounts";
-import { getCartItem } from "../../apis/apis";
 import { Link } from "react-router-dom";
+import { useDispatch, useSelector } from "react-redux";
+import { fetchCartItems } from "../../reducers/cartSlice";
 const ProductImg = styled.img`
   width: 68px;
   height: 68px;
@@ -10,20 +11,12 @@ const ProductImg = styled.img`
 `;
 
 const CartItem = () => {
-  const [cartItems, setCartItems] = useState([]);
-
+  const dispatch = useDispatch();
   useEffect(() => {
-    const fetchCartItems = async (dispatch) => {
-      try {
-        const cartItems = await getCartItem();
-        setCartItems(cartItems);
-      } catch (error) {
-        console.error(error);
-      }
-    };
+    dispatch(fetchCartItems());
+  }, [dispatch]);
 
-    fetchCartItems();
-  }, []);
+  const cartItems = useSelector((state) => state.cartItems || []);
 
   const priceFormatting = (price) => {
     return price.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
@@ -51,7 +44,7 @@ const CartItem = () => {
           </td>
 
           <td className="t_4">
-            <QuantityCounts quantity={item.quantity} />
+            <QuantityCounts quantity={item.quantity} pid={item.pid} />
           </td>
           <td className="t_5">{priceFormatting(item.price)}</td>
           <td className="t_6">X</td>
