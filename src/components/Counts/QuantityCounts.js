@@ -2,7 +2,7 @@ import React from "react";
 import { AiOutlineMinus, AiOutlinePlus } from "react-icons/ai";
 import styled from "styled-components";
 import { useDispatch } from "react-redux";
-
+import { minusQuantity, plusQuantity } from "../../reducers/cartSlice";
 const ShopDetailQuantity = styled.div`
   display: flex;
   align-items: center;
@@ -26,34 +26,28 @@ const QuantityButton = styled.button`
   cursor: pointer;
 `;
 
-const QuantityCounts = ({ quantity, setQuantity }) => {
-  const upQuantity = () => {
-    if (quantity !== 20) {
-      setQuantity(quantity + 1);
-    } else {
-      setQuantity(quantity);
-    }
-  };
-  const downQuantity = () => {
-    if (quantity !== 1) {
-      setQuantity(quantity - 1);
-    } else {
-      setQuantity(quantity);
-    }
-  };
-
+const QuantityCounts = ({ quantity, setQuantity, pid }) => {
   const dispatch = useDispatch();
-
-  const plusQuantity = () => {
-    // dispatch(plusQuantity({ pid, quantity }));
+  const plusQuantityHandler = () => {
+    if (quantity < 20) {
+      dispatch(plusQuantity({ pid, quantity }));
+      setQuantity(quantity + 1);
+    }
   };
+  const minusQuantityHandler = () => {
+    if (quantity > 1) {
+      dispatch(minusQuantity({ pid }));
+      setQuantity(quantity - 1);
+    }
+  };
+
   return (
     <ShopDetailQuantity>
-      <QuantityButton className="icon minusIcon" onClick={downQuantity}>
+      <QuantityButton className="icon minusIcon" onClick={minusQuantityHandler}>
         <AiOutlineMinus size={12} />
       </QuantityButton>
       <QuantitDiv>{quantity}</QuantitDiv>
-      <QuantityButton className="icon plusIcon" onClick={upQuantity}>
+      <QuantityButton className="icon plusIcon" onClick={plusQuantityHandler}>
         <AiOutlinePlus size={12} onClick={plusQuantity} />
       </QuantityButton>
     </ShopDetailQuantity>
