@@ -3,7 +3,9 @@ import styled from "styled-components";
 import QuantityCounts from "../Counts/QuantityCounts";
 import { Link } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
-import { fetchCartItems } from "../../reducers/cartSlice";
+import { getCartItem } from "../../apis/apis";
+import { setCartItems } from "../../reducers/cartSlice";
+
 const ProductImg = styled.img`
   width: 68px;
   height: 68px;
@@ -12,8 +14,17 @@ const ProductImg = styled.img`
 
 const CartItem = () => {
   const dispatch = useDispatch();
+
   useEffect(() => {
-    dispatch(fetchCartItems());
+    const setCartItemsFunc = async () => {
+      try {
+        const cartItems = await getCartItem();
+        dispatch(setCartItems(cartItems));
+      } catch (error) {
+        console.error(error);
+      }
+    };
+    setCartItemsFunc();
   }, [dispatch]);
 
   const cartItems = useSelector((state) => state.cartItems || []);
