@@ -114,9 +114,7 @@ const SidebarContainer = styled.div`
 function Nav(props) {
   const [isSidebar, setSidebar] = useState(false);
 
-  useEffect(() => {
-    console.log(isSidebar);
-  }, [isSidebar]);
+  useEffect(() => {}, [isSidebar]);
 
   return (
     <nav>
