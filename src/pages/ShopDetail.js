@@ -8,9 +8,9 @@ import BestDetailReview from "../components/BestDetailReview";
 import LineBar from "../components/BorderBar";
 import ImageDetailSkeleton from "../components/Skeleton/ImageDetailSkeleton";
 import QuantityCounts from "../components/Counts/QuantityCounts";
-import { getCartItem, getDetailProducts } from "../apis/apis";
-import db from "../Firebase";
-import { push, ref, set } from "firebase/database";
+import { getCartItem, getDetailImage, getDetailItem } from "../apis/apis";
+import { useDispatch } from "react-redux";
+import { addCartItem } from "../reducers/cartSlice";
 const ShopDetailWrapper = styled.div`
   padding-top: 90px;
   margin: 0 auto;
@@ -161,9 +161,11 @@ const DetailImage = styled.img`
 `;
 function ShopDetail(props) {
   const { id } = useParams();
-  const { state } = useLocation();
+
   const [detail, setDetail] = useState([]);
-  const [quantity, setQuantity] = useState(1);
+  const [detailImage, setdetailImage] = useState([]);
+
+  const dispatch = useDispatch();
 
   const [isLoading, setIsLoading] = useState(true);
   const handleImageLoading = () => {
@@ -173,8 +175,8 @@ function ShopDetail(props) {
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const products = await getDetailProducts(id);
-        setDetail(products);
+        const detailImg = await getDetailImage(id);
+        setdetailImage(detailImg);
         setIsLoading(false);
       } catch (error) {
         console.log(error);
@@ -184,31 +186,45 @@ function ShopDetail(props) {
     fetchData();
   }, []);
 
-  const priceFormatting = (price) => {
-    return price.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
+  useEffect(() => {
+    const fetchData = async () => {
+      try {
+        const detailItem = await getDetailItem(id);
+        setDetail(detailItem);
+      } catch (error) {
+        console.log(error);
+      }
+    };
+
+    fetchData();
+  }, []);
+
+  console.log(detailImage);
+  const checkCart = async () => {
+    try {
+      const cartItems = await getCartItem();
+      return cartItems.some((item) => Number(item.pid) === Number(id));
+    } catch (error) {
+      console.log(error);
+    }
   };
 
-  const checkCart = async () => {
-    const cartItems = await getCartItem();
-    return cartItems.some((item) => Number(item.pid) === Number(id));
-  };
   const AddCartHandler = async () => {
     let check = await checkCart();
     if (check) {
       alert("이미 장바구니에 추가된 상품입니다.");
     } else {
-      const cartRef = ref(db, "cart_items/U01");
       const data = {
         pid: Number(id),
-        title: state.title,
-        company: state.company,
-        quantity: quantity,
-        url: state.url,
-        price: state.price * quantity,
+        title: detail.title,
+        company: detail.company,
+        quantity: 1,
+        url: detail.url,
+        price: detail.price,
+        discount: Number(detail.discount),
       };
 
-      const newCartRef = push(cartRef);
-      set(newCartRef, data);
+      dispatch(addCartItem(data));
       alert("상품이 정상적으로 장바구니에 담겼습니다.");
     }
   };
@@ -217,7 +233,7 @@ function ShopDetail(props) {
       <ShopDetailContainer>
         <ShopDetailImgBox>
           <ShopDetailImg
-            src={`${process.env.PUBLIC_URL}/${state.url}`}
+            src={`${process.env.PUBLIC_URL}/${detail.url}`}
             alt="shop디테일"
           />
           {isLoading && (
@@ -229,41 +245,41 @@ function ShopDetail(props) {
             <ShopImage
               onLoad={handleImageLoading}
               alt="상품 디테일 이미지"
-              src={`${process.env.PUBLIC_URL}/${detail.url1}`}
+              src={`${process.env.PUBLIC_URL}/${detailImage.url1}`}
             />
             <ShopImage
               onLoad={handleImageLoading}
               alt="상품 디테일 이미지"
-              src={`${process.env.PUBLIC_URL}/${detail.url2}`}
+              src={`${process.env.PUBLIC_URL}/${detailImage.url2}`}
             />
             <ShopImage
               onLoad={handleImageLoading}
               alt="상품 디테일 이미지"
-              src={`${process.env.PUBLIC_URL}/${detail.url3}`}
+              src={`${process.env.PUBLIC_URL}/${detailImage.url3}`}
             />
             <ShopImage
               onLoad={handleImageLoading}
               alt="상품 디테일 이미지"
-              src={`${process.env.PUBLIC_URL}/${detail.url4}`}
+              src={`${process.env.PUBLIC_URL}/${detailImage.url4}`}
             />
             <ShopImage
               onLoad={handleImageLoading}
               alt="상품 디테일 이미지"
-              src={`${process.env.PUBLIC_URL}/${detail.url5}`}
+              src={`${process.env.PUBLIC_URL}/${detailImage.url5}`}
             />
           </ShopImageGalleryBox>
         </ShopDetailImgBox>
         <ShopDetailContentBox>
           <ShopDetailTitleBox>
-            <ShopContentName>{state.company}</ShopContentName>
-            <ShopContentItemTitle>{state.title}</ShopContentItemTitle>
+            <ShopContentName>{detail.company}</ShopContentName>
+            <ShopContentItemTitle>{detail.title}</ShopContentItemTitle>
             <ShopIconsBox>
               <BsCart4 className="icons cartIcon" onClick={AddCartHandler} />
               <AiOutlineHeart className="icons heartIcon" />
             </ShopIconsBox>
           </ShopDetailTitleBox>
           <BorderBar />
-          <ShopDetailPrice>{priceFormatting(state.price)}</ShopDetailPrice>
+          <ShopDetailPrice>{detail.price}</ShopDetailPrice>
           <ShopDetailInfoBox>
             <InfoBox>
               <InfoSpan>크기</InfoSpan> 15*30*2cm
@@ -284,14 +300,12 @@ function ShopDetail(props) {
           <BorderBar />
           <QuantityBox>
             <InfoSpan>수량</InfoSpan>
-            <QuantityCounts quantity={quantity} setQuantity={setQuantity} />
+            <QuantityCounts pid={detail.pid} />
           </QuantityBox>
           <BorderBar />
           <AmountBox>
             <InfoSpan>총금액</InfoSpan>
-            <ShopDetailPrice>
-              {priceFormatting(state.price * quantity)}{" "}
-            </ShopDetailPrice>
+            <ShopDetailPrice>{detail.price * detail.quantity}</ShopDetailPrice>
           </AmountBox>
           <PayBox>
             <PayButton color={`#01C73C`}>
@@ -302,11 +316,11 @@ function ShopDetail(props) {
           </PayBox>
         </ShopDetailContentBox>
       </ShopDetailContainer>
-      <BestDetailReview item={state} />
+      <BestDetailReview item={detail} />
       <DetialTitle>상품 상세</DetialTitle>
       <DetailImageBox>
         <DetailImage
-          src={`${process.env.PUBLIC_URL}/${detail.detailurl}`}
+          src={`${process.env.PUBLIC_URL}/${detailImage.detailurl}`}
           alt="상품상세 이미지"
         />
       </DetailImageBox>
