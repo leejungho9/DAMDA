@@ -16,16 +16,28 @@ export const getProducts = async () => {
   return products;
 };
 
-export const getDetailProducts = async (id) => {
-  const productsRef = ref(db, `detail/${id}`);
+export const getDetailImage = async (pid) => {
+  const productsRef = ref(db, `detail`);
   const snapshot = await get(productsRef);
 
   if (!snapshot.exists()) {
-    throw new Error("상품의 상세페이지를 불러올 수 없습니다.");
+    throw new Error("상품의 상세이미지를 불러올 수 없습니다.");
   }
-
   const data = snapshot.val();
-  return data;
+  const product = Object.values(data).find((item) => item.pid === Number(pid));
+  return product;
+};
+
+export const getDetailItem = async (pid) => {
+  const productsRef = ref(db, `products`);
+  const snapshot = await get(productsRef);
+
+  if (!snapshot.exists()) {
+    throw new Error("상품의 상세정보를 불러올 수 없습니다.");
+  }
+  const data = snapshot.val();
+  const product = Object.values(data).find((item) => item.pid === Number(pid));
+  return product;
 };
 
 export const getCartItem = async (id) => {
@@ -33,12 +45,13 @@ export const getCartItem = async (id) => {
   const snapshot = await get(productsRef);
 
   if (!snapshot.exists()) {
-    throw new Error("장바구니 정보를 불러올 수 없습니다.");
+    return null;
   }
   const cartItems = [];
   snapshot.forEach((childSnapshot) => {
     const product = childSnapshot.val();
     cartItems.push(product);
   });
+
   return cartItems;
 };
