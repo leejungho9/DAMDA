@@ -26,18 +26,16 @@ const QuantityButton = styled.button`
   cursor: pointer;
 `;
 
-const QuantityCounts = ({ quantity, setQuantity, pid }) => {
+const QuantityCounts = ({ quantity, pid }) => {
   const dispatch = useDispatch();
   const plusQuantityHandler = () => {
     if (quantity < 20) {
       dispatch(plusQuantity({ pid, quantity }));
-      setQuantity(quantity + 1);
     }
   };
   const minusQuantityHandler = () => {
     if (quantity > 1) {
       dispatch(minusQuantity({ pid }));
-      setQuantity(quantity - 1);
     }
   };
 
