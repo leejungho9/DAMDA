@@ -99,7 +99,6 @@ function Promotion(props) {
     const value = ref(db, "promotions/");
     onValue(value, (snapshot) => {
       const data = snapshot.val();
-      console.log(data);
       setIsPromotions([data]);
     });
   }, []);
