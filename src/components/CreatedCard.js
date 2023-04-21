@@ -58,7 +58,7 @@ function CreatedCard({ data }) {
   const navigate = useNavigate();
 
   function goToDetail() {
-    navigate(`/shop/${data.pid}`, { state: data });
+    navigate(`/shop/${data.pid}`);
   }
 
   return (
