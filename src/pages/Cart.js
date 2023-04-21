@@ -1,6 +1,9 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import styled from "styled-components";
 import CartItem from "../components/CartItem/CartItem";
+import { useDispatch, useSelector } from "react-redux";
+import { getCartItem } from "../apis/apis";
+import { setCartItem } from "../reducers/cartSlice";
 
 const CartContainer = styled.div`
   margin: 0 auto;
@@ -96,6 +99,7 @@ const TableBody = styled.table`
   text-align: center;
   font-family: "LINESeedKR-Rg";
   font-size: 14px;
+  min-width: 960px;
   .t_1 {
     width: 50px;
   }
@@ -121,31 +125,77 @@ const TableBody = styled.table`
   }
 `;
 const Cart = () => {
+  const dispatch = useDispatch();
+  const cartItems = useSelector((state) => state.cartItems || []);
+  const [discountPrice, setDiscountPrice] = useState(0);
+  const [totalPrice, setTotalPrice] = useState(0);
+  const priceFormatting = (price) => {
+    return price.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
+  };
+
+  useEffect(() => {
+    const setCartItemFunc = async () => {
+      try {
+        const cartItems = await getCartItem();
+        dispatch(setCartItem(cartItems));
+      } catch (error) {
+        console.error(error);
+      }
+    };
+    setCartItemFunc();
+  }, [dispatch]);
+
+  useEffect(() => {
+    if (cartItems.length > 0) {
+      const newTotalPrice = cartItems.reduce(
+        (acc, cur) => acc + cur.price * cur.quantity,
+        0
+      );
+      let result = 0;
+      cartItems.map((el) => {
+        let buyPrice = Math.floor(el.price * (el.discount / 100) * el.quantity);
+        result += buyPrice;
+        return result;
+      });
+
+      setDiscountPrice(result);
+      setTotalPrice(newTotalPrice);
+    }
+  }, [cartItems]);
+
   return (
     <CartContainer>
       <CartTitle>장바구니</CartTitle>
       <CartBox>
         <TableHeader>
-          <tr>
-            <td className="t_1">
-              <input type="checkbox" />
-            </td>
-            <td className="t_2">전체선택</td>
-            <td className="t_3"> 전체삭제</td>
-          </tr>
+          <tbody>
+            <tr>
+              <td className="t_1">
+                <input type="checkbox" />
+              </td>
+              <td className="t_2">전체선택</td>
+              <td className="t_3"> 전체삭제</td>
+            </tr>
+          </tbody>
         </TableHeader>
         <hr />
         <CartContext>
           <TableBody>
-            <CartItem />
+            <CartItem cartItems={cartItems} />
           </TableBody>
           <OrderContainer>
             <OrderBox>
               <OrderInfoSpan>
-                상품 금액 <OrderInfoPriceSpan>350,000</OrderInfoPriceSpan>
+                상품 금액
+                <OrderInfoPriceSpan>
+                  {priceFormatting(totalPrice)}
+                </OrderInfoPriceSpan>
               </OrderInfoSpan>
               <OrderInfoSpan>
-                상품 할인금액 <OrderInfoPriceSpan>50,000</OrderInfoPriceSpan>
+                상품 할인금액
+                <OrderInfoPriceSpan>
+                  {priceFormatting(discountPrice)}
+                </OrderInfoPriceSpan>
               </OrderInfoSpan>
               <OrderInfoSpan>
                 배송비 <OrderInfoPriceSpan>3,500</OrderInfoPriceSpan>
@@ -153,7 +203,10 @@ const Cart = () => {
             </OrderBox>
             <OrderAmountContainer>
               <OrderInfoSpan>
-                결정예정금액 <OrderInfoPriceSpan>350,000</OrderInfoPriceSpan>
+                결정예정금액
+                <OrderInfoPriceSpan>
+                  {priceFormatting(totalPrice - discountPrice)}
+                </OrderInfoPriceSpan>
               </OrderInfoSpan>
             </OrderAmountContainer>
             <OrderAmountContainer>
