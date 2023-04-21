@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { useLocation, useParams } from "react-router-dom";
+import { useParams } from "react-router-dom";
 import styled from "styled-components";
 import { BsCart4 } from "react-icons/bs";
 import { AiOutlineHeart } from "react-icons/ai";
@@ -67,6 +67,9 @@ const ShopIconsBox = styled.div`
   gap: 20px;
   .icons {
     cursor: pointer;
+  }
+  .icons:hover {
+    color: #f28b39;
   }
   .cartIcon {
     font-size: 24px;
@@ -159,17 +162,22 @@ const DetailImage = styled.img`
   margin-top: 35px;
   width: 100%;
 `;
+
 function ShopDetail(props) {
   const { id } = useParams();
 
   const [detail, setDetail] = useState([]);
   const [detailImage, setdetailImage] = useState([]);
-
+  const [quantity, setQuantity] = useState(1);
   const dispatch = useDispatch();
 
   const [isLoading, setIsLoading] = useState(true);
   const handleImageLoading = () => {
     setIsLoading(false);
+  };
+
+  const priceFormatting = (price) => {
+    return price.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
   };
 
   useEffect(() => {
@@ -228,6 +236,7 @@ function ShopDetail(props) {
       alert("상품이 정상적으로 장바구니에 담겼습니다.");
     }
   };
+
   return (
     <ShopDetailWrapper>
       <ShopDetailContainer>
@@ -279,7 +288,12 @@ function ShopDetail(props) {
             </ShopIconsBox>
           </ShopDetailTitleBox>
           <BorderBar />
-          <ShopDetailPrice>{detail.price}</ShopDetailPrice>
+          <ShopDetailPrice>
+            {detail.price &&
+              priceFormatting(
+                Math.floor(detail.price * (1 - detail.discount / 100))
+              )}
+          </ShopDetailPrice>
           <ShopDetailInfoBox>
             <InfoBox>
               <InfoSpan>크기</InfoSpan> 15*30*2cm
@@ -300,12 +314,20 @@ function ShopDetail(props) {
           <BorderBar />
           <QuantityBox>
             <InfoSpan>수량</InfoSpan>
-            <QuantityCounts pid={detail.pid} />
+            <QuantityCounts
+              pid={detail.pid}
+              quantity={quantity}
+              setQuantity={setQuantity}
+            />
           </QuantityBox>
           <BorderBar />
           <AmountBox>
             <InfoSpan>총금액</InfoSpan>
-            <ShopDetailPrice>{detail.price * detail.quantity}</ShopDetailPrice>
+            <ShopDetailPrice>
+              {detail.price &&
+                quantity &&
+                priceFormatting(detail.price * quantity)}
+            </ShopDetailPrice>
           </AmountBox>
           <PayBox>
             <PayButton color={`#01C73C`}>
