@@ -49,8 +49,9 @@ const IconsContainer = styled.div`
   .icon {
     cursor: pointer;
     font-size: 20px;
-    .icon:hover {
+    &:hover {
       font-weight: bold;
+      color: #f28b39;
     }
   }
   .searchIcon {
