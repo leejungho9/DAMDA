@@ -1,7 +1,7 @@
-import React, { useState, useRef } from "react";
+import React, { useState, useRef, useEffect } from "react";
 import styled from "styled-components";
 import CreatedCard from "../components/CreatedCard";
-import data from "../assets/data/ShopData.json";
+import { getProducts } from "../apis/apis";
 
 const ShopWrapper = styled.div`
   display: flex;
@@ -99,15 +99,31 @@ function Shop() {
     "건강디저트",
   ]);
   const [isCategory, setCategory] = useState("수제 청");
-
   const [selectFilter] = useState(["리뷰순", "클릭순", "구입순"]);
   const [isFilter, setFilter] = useState("리뷰순");
+  const [isProduct, setProducts] = useState([]);
+  const [isLoading, setLoading] = useState(true);
 
+  useEffect(() => {
+    const fetchData = async () => {
+      try {
+        const products = await getProducts();
+        setProducts(products.filter((el) => el.category === isCategory));
+        setLoading(false);
+      } catch (error) {
+        console.log(error);
+      }
+    };
+
+    fetchData();
+  }, [isCategory]);
+
+  console.log(isProduct);
   const radioRef = useRef([]);
 
-  const CreatedItem = data.data.map((el, idx) => {
+  const CreatedItem = isProduct.map((el) => {
     return (
-      <ItemContainer key={idx}>
+      <ItemContainer key={el.pid}>
         <CreatedCard data={el} />
       </ItemContainer>
     );
@@ -152,7 +168,19 @@ function Shop() {
             <CreaedButton item={selectFilter} menuIdx={1} />
           </FilterContainer>
         </MenuWrapper>
-        <ItemWrapper>{CreatedItem}</ItemWrapper>
+        {isLoading && (
+          <ItemWrapper>
+            <h1>로딩 중입니다</h1>
+          </ItemWrapper>
+        )}
+        {!isLoading && isProduct.length !== 0 && (
+          <ItemWrapper>{CreatedItem}</ItemWrapper>
+        )}
+        {!isLoading && isProduct.length === 0 && (
+          <ItemWrapper>
+            <h1>찾는 상품이 존재하지 않습니다.</h1>
+          </ItemWrapper>
+        )}
       </ShopWrapper>
     </>
   );

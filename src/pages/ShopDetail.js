@@ -1,14 +1,16 @@
 import React, { useEffect, useState } from "react";
-import { useLocation, useParams } from "react-router-dom";
+import { useParams } from "react-router-dom";
 import styled from "styled-components";
 import { BsCart4 } from "react-icons/bs";
 import { AiOutlineHeart } from "react-icons/ai";
-import { SiNaver } from "react-icons/si";
-import { CiCircleMinus, CiCirclePlus } from "react-icons/ci";
-import { ref, onValue } from "firebase/database";
-import { firebase } from "../Firebase";
 import BestDetailReview from "../components/BestDetailReview";
 import LineBar from "../components/BorderBar";
+import ImageDetailSkeleton from "../components/Skeleton/ImageDetailSkeleton";
+import QuantityCounts from "../components/Counts/QuantityCounts";
+import { getCartItem, getDetailImage, getDetailItem } from "../apis/apis";
+import { useDispatch } from "react-redux";
+import { addCartItem } from "../reducers/cartSlice";
+import Button from "../components/Button/Button";
 const ShopDetailWrapper = styled.div`
   padding-top: 90px;
   margin: 0 auto;
@@ -22,7 +24,7 @@ const ShopDetailContainer = styled.div`
 const ShopDetailImgBox = styled.div``;
 
 const ShopImageGalleryBox = styled.div`
-  display: flex;
+  display: ${(props) => (props.isLoading ? "none" : "flex")};
   width: 600px;
   justify-content: space-between;
   margin-top: 23px;
@@ -65,6 +67,9 @@ const ShopIconsBox = styled.div`
   gap: 20px;
   .icons {
     cursor: pointer;
+  }
+  .icons:hover {
+    color: #f28b39;
   }
   .cartIcon {
     font-size: 24px;
@@ -112,85 +117,184 @@ const QuantityBox = styled(InfoBox)`
   margin-bottom: 35px;
   justify-content: space-between;
 `;
-const ShopDetailQuantity = styled.div`
+
+const AmountBox = styled(InfoBox)`
   display: flex;
   align-items: center;
-  width: 100px;
+  margin-bottom: 35px;
   justify-content: space-between;
-  .icon {
-    cursor: pointer;
-    font-size: 25px;
-  }
 `;
+
 const PayBox = styled.div`
   width: 630px;
   display: flex;
   justify-content: space-between;
 `;
-const PayButton = styled.div`
-  width: 305px;
-  height: 55px;
-  background-color: ${(props) => props.color && props.color};
-  border-radius: 10px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
+
+const DetialTitle = styled.h3`
   font-size: 18px;
+  margin-right: 50px;
   font-family: "LINESeedKR-Rg";
-  color: #ffffff;
-  cursor: pointer;
-  .naverIcon {
-    font-size: 20px;
-    margin-right: 10px;
-  }
+`;
+const DetailImageBox = styled.div`
+  width: 80%;
+  height: auto;
+  margin: 0 auto;
+`;
+const DetailImage = styled.img`
+  margin-top: 35px;
+  width: 100%;
 `;
 
 function ShopDetail(props) {
   const { id } = useParams();
-  const { state } = useLocation();
+
   const [detail, setDetail] = useState([]);
+  const [detailImage, setdetailImage] = useState([]);
+  const [quantity, setQuantity] = useState(1);
+  const dispatch = useDispatch();
+
+  const [isLoading, setIsLoading] = useState(true);
+  const handleImageLoading = () => {
+    setIsLoading(false);
+  };
+
+  const priceFormatting = (price) => {
+    return price.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
+  };
+
   useEffect(() => {
-    const value = ref(firebase, "detail/");
-    onValue(value, (snapshot) => {
-      const data = snapshot.val();
-      setDetail(
-        ...data.filter((el) => {
-          return el.did === Number(id);
-        })
-      );
-    });
+    const fetchData = async () => {
+      try {
+        const detailImg = await getDetailImage(id);
+        setdetailImage(detailImg);
+        setIsLoading(false);
+      } catch (error) {
+        console.log(error);
+      }
+    };
+
+    fetchData();
   }, []);
 
-  let priceFormatting = state.price
-    .toString()
-    .replace(/\B(?=(\d{3})+(?!\d))/g, ",");
+  useEffect(() => {
+    const fetchData = async () => {
+      try {
+        const detailItem = await getDetailItem(id);
+        setDetail(detailItem);
+      } catch (error) {
+        console.log(error);
+      }
+    };
+
+    fetchData();
+  }, []);
+
+  const checkCart = async () => {
+    try {
+      const cartItems = await getCartItem();
+      return cartItems.some((item) => Number(item.pid) === Number(id));
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
+  const AddCartHandler = async () => {
+    let check = await checkCart();
+    if (check) {
+      alert("이미 장바구니에 추가된 상품입니다.");
+    } else {
+      const data = {
+        pid: Number(id),
+        title: detail.title,
+        company: detail.company,
+        quantity: 1,
+        url: detail.url,
+        price: detail.price,
+        discount: Number(detail.discount),
+      };
+
+      dispatch(addCartItem(data));
+      alert("상품이 정상적으로 장바구니에 담겼습니다.");
+    }
+  };
+
+  const clickOrder = () => {};
+
+  const onClickNaverPayButton = () => {
+    const oPay = window.Naver.Pay.create({
+      mode: "production",
+      clientId: process.env.REACT_APP_CLIENT_ID,
+    });
+    oPay.open({
+      merchantUserKey: "DAMDA123",
+      merchantPayKey: "123456789",
+      productName: detail.title,
+      totalPayAmount:
+        Math.floor(detail.price * (1 - detail.discount / 100)) * quantity, // ? 총 결제금액
+      taxScopeAmount: 0, // ? 과세금액
+      taxExScopeAmount:
+        Math.floor(detail.price * (1 - detail.discount / 100)) * quantity, // ? 면세금액
+      returnUrl: `${process.env.REACT_APP_API}/shop/${detail.pid}`,
+    });
+  };
   return (
     <ShopDetailWrapper>
       <ShopDetailContainer>
         <ShopDetailImgBox>
           <ShopDetailImg
-            src={`${process.env.PUBLIC_URL}/${state.url}`}
+            src={`${process.env.PUBLIC_URL}/${detail.url}`}
             alt="shop디테일"
           />
-          <ShopImageGalleryBox>
-            <ShopImage src={`${process.env.PUBLIC_URL}/${detail.url1}`} />
-            <ShopImage src={`${process.env.PUBLIC_URL}/${detail.url2}`} />
-            <ShopImage src={`${process.env.PUBLIC_URL}/${detail.url3}`} />
-            <ShopImage src={`${process.env.PUBLIC_URL}/${detail.url4}`} />
-            <ShopImage src={`${process.env.PUBLIC_URL}/${detail.url5}`} />
+          {isLoading && (
+            <ShopImageGalleryBox>
+              <ImageDetailSkeleton />
+            </ShopImageGalleryBox>
+          )}
+          <ShopImageGalleryBox isLoading={isLoading}>
+            <ShopImage
+              onLoad={handleImageLoading}
+              alt="상품 디테일 이미지"
+              src={`${process.env.PUBLIC_URL}/${detailImage.url1}`}
+            />
+            <ShopImage
+              onLoad={handleImageLoading}
+              alt="상품 디테일 이미지"
+              src={`${process.env.PUBLIC_URL}/${detailImage.url2}`}
+            />
+            <ShopImage
+              onLoad={handleImageLoading}
+              alt="상품 디테일 이미지"
+              src={`${process.env.PUBLIC_URL}/${detailImage.url3}`}
+            />
+            <ShopImage
+              onLoad={handleImageLoading}
+              alt="상품 디테일 이미지"
+              src={`${process.env.PUBLIC_URL}/${detailImage.url4}`}
+            />
+            <ShopImage
+              onLoad={handleImageLoading}
+              alt="상품 디테일 이미지"
+              src={`${process.env.PUBLIC_URL}/${detailImage.url5}`}
+            />
           </ShopImageGalleryBox>
         </ShopDetailImgBox>
         <ShopDetailContentBox>
           <ShopDetailTitleBox>
-            <ShopContentName>{state.name}</ShopContentName>
-            <ShopContentItemTitle>{state.item_title}</ShopContentItemTitle>
+            <ShopContentName>{detail.company}</ShopContentName>
+            <ShopContentItemTitle>{detail.title}</ShopContentItemTitle>
             <ShopIconsBox>
-              <BsCart4 className="icons cartIcon" />
+              <BsCart4 className="icons cartIcon" onClick={AddCartHandler} />
               <AiOutlineHeart className="icons heartIcon" />
             </ShopIconsBox>
           </ShopDetailTitleBox>
           <BorderBar />
-          <ShopDetailPrice>{priceFormatting}</ShopDetailPrice>
+          <ShopDetailPrice>
+            {detail.price &&
+              priceFormatting(
+                Math.floor(detail.price * (1 - detail.discount / 100))
+              )}
+          </ShopDetailPrice>
           <ShopDetailInfoBox>
             <InfoBox>
               <InfoSpan>크기</InfoSpan> 15*30*2cm
@@ -211,26 +315,61 @@ function ShopDetail(props) {
           <BorderBar />
           <QuantityBox>
             <InfoSpan>수량</InfoSpan>
-            <ShopDetailQuantity>
-              <CiCircleMinus className="icon minusIcon" /> 3
-              <CiCirclePlus className="icon plusIcon" />
-            </ShopDetailQuantity>
+            <QuantityCounts
+              pid={detail.pid}
+              quantity={quantity}
+              setQuantity={setQuantity}
+            />
           </QuantityBox>
           <BorderBar />
-          <QuantityBox>
+          <AmountBox>
             <InfoSpan>총금액</InfoSpan>
-            <ShopDetailPrice>300,000</ShopDetailPrice>
-          </QuantityBox>
+            <ShopDetailPrice>
+              {detail.price &&
+                quantity &&
+                priceFormatting(
+                  Math.floor(detail.price * (1 - detail.discount / 100)) *
+                    quantity
+                )}
+            </ShopDetailPrice>
+          </AmountBox>
           <PayBox>
-            <PayButton color={`#01C73C`}>
-              <SiNaver className="naverIcon" />
+            <Button
+              color={`#01C73C`}
+              width={305}
+              height={55}
+              radius={10}
+              onClick={onClickNaverPayButton}
+              className="orderButton"
+              icon={true}
+            >
               네이버페이
-            </PayButton>
-            <PayButton color={`#F28C3A`}>바로 주문하기</PayButton>
+            </Button>
+
+            <Button
+              color="#F28C3A"
+              width={305}
+              height={55}
+              radius={10}
+              onClick={clickOrder}
+              className="orderButton"
+              icon={false}
+              link={true}
+              href={"/orders"}
+            >
+              바로 주문하기
+            </Button>
           </PayBox>
         </ShopDetailContentBox>
       </ShopDetailContainer>
-      <BestDetailReview item={state} />
+      <BestDetailReview item={detail} />
+      <DetialTitle>상품 상세</DetialTitle>
+      <DetailImageBox>
+        <DetailImage
+          src={`${process.env.PUBLIC_URL}/${detailImage.detailurl}`}
+          alt="상품상세 이미지"
+        />
+      </DetailImageBox>
     </ShopDetailWrapper>
   );
 }

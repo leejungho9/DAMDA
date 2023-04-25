@@ -6,7 +6,6 @@ import Sidebar from "./Sidebar";
 import { BsCart4, BsHeart } from "react-icons/bs";
 
 const NavWrapper = styled.div`
-  position: absolute;
   z-index: 1;
   width: 100%;
   height: 90px;
@@ -50,8 +49,9 @@ const IconsContainer = styled.div`
   .icon {
     cursor: pointer;
     font-size: 20px;
-    .icon:hover {
+    &:hover {
       font-weight: bold;
+      color: #f28b39;
     }
   }
   .searchIcon {
@@ -115,9 +115,7 @@ const SidebarContainer = styled.div`
 function Nav(props) {
   const [isSidebar, setSidebar] = useState(false);
 
-  useEffect(() => {
-    console.log(isSidebar);
-  }, [isSidebar]);
+  useEffect(() => {}, [isSidebar]);
 
   return (
     <nav>
@@ -137,7 +135,9 @@ function Nav(props) {
                 <FiUser className="icon userIcon" />
               </Link>
               <IconMenuBox className="iconMenuBox">
-                <BsCart4 className="icon cartIcon" />
+                <Link to="/cart">
+                  <BsCart4 className="icon cartIcon" />
+                </Link>
                 <BsHeart className="icon heartIcon" />
               </IconMenuBox>
             </IconsContainer>
