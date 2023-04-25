@@ -21,13 +21,15 @@ jobs:
       - name: Generate Environment Variables File for Production
         run: |
           echo "REACT_APP_APIKEY=$REACT_APP_APIKEY" >> .env.
-          echo "REACT_APP_DATABASE_URL=$REACT_APP_DATABASE_URL" >> .env.
-          echo "REACT_APP_AUTH_DOMAIN=$REACT_APP_AUTH_DOMAIN" >> .env.
-          echo "REACT_APP_PROJECT_ID=$REACT_APP_PROJECT_ID" >> .env.
-          echo "REACT_APP_STORAGE_BUCKET=$REACT_APP_STORAGE_BUCKET" >> .env.
-          echo "REACT_APP_MESSAGIN_ID=$REACT_APP_MESSAGIN_ID" >> .env.
-          echo "REACT_APP_APP_ID=$REACT_APP_APP_ID" >> .env.
-          echo "REACT_APP_MEASUREMENT_ID=$REACT_APP_MEASUREMENT_ID" >> .env.
+          echo "REACT_APP_DATABASE_URL=$REACT_APP_DATABASE_URL" >> .env
+          echo "REACT_APP_AUTH_DOMAIN=$REACT_APP_AUTH_DOMAIN" >> .env
+          echo "REACT_APP_PROJECT_ID=$REACT_APP_PROJECT_ID" >> .env
+          echo "REACT_APP_STORAGE_BUCKET=$REACT_APP_STORAGE_BUCKET" >> .env
+          echo "REACT_APP_MESSAGIN_ID=$REACT_APP_MESSAGIN_ID" >> .env
+          echo "REACT_APP_APP_ID=$REACT_APP_APP_ID" >> .env
+          echo "REACT_APP_MEASUREMENT_ID=$REACT_APP_MEASUREMENT_ID" >> .env
+          echo "REACT_APP_CLIENT_ID=$REACT_APP_CLIENT_ID" >> .env
+
         env:
           REACT_APP_APIKEY: ${{ secrets.REACT_APP_APIKEY }}
           REACT_APP_DATABASE_URL: ${{ secrets.REACT_APP_DATABASE_URL }}
@@ -37,6 +39,7 @@ jobs:
           REACT_APP_MESSAGIN_ID: ${{ secrets.REACT_APP_MESSAGIN_ID }}
           REACT_APP_APP_ID: ${{ secrets.REACT_APP_APP_ID }}
           REACT_APP_MEASUREMENT_ID: ${{ secrets.REACT_APP_MEASUREMENT_ID }}
+          REACT_APP_CLIENT_ID: ${{ secrets.REACT_APP_CLIENT_ID }}
 
       - name: SHOW AWS CLI VERSION
         env:
