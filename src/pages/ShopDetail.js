@@ -3,7 +3,6 @@ import { useParams } from "react-router-dom";
 import styled from "styled-components";
 import { BsCart4 } from "react-icons/bs";
 import { AiOutlineHeart } from "react-icons/ai";
-import { SiNaver } from "react-icons/si";
 import BestDetailReview from "../components/BestDetailReview";
 import LineBar from "../components/BorderBar";
 import ImageDetailSkeleton from "../components/Skeleton/ImageDetailSkeleton";
@@ -11,6 +10,7 @@ import QuantityCounts from "../components/Counts/QuantityCounts";
 import { getCartItem, getDetailImage, getDetailItem } from "../apis/apis";
 import { useDispatch } from "react-redux";
 import { addCartItem } from "../reducers/cartSlice";
+import Button from "../components/Button/Button";
 const ShopDetailWrapper = styled.div`
   padding-top: 90px;
   margin: 0 auto;
@@ -130,23 +130,6 @@ const PayBox = styled.div`
   display: flex;
   justify-content: space-between;
 `;
-const PayButton = styled.div`
-  width: 305px;
-  height: 55px;
-  background-color: ${(props) => props.color && props.color};
-  border-radius: 10px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  font-size: 18px;
-  font-family: "LINESeedKR-Rg";
-  color: #ffffff;
-  cursor: pointer;
-  .naverIcon {
-    font-size: 20px;
-    margin-right: 10px;
-  }
-`;
 
 const DetialTitle = styled.h3`
   font-size: 18px;
@@ -207,7 +190,6 @@ function ShopDetail(props) {
     fetchData();
   }, []);
 
-  console.log(detailImage);
   const checkCart = async () => {
     try {
       const cartItems = await getCartItem();
@@ -237,6 +219,25 @@ function ShopDetail(props) {
     }
   };
 
+  const clickOrder = () => {};
+
+  const onClickNaverPayButton = () => {
+    const oPay = window.Naver.Pay.create({
+      mode: "production",
+      clientId: process.env.REACT_APP_CLIENT_ID,
+    });
+    oPay.open({
+      merchantUserKey: "DAMDA123",
+      merchantPayKey: "123456789",
+      productName: detail.title,
+      totalPayAmount:
+        Math.floor(detail.price * (1 - detail.discount / 100)) * quantity, // ? 총 결제금액
+      taxScopeAmount: 0, // ? 과세금액
+      taxExScopeAmount:
+        Math.floor(detail.price * (1 - detail.discount / 100)) * quantity, // ? 면세금액
+      returnUrl: `${process.env.REACT_APP_API}/shop/${detail.pid}`,
+    });
+  };
   return (
     <ShopDetailWrapper>
       <ShopDetailContainer>
@@ -326,15 +327,38 @@ function ShopDetail(props) {
             <ShopDetailPrice>
               {detail.price &&
                 quantity &&
-                priceFormatting(detail.price * quantity)}
+                priceFormatting(
+                  Math.floor(detail.price * (1 - detail.discount / 100)) *
+                    quantity
+                )}
             </ShopDetailPrice>
           </AmountBox>
           <PayBox>
-            <PayButton color={`#01C73C`}>
-              <SiNaver className="naverIcon" />
+            <Button
+              color={`#01C73C`}
+              width={305}
+              height={55}
+              radius={10}
+              onClick={onClickNaverPayButton}
+              className="orderButton"
+              icon={true}
+            >
               네이버페이
-            </PayButton>
-            <PayButton color={`#F28C3A`}>바로 주문하기</PayButton>
+            </Button>
+
+            <Button
+              color="#F28C3A"
+              width={305}
+              height={55}
+              radius={10}
+              onClick={clickOrder}
+              className="orderButton"
+              icon={false}
+              link={true}
+              href={"/orders"}
+            >
+              바로 주문하기
+            </Button>
           </PayBox>
         </ShopDetailContentBox>
       </ShopDetailContainer>
