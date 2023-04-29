@@ -43,10 +43,25 @@ const cartSlice = createSlice({
       const item = state.find((item) => item.pid === pid);
       if (item) {
         item.quantity -= 1;
+        const cartItemsRef = ref(db, "cart_items/U01");
+        const cartItemsQuery = query(cartItemsRef);
+
+        get(cartItemsQuery).then((snapshot) => {
+          const cartItems = snapshot.val();
+
+          for (const key in cartItems) {
+            if (cartItems[key].pid === pid) {
+              const cartItemRef = ref(db, `cart_items/U01/${key}`);
+              const newQuantity = cartItems[key].quantity - 1;
+              set(cartItemRef, { ...cartItems[key], quantity: newQuantity });
+              break;
+            }
+          }
+        });
       }
     },
     removeCartItem: (state, action) => {
-      const pid = action.payload;
+      const { pid } = action.payload;
       const cartItemsRef = ref(db, "cart_items/U01");
       const cartItemsQuery = query(cartItemsRef);
 
