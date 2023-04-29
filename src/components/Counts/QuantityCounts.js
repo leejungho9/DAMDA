@@ -28,6 +28,7 @@ const QuantityButton = styled.button`
 
 const QuantityCounts = ({ quantity, setQuantity, pid }) => {
   const dispatch = useDispatch();
+
   const plusQuantityHandler = () => {
     if (quantity < 20) {
       dispatch(plusQuantity({ pid, quantity }));
@@ -36,7 +37,7 @@ const QuantityCounts = ({ quantity, setQuantity, pid }) => {
   };
   const minusQuantityHandler = () => {
     if (quantity > 1) {
-      dispatch(minusQuantity({ pid }));
+      dispatch(minusQuantity({ pid, quantity }));
       setQuantity(quantity - 1);
     }
   };
@@ -44,7 +45,7 @@ const QuantityCounts = ({ quantity, setQuantity, pid }) => {
   return (
     <ShopDetailQuantity>
       <QuantityButton className="icon minusIcon" onClick={minusQuantityHandler}>
-        <AiOutlineMinus size={12} />
+        <AiOutlineMinus size={12} onClick={minusQuantity} />
       </QuantityButton>
       <QuantitDiv>{quantity}</QuantitDiv>
       <QuantityButton className="icon plusIcon" onClick={plusQuantityHandler}>
