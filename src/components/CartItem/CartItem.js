@@ -18,7 +18,7 @@ const CloseIcon = styled(IoMdClose)`
   }
 `;
 
-const CartItem = ({ cartItems }) => {
+const CartItem = ({ cartItems, orderNowMode }) => {
   const dispatch = useDispatch();
 
   const priceFormatting = (price) => {
@@ -53,7 +53,11 @@ const CartItem = ({ cartItems }) => {
             </td>
 
             <td className="t_4">
-              <QuantityCounts quantity={item.quantity} pid={item.pid} />
+              <QuantityCounts
+                quantity={item.quantity}
+                pid={item.pid}
+                orderNowMode={orderNowMode}
+              />
             </td>
             <td className="t_5">{priceFormatting(item.price)}</td>
             <td className="t_6" onClick={() => onRemoveCartItem(item.pid)}>
