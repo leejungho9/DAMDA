@@ -208,7 +208,7 @@ function ShopDetail(props) {
         pid: Number(id),
         title: detail.title,
         company: detail.company,
-        quantity: 1,
+        quantity: quantity,
         url: detail.url,
         price: detail.price,
         discount: Number(detail.discount),
