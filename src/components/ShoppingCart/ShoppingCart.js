@@ -4,6 +4,7 @@ import CartItem from "../../components/CartItem/CartItem";
 import { useDispatch, useSelector } from "react-redux";
 import { getCartItem } from "../../apis/apis";
 import { setCartItem } from "../../reducers/cartSlice";
+import Button from "../Button/Button";
 const CartBox = styled.div`
   height: 500px;
 
@@ -46,6 +47,10 @@ const OrderAmountContainer = styled.div`
   flex-direction: column;
   box-sizing: border-box;
   justify-content: center;
+  margin-bottom: 15px;
+`;
+
+const ButtonBox = styled.div`
   margin-bottom: 15px;
 `;
 
@@ -114,8 +119,9 @@ const ShoppingCart = () => {
   const [discountPrice, setDiscountPrice] = useState(0);
   const [totalPrice, setTotalPrice] = useState(0);
 
+  // * getCartItem : 카트 아이템 가져오기
   useEffect(() => {
-    const setCartItemFunc = async () => {
+    const getCartItemFunc = async () => {
       try {
         const cartItems = await getCartItem();
         dispatch(setCartItem(cartItems));
@@ -123,15 +129,17 @@ const ShoppingCart = () => {
         console.error(error);
       }
     };
-    setCartItemFunc();
+    getCartItemFunc();
   }, [dispatch]);
 
   useEffect(() => {
+    // * CartItem 총 금액 구하기
     if (cartItems.length > 0) {
       const newTotalPrice = cartItems.reduce(
         (acc, cur) => acc + cur.price * cur.quantity,
         0
       );
+      // * CartItem 총 할인금액 구하기
       let result = 0;
       cartItems.map((el) => {
         let buyPrice = Math.floor(el.price * (el.discount / 100) * el.quantity);
@@ -143,9 +151,14 @@ const ShoppingCart = () => {
       setTotalPrice(newTotalPrice);
     }
   }, [cartItems]);
+
+  // * 금액표기 (,) 함수
   const priceFormatting = (price) => {
     return price.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
   };
+
+  const onClickNaverPayButton = () => {};
+  const onClickOrderNowButton = () => {};
 
   return (
     <CartBox>
@@ -191,12 +204,35 @@ const ShoppingCart = () => {
               </OrderInfoPriceSpan>
             </OrderInfoSpan>
           </OrderAmountContainer>
-          <OrderAmountContainer>
-            <OrderInfoSpan>바로 주문하기</OrderInfoSpan>
-          </OrderAmountContainer>
-          <OrderAmountContainer>
-            <OrderInfoSpan>네이버 페이</OrderInfoSpan>
-          </OrderAmountContainer>
+          <ButtonBox>
+            <Button
+              color="#F28C3A"
+              width={316}
+              height={55}
+              radius={10}
+              onClick={onClickOrderNowButton}
+              className="orderButton"
+              link={true}
+              fontSize={14}
+              href={"/orders"}
+            >
+              바로 주문하기
+            </Button>
+          </ButtonBox>
+          <ButtonBox>
+            <Button
+              color={`#01C73C`}
+              width={316}
+              height={55}
+              radius={10}
+              onClick={onClickNaverPayButton}
+              className="orderButton"
+              icon={true}
+              fontSize={14}
+            >
+              네이버 페이
+            </Button>
+          </ButtonBox>
         </OrderContainer>
       </CartContext>
     </CartBox>
