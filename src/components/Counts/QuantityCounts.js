@@ -32,13 +32,13 @@ const QuantityCounts = ({ quantity, setQuantity, pid }) => {
   const plusQuantityHandler = () => {
     if (quantity < 20) {
       dispatch(plusQuantity({ pid, quantity }));
-      setQuantity(quantity + 1);
+      setQuantity && setQuantity(quantity + 1);
     }
   };
   const minusQuantityHandler = () => {
     if (quantity > 1) {
       dispatch(minusQuantity({ pid, quantity }));
-      setQuantity(quantity - 1);
+      setQuantity && setQuantity(quantity - 1);
     }
   };
 
