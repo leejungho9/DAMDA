@@ -4,16 +4,15 @@ import { Link } from "react-router-dom";
 import styled from "styled-components";
 
 const ButtonStyles = styled.button`
-  width: ${(props) => props.width + "px;"};
-  height: ${(props) => props.height + "px;"};
-  border-radius: ${(props) => props.radius + "px;"};
+  width: ${(props) => props.width + "px"};
+  height: ${(props) => props.height + "px"};
+  border-radius: ${(props) => props.radius + "px"};
   background-color: ${(props) => props.color && props.color};
+  font-size: ${(props) => props.fontSize && props.fontSize + "px"};
   display: flex;
   align-items: center;
   justify-content: center;
   border: none;
-
-  font-size: 18px;
   font-family: "LINESeedKR-Rg";
   color: #ffffff;
   cursor: pointer;
@@ -24,23 +23,18 @@ const ButtonStyles = styled.button`
 `;
 
 const LinkButtonStyles = styled(Link)`
-  width: ${(props) => props.width + "px;"};
-  height: ${(props) => props.height + "px;"};
-  border-radius: ${(props) => props.radius + "px;"};
+  width: ${(props) => props.width + "px"};
+  height: ${(props) => props.height + "px"};
+  border-radius: ${(props) => props.radius + "px"};
   background-color: ${(props) => props.color && props.color};
+  font-size: ${(props) => props.fontSize && props.fontSize + "px"};
   display: flex;
   align-items: center;
   justify-content: center;
   border: none;
-
-  font-size: 18px;
   font-family: "LINESeedKR-Rg";
   color: #ffffff;
   cursor: pointer;
-  .naverIcon {
-    font-size: 20px;
-    margin-right: 10px;
-  }
 `;
 const Button = ({
   color,
@@ -53,6 +47,7 @@ const Button = ({
   icon,
   link,
   href,
+  fontSize,
 }) => {
   return (
     <>
@@ -64,6 +59,7 @@ const Button = ({
           color={color}
           onClick={onClick}
           className={className}
+          fontSize={fontSize}
         >
           {icon && <SiNaver className="naverIcon" />}
           {children}
@@ -77,9 +73,9 @@ const Button = ({
           color={color}
           onClick={onClick}
           className={className}
+          fontSize={fontSize}
           to={href}
         >
-          {icon && <SiNaver className="naverIcon" />}
           {children}
         </LinkButtonStyles>
       )}
