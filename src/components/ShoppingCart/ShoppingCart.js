@@ -5,9 +5,10 @@ import { useDispatch, useSelector } from "react-redux";
 import { getCartItem } from "../../apis/apis";
 import { setCartItem } from "../../reducers/cartSlice";
 import Button from "../Button/Button";
+import { useLocation } from "react-router-dom";
 const CartBox = styled.div`
-  height: 500px;
-
+  min-height: 500px;
+  margin-bottom: 85px;
   table input[type="checkbox"] {
     width: 60px;
     margin: 20px 0;
@@ -119,6 +120,14 @@ const ShoppingCart = () => {
   const [discountPrice, setDiscountPrice] = useState(0);
   const [totalPrice, setTotalPrice] = useState(0);
 
+  const [orderNowMode, setOrderNowMode] = useState(false);
+  const location = useLocation();
+  useEffect(() => {
+    if (location.pathname === "/orders") {
+      setOrderNowMode(true);
+    }
+  }, []);
+
   // * getCartItem : 카트 아이템 가져오기
   useEffect(() => {
     const getCartItemFunc = async () => {
@@ -162,21 +171,25 @@ const ShoppingCart = () => {
 
   return (
     <CartBox>
-      <TableHeader>
-        <tbody>
-          <tr>
-            <td className="t_1">
-              <input type="checkbox" />
-            </td>
-            <td className="t_2">전체선택</td>
-            <td className="t_3"> 전체삭제</td>
-          </tr>
-        </tbody>
-      </TableHeader>
-      <hr />
+      {!orderNowMode && (
+        <>
+          <TableHeader>
+            <tbody>
+              <tr>
+                <td className="t_1">
+                  <input type="checkbox" />
+                </td>
+                <td className="t_2">전체선택</td>
+                <td className="t_3"> 전체삭제</td>
+              </tr>
+            </tbody>
+          </TableHeader>
+          <hr />
+        </>
+      )}
       <CartContext>
         <TableBody>
-          <CartItem cartItems={cartItems} />
+          <CartItem cartItems={cartItems} orderNowMode={orderNowMode} />
         </TableBody>
         <OrderContainer>
           <OrderBox>
