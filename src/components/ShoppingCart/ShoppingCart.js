@@ -6,6 +6,7 @@ import { getCartItem } from "../../apis/apis";
 import { setCartItem } from "../../reducers/cartSlice";
 import Button from "../Button/Button";
 import { useLocation } from "react-router-dom";
+import CartList from "../CartList/CartList";
 const CartBox = styled.div`
   min-height: 500px;
   margin-bottom: 85px;
@@ -189,7 +190,7 @@ const ShoppingCart = () => {
       )}
       <CartContext>
         <TableBody>
-          <CartItem cartItems={cartItems} orderNowMode={orderNowMode} />
+          <CartList cartItems={cartItems} orderNowMode={orderNowMode} />
         </TableBody>
         <OrderContainer>
           <OrderBox>
