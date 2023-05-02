@@ -211,35 +211,39 @@ const ShoppingCart = () => {
               </OrderInfoPriceSpan>
             </OrderInfoSpan>
           </OrderAmountContainer>
-          <ButtonBox>
-            <Button
-              color="#F28C3A"
-              width={316}
-              height={55}
-              radius={10}
-              onClick={onClickOrderNowButton}
-              className="orderButton"
-              link={true}
-              fontSize={14}
-              href={"/orders"}
-            >
-              바로 주문하기
-            </Button>
-          </ButtonBox>
-          <ButtonBox>
-            <Button
-              color={`#01C73C`}
-              width={316}
-              height={55}
-              radius={10}
-              onClick={onClickNaverPayButton}
-              className="orderButton"
-              icon={true}
-              fontSize={14}
-            >
-              네이버 페이
-            </Button>
-          </ButtonBox>
+          {!orderNowMode && (
+            <>
+              <ButtonBox>
+                <Button
+                  color="#F28C3A"
+                  width={316}
+                  height={55}
+                  radius={10}
+                  onClick={onClickOrderNowButton}
+                  className="orderButton"
+                  link={true}
+                  fontSize={14}
+                  href={"/orders"}
+                >
+                  바로 주문하기
+                </Button>
+              </ButtonBox>
+              <ButtonBox>
+                <Button
+                  color={`#01C73C`}
+                  width={316}
+                  height={55}
+                  radius={10}
+                  onClick={onClickNaverPayButton}
+                  className="orderButton"
+                  icon={true}
+                  fontSize={14}
+                >
+                  네이버 페이
+                </Button>
+              </ButtonBox>
+            </>
+          )}
         </OrderContainer>
       </CartContext>
     </CartBox>
