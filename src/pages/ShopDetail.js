@@ -161,7 +161,7 @@ function ShopDetail(props) {
   };
 
   useEffect(() => {
-    const fetchData = async () => {
+    const fetchDetailImg = async () => {
       try {
         const detailImg = await getDetailImage(id);
         setdetailImage(detailImg);
@@ -171,11 +171,11 @@ function ShopDetail(props) {
       }
     };
 
-    fetchData();
+    fetchDetailImg();
   }, []);
 
   useEffect(() => {
-    const fetchData = async () => {
+    const fetchDetailItem = async () => {
       try {
         const detailItem = await getDetailItem(id);
         setDetail(detailItem);
@@ -184,7 +184,7 @@ function ShopDetail(props) {
       }
     };
 
-    fetchData();
+    fetchDetailItem();
   }, []);
 
   const checkCart = async () => {

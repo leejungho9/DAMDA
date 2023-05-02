@@ -105,7 +105,7 @@ function Shop() {
   const [isLoading, setLoading] = useState(true);
 
   useEffect(() => {
-    const fetchData = async () => {
+    const fetchProducts = async () => {
       try {
         const products = await getProducts();
         setProducts(products.filter((el) => el.category === isCategory));
@@ -115,7 +115,7 @@ function Shop() {
       }
     };
 
-    fetchData();
+    fetchProducts();
   }, [isCategory]);
 
   console.log(isProduct);
