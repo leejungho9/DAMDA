@@ -18,7 +18,7 @@ const CloseIcon = styled(IoMdClose)`
   }
 `;
 
-const CartItem = ({ cartItems, orderNowMode }) => {
+const CartItem = ({ orderNowMode, item }) => {
   const dispatch = useDispatch();
 
   const priceFormatting = (price) => {
@@ -30,47 +30,36 @@ const CartItem = ({ cartItems, orderNowMode }) => {
   };
 
   return (
-    <tbody>
-      {cartItems.length !== 0 ? (
-        cartItems.map((item) => (
-          <tr key={item.pid}>
-            <td className="t_1">
-              <input type="checkbox" />
-            </td>
-            <td className="t_2">
-              <Link to={`/shop/${item.pid}`}>
-                <ProductImg
-                  src={`${process.env.PUBLIC_URL}/${item.url}`}
-                  alt="장바구니 이미지"
-                />
-              </Link>
-            </td>
+    <tr key={item.pid}>
+      <td className="t_1">
+        <input type="checkbox" />
+      </td>
+      <td className="t_2">
+        <Link to={`/shop/${item.pid}`}>
+          <ProductImg
+            src={`${process.env.PUBLIC_URL}/${item.url}`}
+            alt="장바구니 이미지"
+          />
+        </Link>
+      </td>
 
-            <td className="t_3">
-              {item.company}
-              <br />
-              {item.name}
-            </td>
-
-            <td className="t_4">
-              <QuantityCounts
-                quantity={item.quantity}
-                pid={item.pid}
-                orderNowMode={orderNowMode}
-              />
-            </td>
-            <td className="t_5">{priceFormatting(item.price)}</td>
-            <td className="t_6" onClick={() => onRemoveCartItem(item.pid)}>
-              <CloseIcon />
-            </td>
-          </tr>
-        ))
-      ) : (
-        <tr>
-          <td colSpan="6">카트에 담긴 제품이 없습니다.</td>
-        </tr>
-      )}
-    </tbody>
+      <td className="t_3">
+        {item.company}
+        <br />
+        {item.name}
+      </td>
+      <td className="t_4">
+        <QuantityCounts
+          quantity={item.quantity}
+          pid={item.pid}
+          orderNowMode={orderNowMode}
+        />
+      </td>
+      <td className="t_5">{priceFormatting(item.price)}</td>
+      <td className="t_6" onClick={() => onRemoveCartItem(item.pid)}>
+        <CloseIcon />
+      </td>
+    </tr>
   );
 };
 
