@@ -29,7 +29,7 @@ const QuantityButton = styled.button`
 const QuantityCounts = ({ quantity, setQuantity, pid, orderNowMode }) => {
   const dispatch = useDispatch();
 
-  const plusQuantityHandler = (setQuantity) => {
+  const plusQuantityHandler = () => {
     if (quantity < 20) {
       dispatch(plusQuantity({ pid, quantity }));
       setQuantity && setQuantity(quantity + 1);
