@@ -2,10 +2,13 @@ import React from "react";
 import styled from "styled-components";
 import ShoppingCart from "../components/ShoppingCart/ShoppingCart";
 import Button from "../components/Button/Button";
-
+import DaumPostcode from "react-daum-postcode";
+import { useState } from "react";
+import { TfiClose } from "react-icons/tfi";
 const OrderContainer = styled.div`
   margin: 0 auto;
   width: 1300px;
+  position: relative;
   hr {
     margin-top: 10px;
     color: #b5b5b6;
@@ -131,9 +134,58 @@ const ButtonBox = styled.div`
   display: flex;
   justify-content: end;
 `;
+
+const DaumPostcodeContainer = styled.div`
+  position: absolute;
+  top: 50%;
+  left: 32%;
+  width: 500px;
+  height: 600px;
+  z-index: 100;
+  display: block;
+  background-color: red;
+  border: 1px solid #363636;
+`;
+
+const DaumPostcodeHeader = styled.div`
+  height: 50px;
+  background-color: #fff;
+  position: relative;
+  display: flex;
+  justify-content: end;
+  align-items: center;
+  padding-right: 15px;
+`;
+const DaumPostClsoeButton = styled(TfiClose)`
+  width: 15px;
+  height: 15px;
+  color: #000;
+  cursor: pointer;
+`;
 const Order = () => {
+  const DaumPostStyle = {
+    width: "500px",
+    height: "550px",
+  };
+
+  const [daumPostModal, setDaumPostModal] = useState(false);
+  const onCompleteAdress = (e) => {
+    console.log(e);
+    setAddress(e.address);
+    setDaumPostModal(false);
+  };
+
+  const [address, setAddress] = useState("");
   return (
     <OrderContainer>
+      {daumPostModal && (
+        <DaumPostcodeContainer>
+          <DaumPostcodeHeader>
+            <DaumPostClsoeButton onClick={() => setDaumPostModal(false)} />
+          </DaumPostcodeHeader>
+          <DaumPostcode onComplete={onCompleteAdress} style={DaumPostStyle} />
+        </DaumPostcodeContainer>
+      )}
       <OrderTitleH1>주문하기</OrderTitleH1>
       <OrderMenuSpan>주문상품</OrderMenuSpan>
       <hr />
@@ -201,8 +253,14 @@ const Order = () => {
             <OrderInfoSpanBox>
               <OrderInfolabel htmlFor="receiverAddress">주소</OrderInfolabel>
             </OrderInfoSpanBox>
-            <OrdererInfoInput type="text" id="receiverAddress" />
-            <OrderButton>주소검색</OrderButton>
+            <OrdererInfoInput
+              type="text"
+              id="receiverAddress"
+              value={address}
+            />
+            <OrderButton onClick={() => setDaumPostModal(true)}>
+              주소검색
+            </OrderButton>
           </OrderInfoBox>
           <OrderInfoBox>
             <OrderInfoSpanBox>
