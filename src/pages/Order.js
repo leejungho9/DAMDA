@@ -1,6 +1,7 @@
 import React from "react";
 import styled from "styled-components";
 import ShoppingCart from "../components/ShoppingCart/ShoppingCart";
+import Button from "../components/Button/Button";
 
 const OrderContainer = styled.div`
   margin: 0 auto;
@@ -93,9 +94,9 @@ const OrderButton = styled.button`
   border: 1px solid #b5b5b6;
   background-color: #fff;
   font-family: "LINESeedKR-Rg";
-  margin-left: 50px;
+  margin-left: 20px;
   font-size: 13px;
-
+  cursor: pointer;
   &:hover {
     color: #f28c3a;
     border: 1px solid #f28c3a;
@@ -106,7 +107,7 @@ const PaymentInputRadio = styled.input`
   margin-right: 20px;
   appearance: none;
   background-color: #ffff;
-  border: 1px solid black;
+  border: 1px solid #3e3e3e;
   width: 15px;
   height: 15px;
   cursor: pointer;
@@ -117,6 +118,19 @@ const PaymentInputRadio = styled.input`
   }
 `;
 
+const PointInput = styled.input`
+  width: 60px;
+  outline: none;
+  height: 35px;
+  font-family: "LINESeedKR-Bd";
+  color: #3e3e3e;
+  border: none;
+  font-size: 14px;
+`;
+const ButtonBox = styled.div`
+  display: flex;
+  justify-content: end;
+`;
 const Order = () => {
   return (
     <OrderContainer>
@@ -160,8 +174,10 @@ const Order = () => {
             <OrderInfoSpanBox>
               <OrderInfoSapn>적립금</OrderInfoSapn>
             </OrderInfoSpanBox>
-            <OrderInfoSapn>0원</OrderInfoSapn>
-            <OrderButton>사용하기</OrderButton>
+            <PointInput type="text" id="point" />
+            <OrderInfoSapn> 원</OrderInfoSapn>
+            {/*  !버튼 사용 고민중 */}
+            {/* <OrderButton>사용하기</OrderButton> */}
           </OrderInfoBox>
         </OrderBox>
       </OrdererContainer>
@@ -234,6 +250,20 @@ const Order = () => {
           </PaymentInfoBox>
         </OrderBox>
       </OrdererContainer>
+      <ButtonBox>
+        <Button
+          color="#F28C3A"
+          width={316}
+          height={55}
+          radius={10}
+          className="orderButton"
+          link={true}
+          fontSize={14}
+          href={"/orders"}
+        >
+          바로 주문하기
+        </Button>
+      </ButtonBox>
     </OrderContainer>
   );
 };
