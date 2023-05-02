@@ -5,7 +5,7 @@ const CartList = ({ cartItems, orderNowMode }) => {
   return cartItems.length !== 0 ? (
     <tbody>
       {cartItems.map((item) => (
-        <CartItem item={item} orderNowMode={orderNowMode} />
+        <CartItem key={item.pid} item={item} orderNowMode={orderNowMode} />
       ))}
     </tbody>
   ) : (
