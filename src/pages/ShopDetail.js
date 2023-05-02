@@ -11,6 +11,7 @@ import { getCartItem, getDetailImage, getDetailItem } from "../apis/apis";
 import { useDispatch } from "react-redux";
 import { addCartItem } from "../reducers/cartSlice";
 import Button from "../components/Button/Button";
+import PriceFormat from "../hooks/PriceFormat";
 const ShopDetailWrapper = styled.div`
   padding-top: 90px;
   margin: 0 auto;
@@ -159,10 +160,6 @@ function ShopDetail(props) {
     setIsLoading(false);
   };
 
-  const priceFormatting = (price) => {
-    return price.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
-  };
-
   useEffect(() => {
     const fetchData = async () => {
       try {
@@ -291,7 +288,7 @@ function ShopDetail(props) {
           <BorderBar />
           <ShopDetailPrice>
             {detail.price &&
-              priceFormatting(
+              PriceFormat(
                 Math.floor(detail.price * (1 - detail.discount / 100))
               )}
           </ShopDetailPrice>
@@ -327,7 +324,7 @@ function ShopDetail(props) {
             <ShopDetailPrice>
               {detail.price &&
                 quantity &&
-                priceFormatting(
+                PriceFormat(
                   Math.floor(detail.price * (1 - detail.discount / 100)) *
                     quantity
                 )}
