@@ -20,7 +20,7 @@ jobs:
 
       - name: Generate Environment Variables File for Production
         run: |
-          echo "REACT_APP_APIKEY=$REACT_APP_APIKEY" >> .env.
+          echo "REACT_APP_APIKEY=$REACT_APP_APIKEY" >> .env
           echo "REACT_APP_DATABASE_URL=$REACT_APP_DATABASE_URL" >> .env
           echo "REACT_APP_AUTH_DOMAIN=$REACT_APP_AUTH_DOMAIN" >> .env
           echo "REACT_APP_PROJECT_ID=$REACT_APP_PROJECT_ID" >> .env
