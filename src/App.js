@@ -8,11 +8,13 @@ import Footer from "./components/Footer";
 import ShopDetail from "./pages/ShopDetail";
 import Cart from "./pages/Cart";
 import Order from "./pages/Order";
+import ScrollToTop from "./hooks/ScrollToTop";
 
 function App() {
   return (
     <>
       <BrowserRouter>
+        <ScrollToTop />
         <Nav />
         <Routes>
           <Route path="/" element={<Main />}></Route>
