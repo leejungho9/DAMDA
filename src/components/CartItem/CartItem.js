@@ -5,6 +5,7 @@ import { Link } from "react-router-dom";
 import { useDispatch } from "react-redux";
 import { removeCartItem } from "../../reducers/cartSlice";
 import { IoMdClose } from "react-icons/io";
+import PriceFormat from "../../hooks/PriceFormat";
 const ProductImg = styled.img`
   width: 68px;
   height: 68px;
@@ -20,11 +21,6 @@ const CloseIcon = styled(IoMdClose)`
 
 const CartItem = ({ orderNowMode, item }) => {
   const dispatch = useDispatch();
-
-  const priceFormatting = (price) => {
-    return price.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
-  };
-
   const onRemoveCartItem = (pid) => {
     dispatch(removeCartItem(pid));
   };
@@ -55,7 +51,7 @@ const CartItem = ({ orderNowMode, item }) => {
           orderNowMode={orderNowMode}
         />
       </td>
-      <td className="t_5">{priceFormatting(item.price)}</td>
+      <td className="t_5">{PriceFormat(item.price)}</td>
       <td className="t_6" onClick={() => onRemoveCartItem(item.pid)}>
         <CloseIcon />
       </td>

@@ -1,6 +1,7 @@
 import React from "react";
 import { useNavigate } from "react-router-dom";
 import styled from "styled-components";
+import PriceFormat from "../hooks/PriceFormat";
 
 const CardWrapper = styled.div`
   * {
@@ -51,9 +52,7 @@ const ItemPrice = styled.span`
 `;
 
 function CreatedCard({ data }) {
-  let priceFormatting = data.price
-    .toString()
-    .replace(/\B(?=(\d{3})+(?!\d))/g, ",");
+  let displayPrice = PriceFormat(data.price);
 
   const navigate = useNavigate();
 
@@ -72,7 +71,7 @@ function CreatedCard({ data }) {
           </span>
         </ItemName>
         <ItemTitle>{data.company}</ItemTitle>
-        <ItemPrice>{priceFormatting}</ItemPrice>
+        <ItemPrice>{displayPrice}</ItemPrice>
       </CardDecription>
     </CardWrapper>
   );

@@ -1,12 +1,12 @@
 import React, { useEffect, useState } from "react";
 import styled from "styled-components";
-import CartItem from "../../components/CartItem/CartItem";
 import { useDispatch, useSelector } from "react-redux";
 import { getCartItem } from "../../apis/apis";
 import { setCartItem } from "../../reducers/cartSlice";
 import Button from "../Button/Button";
 import { useLocation } from "react-router-dom";
 import CartList from "../CartList/CartList";
+import PriceFormat from "../../hooks/PriceFormat";
 const CartBox = styled.div`
   min-height: 500px;
   margin-bottom: 85px;
@@ -162,11 +162,6 @@ const ShoppingCart = () => {
     }
   }, [cartItems]);
 
-  // * 금액표기 (,) 함수
-  const priceFormatting = (price) => {
-    return price.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
-  };
-
   const onClickNaverPayButton = () => {};
   const onClickOrderNowButton = () => {};
 
@@ -196,14 +191,12 @@ const ShoppingCart = () => {
           <OrderBox>
             <OrderInfoSpan>
               상품 금액
-              <OrderInfoPriceSpan>
-                {priceFormatting(totalPrice)}
-              </OrderInfoPriceSpan>
+              <OrderInfoPriceSpan>{PriceFormat(totalPrice)}</OrderInfoPriceSpan>
             </OrderInfoSpan>
             <OrderInfoSpan>
               상품 할인금액
               <OrderInfoPriceSpan>
-                {priceFormatting(discountPrice)}
+                {PriceFormat(discountPrice)}
               </OrderInfoPriceSpan>
             </OrderInfoSpan>
             <OrderInfoSpan>
@@ -214,7 +207,7 @@ const ShoppingCart = () => {
             <OrderInfoSpan>
               결정예정금액
               <OrderInfoPriceSpan>
-                {priceFormatting(totalPrice - discountPrice)}
+                {PriceFormat(totalPrice - discountPrice)}
               </OrderInfoPriceSpan>
             </OrderInfoSpan>
           </OrderAmountContainer>
