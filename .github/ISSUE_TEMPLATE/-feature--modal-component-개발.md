@@ -1,6 +1,6 @@
 ---
-name: Feature request
-about: "[Feature] Modal Component 개발"
+name: "[Feature] Modal Component 개발"
+about: Feature
 title: ''
 labels: ''
 assignees: ''
