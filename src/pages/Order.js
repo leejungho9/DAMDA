@@ -1,10 +1,11 @@
 import React from "react";
 import styled from "styled-components";
 import ShoppingCart from "../components/ShoppingCart/ShoppingCart";
-import Button from "../components/Button/Button";
 import DaumPostcode from "react-daum-postcode";
 import { useState } from "react";
 import { TfiClose } from "react-icons/tfi";
+import Payment from "../components/Payment";
+import { useSelector } from "react-redux";
 const OrderContainer = styled.div`
   margin: 0 auto;
   width: 1300px;
@@ -176,6 +177,7 @@ const Order = () => {
   };
 
   const [address, setAddress] = useState("");
+  const cartItems = useSelector((state) => state.cartItems || []);
   return (
     <OrderContainer>
       {daumPostModal && (
@@ -309,18 +311,7 @@ const Order = () => {
         </OrderBox>
       </OrdererContainer>
       <ButtonBox>
-        <Button
-          color="#F28C3A"
-          width={316}
-          height={55}
-          radius={10}
-          className="orderButton"
-          link={true}
-          fontSize={14}
-          href={"/orders"}
-        >
-          바로 주문하기
-        </Button>
+        <Payment cartItems={cartItems} />
       </ButtonBox>
     </OrderContainer>
   );
