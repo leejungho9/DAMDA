@@ -15,8 +15,6 @@ jobs:
       - name: Install dependencies
         run: npm install
 
-      - name: Build
-        run: CI= npm run build
 
       - name: Generate Environment Variables File for Production
         run: |
@@ -41,6 +39,10 @@ jobs:
           REACT_APP_MEASUREMENT_ID: ${{ secrets.REACT_APP_MEASUREMENT_ID }}
           REACT_APP_CLIENT_ID: ${{ secrets.REACT_APP_CLIENT_ID }}
 
+
+      - name: Build
+        run: CI= npm run build
+        
       - name: SHOW AWS CLI VERSION
         env:
           AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
