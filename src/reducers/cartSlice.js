@@ -61,7 +61,7 @@ const cartSlice = createSlice({
       }
     },
     removeCartItem: (state, action) => {
-      const { pid } = action.payload;
+      const pid = action.payload;
       const cartItemsRef = ref(db, "cart_items/U01");
       const cartItemsQuery = query(cartItemsRef);
 
@@ -69,8 +69,10 @@ const cartSlice = createSlice({
         const cartItems = snapshot.val();
         console.log(cartItems);
         for (const key in cartItems) {
+          console.log(cartItems[key].pid);
+          console.log(pid);
+          console.log(cartItems[key].pid === pid);
           if (cartItems[key].pid === pid) {
-            console.log(cartItems[key].pid === pid);
             const cartItemRef = ref(db, `cart_items/U01/${key}`);
             remove(cartItemRef);
             break;
