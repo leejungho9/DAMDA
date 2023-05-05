@@ -1,4 +1,5 @@
 import React, { useEffect, useRef, useState } from "react";
+import { Navigate, useLocation, useNavigate } from "react-router-dom";
 import styled from "styled-components";
 
 const LoginWrapper = styled.div`
@@ -153,12 +154,14 @@ const NaverLogin = styled.div`
 `;
 
 function Login() {
+  const navigator = useNavigate();
   const naverRef = useRef(null);
+  const location = useLocation();
   const [isLogin, setLogin] = useState([]);
 
   const { naver } = window;
-  const NAVER_CLIENT_ID = "Suz6s0pAEGcgu3W1XSU9"; // 발급 받은 Client ID 입력
-  const NAVER_CALLBACK_URL = "http://localhost:3000/callbacks/naver/sign_in"; // 작성했던 Callback URL 입력
+  const NAVER_CLIENT_ID = `${process.env.REACT_APP_NAVER_CLIENT_ID}`; // 발급 받은 Client ID 입력
+  const NAVER_CALLBACK_URL = `${process.env.REACT_APP_NAVER_CALLBACK_URL}`; // 작성했던 Callback URL 입력
 
   const initializeNaverLogin = () => {
     const naverLogin = new naver.LoginWithNaverId({
@@ -183,27 +186,75 @@ function Login() {
     });
     // 요기!
   };
-  const userAccessToken = () => {
-    window.location.href.includes("access_token") && getToken();
-  };
-  const getToken = () => {
-    const token = window.location.href.split("=")[1].split("&")[0];
+
+  const getNaverToken = () => {
+    if (window.location.href.includes("access_token")) {
+      const token = window.location.href.split("=")[1].split("&")[0];
+    }
     // console.log, alert 창을 통해 토큰이 잘 추출 되는지 확인하자!
     // 이후 로컬 스토리지 또는 state에 저장하여 사용하자!
     // localStorage.setItem('access_token', token)
     // setGetToken(token)
   };
 
-  useEffect(() => {
-    initializeNaverLogin();
-    userAccessToken();
-    console.log(isLogin);
-  }, []);
-
   const handleNaverLogin = () => {
     naverRef.current.children[0].click();
   };
 
+  useEffect(() => {
+    initializeNaverLogin();
+    getNaverToken();
+  }, []);
+
+  // ! 카카오 소셜 로그인 로직
+
+  // * 버튼 클릭시 카카오에서 제공하는 URI에 요청 보내기
+  const handleKakaoLogin = () => {
+    window.location.href = `${process.env.REACT_APP_KAKAO_API}/oauth/authorize?client_id=${process.env.REACT_APP_REST_API_KEY}&redirect_uri=${process.env.REACT_APP_REDIRECT_URI}&response_type=code`;
+  };
+
+  // * 받아온 URI에 포함된 인가코드 구분하기
+  const KAKAO_AUTHORIZE_CODE = location.search.split("=")[1];
+
+  // * 받아온 인가코드로 토큰 받아오기
+  const getKakaoToken = () => {
+    fetch(`${process.env.REACT_APP_KAKAO_API}/oauth/token`, {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/x-www-form-urlencoded",
+      },
+      body: `grant_type=authorization_code&client_id=${process.env.REACT_APP_REST_API_KEY}&redirect_uri=${process.env.REACT_APP_REDIRECT_URI}&code=${KAKAO_AUTHORIZE_CODE}`,
+    })
+      .then((res) => res.json())
+      //! data 찍어보면 access_token 들어옴
+      .then((data) => {
+        if (data.access_token) {
+          localStorage.setItem("kakao_token", data.access_token);
+          getKaKaoUser();
+        } else {
+          navigator("/");
+        }
+      });
+  };
+
+  const getKaKaoUser = (async) => {
+    const kakaoToken = localStorage.getItem("kakao_token");
+    fetch(`${process.env.REACT_APP_KAKAO_API}/v2/user/me`, {
+      method: "GET",
+      headers: {
+        Authorization: `Bearer ${kakaoToken}`,
+        "Content-Type": "application/x-www-form-urlencoded;",
+      },
+    }).then((res) => res.json());
+  };
+
+  useEffect(() => {
+    if (location.search) {
+      getKakaoToken();
+    } else {
+      return;
+    }
+  }, []);
   return (
     <LoginWrapper>
       <NaverLogin id="naverIdLogin" ref={naverRef} />
@@ -219,7 +270,7 @@ function Login() {
           <LoginBtn>로그인</LoginBtn>
         </LoginOption>
       </LoginBox>
-      <KakaoBtn>
+      <KakaoBtn onClick={handleKakaoLogin}>
         <img src="icons/kakao_logo.svg" alt="카카오 아이콘" />
         카카오 로그인
       </KakaoBtn>
