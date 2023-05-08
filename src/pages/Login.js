@@ -1,5 +1,5 @@
 import React, { useEffect, useRef, useState } from "react";
-import { Navigate, useLocation, useNavigate } from "react-router-dom";
+import { Link, useLocation, useNavigate } from "react-router-dom";
 import styled from "styled-components";
 
 const LoginWrapper = styled.div`
@@ -283,9 +283,11 @@ function Login() {
         />
         네이버 로그인
       </NaverBtn>
-      <SigninBtn>
-        <span>회원가입 하기</span>
-      </SigninBtn>
+      <Link to="/signup">
+        <SigninBtn>
+          <span>회원가입 하기</span>
+        </SigninBtn>
+      </Link>
     </LoginWrapper>
   );
 }
