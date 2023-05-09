@@ -9,6 +9,7 @@ import ShopDetail from "./pages/ShopDetail";
 import Cart from "./pages/Cart";
 import Order from "./pages/Order";
 import ScrollToTop from "./hooks/ScrollToTop";
+import Signup from "./pages/Signup";
 
 function App() {
   return (
@@ -19,6 +20,7 @@ function App() {
         <Routes>
           <Route path="/" element={<Main />}></Route>
           <Route path="/login" element={<Login />}></Route>
+          <Route path="/signup" element={<Signup />}></Route>
           <Route path="/cart" element={<Cart />}></Route>
           <Route path="/orders" element={<Order />}></Route>
           <Route path="/shop" element={<Shop />}></Route>
