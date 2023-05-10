@@ -1,6 +1,6 @@
 import { createSlice } from "@reduxjs/toolkit";
 import { push, query, ref, remove, set, get } from "firebase/database";
-import db from "../Firebase";
+import { db } from "../Firebase";
 
 //장바구니에 대한 상태와 관련된 액션과 리듀서 정의
 const cartSlice = createSlice({
@@ -70,7 +70,6 @@ const cartSlice = createSlice({
         console.log(cartItems);
         for (const key in cartItems) {
           console.log(cartItems[key].pid);
-          console.log(pid);
           console.log(cartItems[key].pid === pid);
           if (cartItems[key].pid === pid) {
             const cartItemRef = ref(db, `cart_items/U01/${key}`);
