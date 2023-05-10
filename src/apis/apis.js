@@ -1,5 +1,5 @@
-import db from "../Firebase";
-import { ref, get } from "firebase/database";
+import { db } from "../Firebase";
+import { ref, get, child, set } from "firebase/database";
 
 export const getProducts = async () => {
   const productsRef = ref(db, "products");
@@ -54,4 +54,18 @@ export const getCartItem = async (id) => {
   });
 
   return cartItems;
+};
+
+// ! signup
+export const postSignup = async (userInfo) => {
+  const data = {
+    coupon: {},
+    point: 3000,
+    userId: userInfo.uId,
+    name: userInfo.name,
+    phone: userInfo.phone,
+    address: userInfo.address,
+    detailAddress: userInfo.detailAddress,
+  };
+  set(ref(db, "users/" + userInfo.uId), data);
 };
