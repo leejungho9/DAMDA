@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import styled from "styled-components";
 import { ref, onValue } from "firebase/database";
-import db from "../Firebase";
+import { db } from "../Firebase";
 
 const PrmotionWrapper = styled.div`
   width: 100%;
