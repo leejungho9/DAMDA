@@ -2,7 +2,10 @@ import React, { useState } from "react";
 import { TfiClose } from "react-icons/tfi";
 import styled from "styled-components";
 import DaumPostcode from "react-daum-postcode";
-import { createUserWithEmailAndPassword, getAuth } from "firebase/auth";
+import { createUserWithEmailAndPassword } from "firebase/auth";
+import { auth } from "../Firebase";
+import { postSignup } from "../apis/apis";
+import { useNavigate } from "react-router-dom";
 
 const SignupContainer = styled.div`
   margin: 0 auto;
@@ -132,6 +135,7 @@ const DaumPostClsoeButton = styled(TfiClose)`
 `;
 
 const Signup = () => {
+  const navigator = useNavigate();
   const [daumPostModal, setDaumPostModal] = useState(false);
 
   // ! 회원가입
@@ -192,8 +196,8 @@ const Signup = () => {
   // ! checkSignup 상태
   const [checkSignUp, setCheckSignUp] = useState(false);
 
-  const handleSignup = (e) => {
-    e.preventDefault();
+  const handleValidation = (event) => {
+    event.preventDefault();
 
     if (name.length === 0) {
       alert("정확한 이름을 입력해주세요");
@@ -245,24 +249,34 @@ const Signup = () => {
     }
 
     setCheckSignUp(true);
+    handleSignup();
   };
 
-  // ! Auth 관련
-  const [authInfo, setAuthInfo] = useState({});
-
-  const join = async (email, password) => {
+  const handleSignup = async () => {
     try {
-      const auth = getAuth();
-      const { user } = await createUserWithEmailAndPassword(
-        auth,
-        email,
-        password
-      );
-      const { stsTokenManager, uid } = user;
-      setAuthInfo({ uid, email, authToken: stsTokenManager });
-      // navigate("/");
-    } catch ({ code, message }) {
-      console.log(code);
+      const user = await createUserWithEmailAndPassword(auth, id, password);
+      const userInfo = {
+        uId: user.user.uid,
+        name,
+        id,
+        password,
+        phone,
+        address,
+        detailAddress,
+      };
+      postSignup(userInfo);
+      alert("정상적으로 회원가입 되었습니다.");
+      navigator("/login");
+    } catch (err) {
+      //console.log(err.code);
+      switch (err.code) {
+        case "auth/invalid-email":
+        case "auth/email-already-in-use":
+          alert("이미 가입되어 있는 계정입니다");
+          break;
+        default:
+          break;
+      }
     }
   };
 
@@ -278,7 +292,7 @@ const Signup = () => {
       )}
       <SignupWrapper>
         <SignupTitle>회원가입</SignupTitle>
-        <SignupForm onSubmit={handleSignup}>
+        <SignupForm onSubmit={handleValidation}>
           <SignupInfoBox>
             <SignupInfoLabelBox>
               <SignupInfoLabel htmlFor="name">이름 *</SignupInfoLabel>
