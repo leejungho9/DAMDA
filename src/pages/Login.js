@@ -1,6 +1,11 @@
+import { signInWithEmailAndPassword } from "firebase/auth";
 import React, { useEffect, useRef, useState } from "react";
 import { Link, useLocation, useNavigate } from "react-router-dom";
 import styled from "styled-components";
+import { auth, db } from "../Firebase";
+import { useDispatch } from "react-redux";
+import { login } from "../reducers/userSlice";
+import { equalTo, get, orderByKey, query, ref } from "firebase/database";
 
 const LoginWrapper = styled.div`
   display: flex;
@@ -158,7 +163,53 @@ function Login() {
   const naverRef = useRef(null);
   const location = useLocation();
   const [isLogin, setLogin] = useState([]);
+  const [user, setUser] = useState([]);
 
+  // ! 로그인 상태 관리
+  const [id, setId] = useState("");
+  const [password, setPassword] = useState("");
+
+  // ! 로그인  onChange 이벤트
+  const onIdHandler = (event) => {
+    setId(event.currentTarget.value);
+  };
+  const onPasswordHandler = (event) => {
+    setPassword(event.currentTarget.value);
+  };
+  const dispatch = useDispatch();
+  const onLoginHandler = async (event) => {
+    try {
+      const userCredential = await signInWithEmailAndPassword(
+        auth,
+        id,
+        password
+      );
+      const userId = userCredential.user.uid;
+      const queryRef = query(
+        ref(db, "users"),
+        orderByKey("userId"),
+        equalTo(userId)
+      );
+      const snapshot = await get(queryRef);
+      const userInfo = snapshot.val();
+      dispatch(login(userInfo));
+      navigator("/");
+    } catch (err) {
+      switch (err.code) {
+        case "auth/user-not-found":
+          alert("해당 이메일에 해당하는 사용자 계정이 없습니다.");
+          break;
+        case "auth/invalid-email":
+          alert("올바르지 않은 이메일 형식입니다.");
+          break;
+        case "auth/wrong-password":
+          alert("올바르지 않은 비밀번호입니다.");
+          break;
+        default:
+          break;
+      }
+    }
+  };
   const { naver } = window;
   const NAVER_CLIENT_ID = `${process.env.REACT_APP_NAVER_CLIENT_ID}`; // 발급 받은 Client ID 입력
   const NAVER_CALLBACK_URL = `${process.env.REACT_APP_NAVER_CALLBACK_URL}`; // 작성했던 Callback URL 입력
@@ -255,19 +306,29 @@ function Login() {
       return;
     }
   }, []);
+
   return (
     <LoginWrapper>
       <NaverLogin id="naverIdLogin" ref={naverRef} />
-      <LoginTitle>로그인 / 회원가입</LoginTitle>
+      <LoginTitle>로그인</LoginTitle>
       <LoginBox>
-        <EmailInput placeholder="이메일을 입력해주세요." />
-        <PwInput placeholder="비밀번호를 입력해주세요." />
+        <EmailInput
+          placeholder="이메일을 입력해주세요."
+          value={id}
+          onChange={onIdHandler}
+        />
+        <PwInput
+          type="password"
+          placeholder="비밀번호를 입력해주세요."
+          value={password}
+          onChange={onPasswordHandler}
+        />
         <LoginOption>
           <LoginOptionBox>
             <AutoLogin type={"checkbox"} />
             <AutoLoginLabel>자동로그인</AutoLoginLabel>
           </LoginOptionBox>
-          <LoginBtn>로그인</LoginBtn>
+          <LoginBtn onClick={onLoginHandler}>로그인</LoginBtn>
         </LoginOption>
       </LoginBox>
       <KakaoBtn onClick={handleKakaoLogin}>
