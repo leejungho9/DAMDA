@@ -2,7 +2,7 @@ import { createSlice } from "@reduxjs/toolkit";
 import { push, query, ref, remove, set, get } from "firebase/database";
 import { db } from "../Firebase";
 
-//장바구니에 대한 상태와 관련된 액션과 리듀서 정의
+//! 장바구니에 대한 상태와 관련된 액션과 리듀서 정의
 const cartSlice = createSlice({
   name: "cartItem",
   initialState: [],
