@@ -247,6 +247,10 @@ const Signup = () => {
       alert("필수 약관에 동의해주세요.");
       return;
     }
+    if (!shoppingDataOptIn) {
+      alert("필수 약관에 동의해주세요.");
+      return;
+    }
 
     setCheckSignUp(true);
     handleSignup();
@@ -270,7 +274,6 @@ const Signup = () => {
     } catch (err) {
       //console.log(err.code);
       switch (err.code) {
-        case "auth/invalid-email":
         case "auth/email-already-in-use":
           alert("이미 가입되어 있는 계정입니다");
           break;
