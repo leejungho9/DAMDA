@@ -1,9 +1,12 @@
-import React, { useState, useEffect } from "react";
+import React, { useState } from "react";
 import styled from "styled-components";
 import { FiUser, FiSearch } from "react-icons/fi";
 import { Link } from "react-router-dom";
 import Sidebar from "./Sidebar";
 import { BsCart4, BsHeart } from "react-icons/bs";
+import { useDispatch, useSelector } from "react-redux";
+import { IoIosLogOut } from "react-icons/io";
+import { logout } from "../reducers/userSlice";
 
 const NavWrapper = styled.div`
   z-index: 1;
@@ -49,33 +52,33 @@ const IconsContainer = styled.div`
   .icon {
     cursor: pointer;
     font-size: 20px;
-    &:hover {
-      font-weight: bold;
-      color: #f28b39;
-    }
   }
   .searchIcon {
     margin-left: 20px;
   }
 
-  .iconMenuBox {
-    z-index: -1;
-    top: -10px;
-    left: -10px;
-    width: 42px;
-    height: 143px;
-    background-color: #f7f8f8;
-    position: absolute;
-    display: none;
-    border-radius: 30px;
-    display: none;
+  .userIcon {
+    z-index: 1;
+    &:hover {
+      font-weight: bold;
+      color: #f28b39;
+    }
+  }
+  .userIcon.user-login {
+    color: #f28b39;
+  }
 
+  .iconMenuBox {
     .cartIcon {
       position: absolute;
       top: 55px;
       right: 0;
       left: 0;
       margin: auto;
+      &:hover {
+        font-weight: bold;
+        color: #f28b39;
+      }
     }
     .heartIcon {
       position: absolute;
@@ -83,6 +86,24 @@ const IconsContainer = styled.div`
       right: 0;
       left: 0;
       margin: auto;
+      &:hover {
+        font-weight: bold;
+        color: #f28b39;
+      }
+    }
+    .logoutIcon {
+      z-index: 1;
+      position: absolute;
+      top: 158px;
+      width: 23px;
+      height: 23px;
+      right: 0;
+      left: 3px;
+      margin: auto;
+      &:hover {
+        font-weight: bold;
+        color: #f28b39;
+      }
     }
   }
 
@@ -91,7 +112,18 @@ const IconsContainer = styled.div`
   }
 `;
 
-const IconMenuBox = styled.div``;
+const IconMenuBox = styled.div`
+  top: -10px;
+  left: -10px;
+  width: 42px;
+  height: ${({ checkLogin }) => (checkLogin ? "210px" : "150px")};
+  z-index: ${({ checkLogin }) => (checkLogin ? "0" : "-1")};
+  background-color: #f7f8f8;
+  position: absolute;
+  display: none;
+  border-radius: 30px;
+  display: none;
+`;
 const SearchContainer = styled.div`
   display: flex;
   align-items: center;
@@ -114,9 +146,12 @@ const SidebarContainer = styled.div`
 
 function Nav(props) {
   const [isSidebar, setSidebar] = useState(false);
-
-  useEffect(() => {}, [isSidebar]);
-
+  const { isLoggedIn } = useSelector((state) => state.user);
+  const dispatch = useDispatch();
+  const handleLogout = () => {
+    dispatch(logout());
+    window.location.href = "/";
+  };
   return (
     <nav>
       <NavWrapper>
@@ -131,15 +166,39 @@ function Nav(props) {
               <a>BRAND</a>
             </MenuContainer>
             <IconsContainer>
-              <Link to="/login">
-                <FiUser className="icon userIcon" />
-              </Link>
-              <IconMenuBox className="iconMenuBox">
-                <Link to="/cart">
-                  <BsCart4 className="icon cartIcon" />
-                </Link>
-                <BsHeart className="icon heartIcon" />
-              </IconMenuBox>
+              {isLoggedIn ? (
+                <>
+                  <FiUser className="icon userIcon user-login" />
+                  <IconMenuBox
+                    className="icon iconMenuBox"
+                    checkLogin={isLoggedIn}
+                  >
+                    <Link to="/cart">
+                      <BsCart4 className="icon cartIcon" />
+                    </Link>
+                    <BsHeart className="icon heartIcon" />
+                    <IoIosLogOut
+                      className="icon logoutIcon"
+                      onClick={handleLogout}
+                    />
+                  </IconMenuBox>
+                </>
+              ) : (
+                <>
+                  <Link to="/login">
+                    <FiUser className="icon userIcon" />
+                  </Link>
+                  <IconMenuBox
+                    className="icon iconMenuBox"
+                    checkLogin={isLoggedIn}
+                  >
+                    <Link to="/cart">
+                      <BsCart4 className="icon cartIcon" />
+                    </Link>
+                    <BsHeart className="icon heartIcon" />
+                  </IconMenuBox>
+                </>
+              )}
             </IconsContainer>
             <SearchContainer>
               <FiSearch
