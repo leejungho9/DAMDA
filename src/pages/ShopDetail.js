@@ -1,14 +1,14 @@
 import React, { useEffect, useState } from "react";
-import { useParams } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 import styled from "styled-components";
 import { BsCart4 } from "react-icons/bs";
 import { AiOutlineHeart } from "react-icons/ai";
 import BestDetailReview from "../components/BestDetailReview";
 import LineBar from "../components/BorderBar";
-import ImageDetailSkeleton from "../components/Skeleton/ImageDetailSkeleton";
+import ImageSkeleton from "../components/Skeleton/ImageSkeleton";
 import QuantityCounts from "../components/Counts/QuantityCounts";
 import { getCartItem, getDetailImage, getDetailItem } from "../apis/apis";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { addCartItem } from "../reducers/cartSlice";
 import Button from "../components/Button/Button";
 import PriceFormat from "../hooks/PriceFormat";
@@ -25,7 +25,7 @@ const ShopDetailContainer = styled.div`
 const ShopDetailImgBox = styled.div``;
 
 const ShopImageGalleryBox = styled.div`
-  display: ${(props) => (props.isLoading ? "none" : "flex")};
+  display: flex;
   width: 600px;
   justify-content: space-between;
   margin-top: 23px;
@@ -149,16 +149,15 @@ const DetailImage = styled.img`
 
 function ShopDetail(props) {
   const { id } = useParams();
-
+  const navigator = useNavigate();
+  const dispatch = useDispatch();
   const [detail, setDetail] = useState([]);
   const [detailImage, setdetailImage] = useState([]);
   const [quantity, setQuantity] = useState(1);
-  const dispatch = useDispatch();
-
   const [isLoading, setIsLoading] = useState(true);
-  const handleImageLoading = () => {
-    setIsLoading(false);
-  };
+  // ! store에 있는 user 정보
+  const { user } = useSelector((state) => state.user);
+  const userId = [Object.keys(user)].join("");
 
   useEffect(() => {
     const fetchDetailImg = async () => {
@@ -189,14 +188,18 @@ function ShopDetail(props) {
 
   const checkCart = async () => {
     try {
-      const cartItems = await getCartItem();
+      const cartItems = await getCartItem(userId);
       return cartItems.some((item) => Number(item.pid) === Number(id));
     } catch (error) {
       console.log(error);
     }
   };
-
   const AddCartHandler = async () => {
+    // ! 비로그인 장바구니 사용 x
+    if (Object.keys(user).length === 0) {
+      navigator("/login");
+      return;
+    }
     let check = await checkCart();
     if (check) {
       alert("이미 장바구니에 추가된 상품입니다.");
@@ -211,7 +214,7 @@ function ShopDetail(props) {
         discount: Number(detail.discount),
       };
 
-      dispatch(addCartItem(data));
+      dispatch(addCartItem({ data, userId }));
       alert("상품이 정상적으로 장바구니에 담겼습니다.");
     }
   };
@@ -239,42 +242,42 @@ function ShopDetail(props) {
     <ShopDetailWrapper>
       <ShopDetailContainer>
         <ShopDetailImgBox>
-          <ShopDetailImg
-            src={`${process.env.PUBLIC_URL}/${detail.url}`}
-            alt="shop디테일"
-          />
-          {isLoading && (
+          {isLoading ? (
+            <ImageSkeleton length={1} width={600} height={600} />
+          ) : (
+            <ShopDetailImg
+              src={`${process.env.PUBLIC_URL}/${detail.url}`}
+              alt="shop디테일"
+            />
+          )}
+          {isLoading ? (
             <ShopImageGalleryBox>
-              <ImageDetailSkeleton />
+              <ImageSkeleton length={5} width={100} height={100} />
+            </ShopImageGalleryBox>
+          ) : (
+            <ShopImageGalleryBox>
+              <ShopImage
+                alt="상품 디테일 이미지"
+                src={`${process.env.PUBLIC_URL}/${detailImage.url1}`}
+              />
+              <ShopImage
+                alt="상품 디테일 이미지"
+                src={`${process.env.PUBLIC_URL}/${detailImage.url2}`}
+              />
+              <ShopImage
+                alt="상품 디테일 이미지"
+                src={`${process.env.PUBLIC_URL}/${detailImage.url3}`}
+              />
+              <ShopImage
+                alt="상품 디테일 이미지"
+                src={`${process.env.PUBLIC_URL}/${detailImage.url4}`}
+              />
+              <ShopImage
+                alt="상품 디테일 이미지"
+                src={`${process.env.PUBLIC_URL}/${detailImage.url5}`}
+              />
             </ShopImageGalleryBox>
           )}
-          <ShopImageGalleryBox isLoading={isLoading}>
-            <ShopImage
-              onLoad={handleImageLoading}
-              alt="상품 디테일 이미지"
-              src={`${process.env.PUBLIC_URL}/${detailImage.url1}`}
-            />
-            <ShopImage
-              onLoad={handleImageLoading}
-              alt="상품 디테일 이미지"
-              src={`${process.env.PUBLIC_URL}/${detailImage.url2}`}
-            />
-            <ShopImage
-              onLoad={handleImageLoading}
-              alt="상품 디테일 이미지"
-              src={`${process.env.PUBLIC_URL}/${detailImage.url3}`}
-            />
-            <ShopImage
-              onLoad={handleImageLoading}
-              alt="상품 디테일 이미지"
-              src={`${process.env.PUBLIC_URL}/${detailImage.url4}`}
-            />
-            <ShopImage
-              onLoad={handleImageLoading}
-              alt="상품 디테일 이미지"
-              src={`${process.env.PUBLIC_URL}/${detailImage.url5}`}
-            />
-          </ShopImageGalleryBox>
         </ShopDetailImgBox>
         <ShopDetailContentBox>
           <ShopDetailTitleBox>
