@@ -170,14 +170,15 @@ const Order = () => {
   };
 
   const [daumPostModal, setDaumPostModal] = useState(false);
-  const onCompleteAdress = (e) => {
-    console.log(e);
-    setAddress(e.address);
+  const onCompleteAdress = (event) => {
+    setAddress(event.address);
     setDaumPostModal(false);
   };
 
   const [address, setAddress] = useState("");
   const cartItems = useSelector((state) => state.cartItems || []);
+  const { user } = useSelector((state) => state.user);
+  const key = Object.keys(user);
   return (
     <OrderContainer>
       {daumPostModal && (
@@ -200,19 +201,31 @@ const Order = () => {
             <OrderInfoSpanBox>
               <OrderInfolabel htmlFor="name">이름</OrderInfolabel>
             </OrderInfoSpanBox>
-            <OrdererInfoInput type="text" id="name" />
+            <OrdererInfoInput
+              type="text"
+              id="name"
+              value={user[key] && user[key].name}
+            />
           </OrderInfoBox>
           <OrderInfoBox>
             <OrderInfoSpanBox>
               <OrderInfolabel htmlFor="phone">전화번호</OrderInfolabel>
             </OrderInfoSpanBox>
-            <OrdererInfoInput type="text" id="phone" />
+            <OrdererInfoInput
+              type="text"
+              id="phone"
+              value={user[key] && user[key].phone}
+            />
           </OrderInfoBox>
           <OrderInfoBox>
             <OrderInfoSpanBox>
               <OrderInfolabel htmlFor="email">이메일</OrderInfolabel>
             </OrderInfoSpanBox>
-            <OrdererInfoInput type="text" id="email" />
+            <OrdererInfoInput
+              type="text"
+              id="email"
+              value={user[key] && user[key].email}
+            />
           </OrderInfoBox>
         </OrderBox>
         <OrderBox>
@@ -222,14 +235,21 @@ const Order = () => {
             <OrderInfoSpanBox>
               <OrderInfoSapn>사용가능쿠폰</OrderInfoSapn>
             </OrderInfoSpanBox>
-            <OrderInfoSapn>10개</OrderInfoSapn>
+            <OrderInfoSapn>
+              {user[key].coupon ? user[key].coupon : 0} 개
+            </OrderInfoSapn>
           </OrderInfoBox>
           <OrderInfoBox>
             <OrderInfoSpanBox>
               <OrderInfoSapn>적립금</OrderInfoSapn>
             </OrderInfoSpanBox>
-            <PointInput type="text" id="point" />
-            <OrderInfoSapn> 원</OrderInfoSapn>
+            <PointInput
+              type="text"
+              id="point"
+              max={user[key] && user[key].point}
+              value={user[key] && user[key].point}
+            />
+            <OrderInfoSapn>원</OrderInfoSapn>
             {/*  !버튼 사용 고민중 */}
             {/* <OrderButton>사용하기</OrderButton> */}
           </OrderInfoBox>
