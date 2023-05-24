@@ -1,5 +1,5 @@
 import { db } from "../Firebase";
-import { ref, get, child, set } from "firebase/database";
+import { ref, get, set, query, orderByKey, equalTo } from "firebase/database";
 
 export const getProducts = async () => {
   const productsRef = ref(db, "products");
@@ -41,7 +41,7 @@ export const getDetailItem = async (pid) => {
 };
 
 export const getCartItem = async (id) => {
-  const productsRef = ref(db, "cart_items/U01");
+  const productsRef = ref(db, "cart_items/" + id);
   const snapshot = await get(productsRef);
 
   if (!snapshot.exists()) {
@@ -62,10 +62,22 @@ export const postSignup = async (userInfo) => {
     coupon: {},
     point: 3000,
     userId: userInfo.uId,
+    email: userInfo.email,
     name: userInfo.name,
     phone: userInfo.phone,
     address: userInfo.address,
     detailAddress: userInfo.detailAddress,
   };
   set(ref(db, "users/" + userInfo.uId), data);
+};
+
+// !login
+export const getUser = async (userId) => {
+  const queryRef = query(
+    ref(db, "users"),
+    orderByKey("userId"),
+    equalTo(userId)
+  );
+  const snapshot = await get(queryRef);
+  return snapshot.val();
 };
