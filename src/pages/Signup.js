@@ -262,6 +262,7 @@ const Signup = () => {
       const userInfo = {
         uId: user.user.uid,
         name,
+        email: id,
         id,
         password,
         phone,
