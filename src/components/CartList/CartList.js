@@ -10,8 +10,8 @@ const Tbody = styled.tbody`
 const CartList = ({ cartItems, orderNowMode }) => {
   return cartItems.length !== 0 ? (
     <Tbody>
-      {cartItems.map((item) => (
-        <CartItem key={item.pid} item={item} orderNowMode={orderNowMode} />
+      {cartItems.map((item, index) => (
+        <CartItem key={index} item={item} orderNowMode={orderNowMode} />
       ))}
     </Tbody>
   ) : (
