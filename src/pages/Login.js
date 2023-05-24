@@ -2,10 +2,10 @@ import { signInWithEmailAndPassword } from "firebase/auth";
 import React, { useEffect, useRef, useState } from "react";
 import { Link, useLocation, useNavigate } from "react-router-dom";
 import styled from "styled-components";
-import { auth, db } from "../Firebase";
+import { auth } from "../Firebase";
 import { useDispatch } from "react-redux";
 import { login } from "../reducers/userSlice";
-import { equalTo, get, orderByKey, query, ref } from "firebase/database";
+import { getUser } from "../apis/apis";
 
 const LoginWrapper = styled.div`
   display: flex;
@@ -179,19 +179,13 @@ function Login() {
   const dispatch = useDispatch();
   const onLoginHandler = async (event) => {
     try {
+      // ! 이메일 주소와 비밀번호로 사용자 로그인 처리
       const userCredential = await signInWithEmailAndPassword(
         auth,
         id,
         password
       );
-      const userId = userCredential.user.uid;
-      const queryRef = query(
-        ref(db, "users"),
-        orderByKey("userId"),
-        equalTo(userId)
-      );
-      const snapshot = await get(queryRef);
-      const userInfo = snapshot.val();
+      const userInfo = await getUser(userCredential.user.uid);
       dispatch(login(userInfo));
       navigator("/");
     } catch (err) {
