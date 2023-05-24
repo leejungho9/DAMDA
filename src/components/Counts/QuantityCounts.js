@@ -1,7 +1,7 @@
 import React from "react";
 import { AiOutlineMinus, AiOutlinePlus } from "react-icons/ai";
 import styled from "styled-components";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { minusQuantity, plusQuantity } from "../../reducers/cartSlice";
 const ShopDetailQuantity = styled.div`
   display: flex;
@@ -28,16 +28,18 @@ const QuantityButton = styled.button`
 
 const QuantityCounts = ({ quantity, setQuantity, pid, orderNowMode }) => {
   const dispatch = useDispatch();
+  const { user } = useSelector((state) => state.user);
+  const userId = [Object.keys(user)].join("");
 
   const plusQuantityHandler = () => {
     if (quantity < 20) {
-      dispatch(plusQuantity({ pid, quantity }));
+      dispatch(plusQuantity({ pid, userId }));
       setQuantity && setQuantity(quantity + 1);
     }
   };
   const minusQuantityHandler = () => {
     if (quantity > 1) {
-      dispatch(minusQuantity({ pid, quantity }));
+      dispatch(minusQuantity({ pid, userId }));
       setQuantity && setQuantity(quantity - 1);
     }
   };
