@@ -2,10 +2,11 @@ import React from "react";
 import styled from "styled-components";
 import QuantityCounts from "../Counts/QuantityCounts";
 import { Link } from "react-router-dom";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { removeCartItem } from "../../reducers/cartSlice";
 import { IoMdClose } from "react-icons/io";
 import PriceFormat from "../../hooks/PriceFormat";
+
 const ProductImg = styled.img`
   width: 68px;
   height: 68px;
@@ -21,15 +22,16 @@ const CloseIcon = styled(IoMdClose)`
 
 const CartItem = ({ orderNowMode, item }) => {
   const dispatch = useDispatch();
+  const { user } = useSelector((state) => state.user);
+  const userId = [Object.keys(user)].join("");
+
   const onRemoveCartItem = (pid) => {
-    dispatch(removeCartItem(pid));
+    dispatch(removeCartItem({ pid, userId }));
   };
 
   return (
     <tr key={item.pid}>
-      <td className="t_1">
-        <input type="checkbox" />
-      </td>
+      <td className="t_1">{!orderNowMode && <input type="checkbox" />}</td>
       <td className="t_2">
         <Link to={`/shop/${item.pid}`}>
           <ProductImg
@@ -51,9 +53,11 @@ const CartItem = ({ orderNowMode, item }) => {
           orderNowMode={orderNowMode}
         />
       </td>
-      <td className="t_5">{PriceFormat(item.price)}</td>
-      <td className="t_6" onClick={() => onRemoveCartItem(item.pid)}>
-        <CloseIcon />
+      <td className="t_5">{PriceFormat(item.price * item.quantity)}</td>
+      <td className="t_6">
+        {!orderNowMode && (
+          <CloseIcon onClick={() => onRemoveCartItem(item.pid)} />
+        )}
       </td>
     </tr>
   );
