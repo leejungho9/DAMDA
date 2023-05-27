@@ -123,22 +123,18 @@ const ShoppingCart = () => {
   const [totalPrice, setTotalPrice] = useState(0);
   const [orderNowMode, setOrderNowMode] = useState(false);
   const location = useLocation();
-  const { user } = useSelector((state) => state.user);
-  const userId = [Object.keys(user)].join("");
 
   useEffect(() => {
     //! user가 없을 시 로그인 페이지 이동
-    if (Object.keys(user).length === 0) {
-      navigator("/login");
+    const userId = sessionStorage.getItem("userId");
+    if (userId === null) {
+      navigator("/");
       return;
     }
     if (location.pathname === "/orders") {
       setOrderNowMode(true);
     }
-  }, []);
-
-  // * getCartItem : 카트 아이템 가져오기
-  useEffect(() => {
+    // * getCartItem : 카트 아이템 가져오기
     const getCartItemFunc = async () => {
       try {
         const cartItems = await getCartItem(userId);
@@ -148,7 +144,7 @@ const ShoppingCart = () => {
       }
     };
     getCartItemFunc();
-  }, [dispatch]);
+  }, []);
 
   useEffect(() => {
     // * CartItem 총 금액 구하기
