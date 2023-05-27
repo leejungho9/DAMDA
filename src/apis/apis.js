@@ -1,8 +1,7 @@
-import { getAuth, getIdToken, onAuthStateChanged } from "firebase/auth";
+import { getAuth, onAuthStateChanged } from "firebase/auth";
 import { db } from "../Firebase";
 import { ref, get, set, query } from "firebase/database";
-import { useDispatch } from "react-redux";
-import { login } from "../reducers/userSlice";
+import { addCartItem } from "../reducers/cartSlice";
 
 export const getProducts = async () => {
   const productsRef = ref(db, "products");
@@ -117,5 +116,44 @@ export const CheckLoginUserInfo = async () => {
     return userInfo;
   } else {
     return undefined;
+  }
+};
+
+//! 장바구니 추가 함수
+export const AddCartHandler = async (item, quantity, dispatch) => {
+  // ! 비로그인 장바구니 사용 x
+  const userId = sessionStorage.getItem("userId");
+
+  if (userId === null) {
+    navigator("/login");
+    return;
+  }
+  let check = await checkCart(item.pid);
+  if (check) {
+    alert("이미 장바구니에 추가된 상품입니다.");
+  } else {
+    const data = {
+      pid: Number(item.pid),
+      title: item.title,
+      company: item.company,
+      quantity: quantity,
+      url: item.url,
+      price: item.price,
+      discount: Number(item.discount),
+    };
+
+    dispatch(addCartItem({ data, userId }));
+    alert("상품이 정상적으로 장바구니에 담겼습니다.");
+  }
+};
+
+export const checkCart = async (id) => {
+  const userId = sessionStorage.getItem("userId");
+  // ! 장바구니 상품 중복 체크
+  try {
+    const cartItems = await getCartItem(userId);
+    return cartItems.some((item) => Number(item.pid) === Number(id));
+  } catch (error) {
+    console.log(error);
   }
 };
