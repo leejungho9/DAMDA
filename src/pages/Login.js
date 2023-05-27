@@ -163,8 +163,6 @@ function Login() {
   const naverRef = useRef(null);
   const location = useLocation();
   const [isLogin, setLogin] = useState([]);
-  const [user, setUser] = useState([]);
-
   // ! 로그인 상태 관리
   const [id, setId] = useState("");
   const [password, setPassword] = useState("");
@@ -185,8 +183,12 @@ function Login() {
         id,
         password
       );
-      const userInfo = await getUser(userCredential.user.uid);
-      dispatch(login(userInfo));
+      const user = userCredential.user;
+      const userInfo = await getUser(user.uid);
+      dispatch(login({ user: userInfo }));
+
+      sessionStorage.setItem("userId", user.uid);
+
       navigator("/");
     } catch (err) {
       switch (err.code) {
@@ -204,6 +206,7 @@ function Login() {
       }
     }
   };
+
   const { naver } = window;
   const NAVER_CLIENT_ID = `${process.env.REACT_APP_NAVER_CLIENT_ID}`; // 발급 받은 Client ID 입력
   const NAVER_CALLBACK_URL = `${process.env.REACT_APP_NAVER_CALLBACK_URL}`; // 작성했던 Callback URL 입력
