@@ -7,11 +7,17 @@ import BestDetailReview from "../components/BestDetailReview";
 import LineBar from "../components/BorderBar";
 import ImageSkeleton from "../components/Skeleton/ImageSkeleton";
 import QuantityCounts from "../components/Counts/QuantityCounts";
-import { getCartItem, getDetailImage, getDetailItem } from "../apis/apis";
+import {
+  getCartItem,
+  getDetailImage,
+  getDetailItem,
+  getWishItem,
+} from "../apis/apis";
 import { useDispatch, useSelector } from "react-redux";
 import { addCartItem } from "../reducers/cartSlice";
 import Button from "../components/Button/Button";
 import PriceFormat from "../hooks/PriceFormat";
+import { addWishItem } from "../reducers/wishSlice";
 const ShopDetailWrapper = styled.div`
   padding-top: 90px;
   margin: 0 auto;
@@ -185,13 +191,47 @@ function ShopDetail(props) {
 
     fetchDetailItem();
   }, []);
-
+  const checkWish = async () => {
+    // ! 관심상품 중복 체크
+    try {
+      const wishItems = await getWishItem(userId);
+      return wishItems.some((item) => Number(item.pid) === Number(id));
+    } catch (error) {
+      console.log(error);
+    }
+  };
   const checkCart = async () => {
+    // ! 장바구니 상품 중복 체크
     try {
       const cartItems = await getCartItem(userId);
       return cartItems.some((item) => Number(item.pid) === Number(id));
     } catch (error) {
       console.log(error);
+    }
+  };
+  const AddWishHandler = async () => {
+    // ! 비로그인 관심상품 사용 x
+    if (Object.keys(user).length === 0) {
+      navigator("/login");
+      return;
+    }
+    let check = await checkWish();
+
+    if (check) {
+      alert("이미 관심상품으로 지정된 상품입니다.");
+    } else {
+      const data = {
+        pid: Number(id),
+        title: detail.title,
+        company: detail.company,
+        quantity: quantity,
+        url: detail.url,
+        price: detail.price,
+        discount: Number(detail.discount),
+      };
+
+      dispatch(addWishItem({ data, userId }));
+      alert("상품이 정상적으로 관심상품에 담겼습니다.");
     }
   };
   const AddCartHandler = async () => {
@@ -285,7 +325,10 @@ function ShopDetail(props) {
             <ShopContentItemTitle>{detail.title}</ShopContentItemTitle>
             <ShopIconsBox>
               <BsCart4 className="icons cartIcon" onClick={AddCartHandler} />
-              <AiOutlineHeart className="icons heartIcon" />
+              <AiOutlineHeart
+                className="icons heartIcon"
+                onClick={AddWishHandler}
+              />
             </ShopIconsBox>
           </ShopDetailTitleBox>
           <BorderBar />
