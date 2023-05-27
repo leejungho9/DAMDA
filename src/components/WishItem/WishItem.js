@@ -1,6 +1,8 @@
 import React from "react";
 import { BsCart4 } from "react-icons/bs";
 import styled from "styled-components";
+import { AddCartHandler } from "../../apis/apis";
+import { useDispatch } from "react-redux";
 
 const WishImageBox = styled.div`
   width: 300px;
@@ -74,12 +76,12 @@ const CheckInput = styled.input`
 `;
 
 const WishItem = ({ item, editMode }) => {
-  const addCartHandler = () => {};
+  const dispatch = useDispatch();
   return (
     <WishImageBox>
       <WishImage src={item.url} alt="이미지" />
       <CartIconBox>
-        <CartIcon onClick={addCartHandler} />
+        <CartIcon onClick={() => AddCartHandler(item, 1, dispatch)} />
       </CartIconBox>
       {editMode && (
         <CloseBox>
