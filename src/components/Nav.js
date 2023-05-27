@@ -4,9 +4,11 @@ import { FiUser, FiSearch } from "react-icons/fi";
 import { Link } from "react-router-dom";
 import Sidebar from "./Sidebar";
 import { BsCart4, BsHeart } from "react-icons/bs";
-import { useDispatch, useSelector } from "react-redux";
+import { useDispatch } from "react-redux";
 import { IoIosLogOut } from "react-icons/io";
 import { logout } from "../reducers/userSlice";
+import { signOut } from "firebase/auth";
+import { auth } from "../Firebase";
 
 const NavWrapper = styled.div`
   z-index: 1;
@@ -146,11 +148,20 @@ const SidebarContainer = styled.div`
 
 function Nav(props) {
   const [isSidebar, setSidebar] = useState(false);
-  const { isLoggedIn } = useSelector((state) => state.user);
+  const userId = sessionStorage.getItem("userId");
   const dispatch = useDispatch();
+
+  //! 로그아웃
   const handleLogout = () => {
-    dispatch(logout());
-    window.location.href = "/";
+    signOut(auth)
+      .then((response) => {
+        localStorage.removeItem("userId");
+        dispatch(logout());
+        window.location.href = "/";
+      })
+      .catch((error) => {
+        console.log(error);
+      });
   };
   return (
     <nav>
@@ -166,17 +177,16 @@ function Nav(props) {
               <a>BRAND</a>
             </MenuContainer>
             <IconsContainer>
-              {isLoggedIn ? (
+              {userId ? (
                 <>
                   <FiUser className="icon userIcon user-login" />
-                  <IconMenuBox
-                    className="icon iconMenuBox"
-                    checkLogin={isLoggedIn}
-                  >
+                  <IconMenuBox className="icon iconMenuBox" checkLogin={userId}>
                     <Link to="/cart">
                       <BsCart4 className="icon cartIcon" />
                     </Link>
-                    <BsHeart className="icon heartIcon" />
+                    <Link to="/wish">
+                      <BsHeart className="icon heartIcon" />
+                    </Link>
                     <IoIosLogOut
                       className="icon logoutIcon"
                       onClick={handleLogout}
@@ -188,14 +198,13 @@ function Nav(props) {
                   <Link to="/login">
                     <FiUser className="icon userIcon" />
                   </Link>
-                  <IconMenuBox
-                    className="icon iconMenuBox"
-                    checkLogin={isLoggedIn}
-                  >
+                  <IconMenuBox className="icon iconMenuBox" checkLogin={userId}>
                     <Link to="/cart">
                       <BsCart4 className="icon cartIcon" />
                     </Link>
-                    <BsHeart className="icon heartIcon" />
+                    <Link to="/wish">
+                      <BsHeart className="icon heartIcon" />
+                    </Link>
                   </IconMenuBox>
                 </>
               )}
