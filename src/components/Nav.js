@@ -155,7 +155,7 @@ function Nav(props) {
   const handleLogout = () => {
     signOut(auth)
       .then((response) => {
-        localStorage.removeItem("userId");
+        sessionStorage.removeItem("userId");
         dispatch(logout());
         window.location.href = "/";
       })
