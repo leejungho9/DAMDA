@@ -1,5 +1,8 @@
+import { getAuth, getIdToken, onAuthStateChanged } from "firebase/auth";
 import { db } from "../Firebase";
-import { ref, get, set, query, orderByKey, equalTo } from "firebase/database";
+import { ref, get, set, query } from "firebase/database";
+import { useDispatch } from "react-redux";
+import { login } from "../reducers/userSlice";
 
 export const getProducts = async () => {
   const productsRef = ref(db, "products");
@@ -40,6 +43,22 @@ export const getDetailItem = async (pid) => {
   return product;
 };
 
+export const getWishItem = async (id) => {
+  const productsRef = ref(db, "wish_items/" + id);
+  const snapshot = await get(productsRef);
+
+  if (!snapshot.exists()) {
+    return null;
+  }
+  const wishItems = [];
+  snapshot.forEach((childSnapshot) => {
+    const product = childSnapshot.val();
+    wishItems.push(product);
+  });
+
+  return wishItems;
+};
+
 export const getCartItem = async (id) => {
   const productsRef = ref(db, "cart_items/" + id);
   const snapshot = await get(productsRef);
@@ -73,11 +92,30 @@ export const postSignup = async (userInfo) => {
 
 // !login
 export const getUser = async (userId) => {
-  const queryRef = query(
-    ref(db, "users"),
-    orderByKey("userId"),
-    equalTo(userId)
-  );
+  const queryRef = query(ref(db, "users/" + userId));
   const snapshot = await get(queryRef);
   return snapshot.val();
+};
+
+// ! 현재 로그인한 사용자 정보 가져오기 (혹시 모르니 남겨두기)
+
+export const CheckLoginUserInfo = async () => {
+  const auth = getAuth();
+
+  const getLoggedInUserId = new Promise((resolve, reject) => {
+    onAuthStateChanged(auth, (user) => {
+      if (user) {
+        resolve(user.uid);
+      } else {
+        reject(null);
+      }
+    });
+  });
+  if (getLoggedInUserId) {
+    const userId = await getLoggedInUserId;
+    const userInfo = await getUser(userId);
+    return userInfo;
+  } else {
+    return undefined;
+  }
 };
