@@ -118,7 +118,6 @@ function Shop() {
     fetchProducts();
   }, [isCategory]);
 
-  console.log(isProduct);
   const radioRef = useRef([]);
 
   const CreatedItem = isProduct.map((el) => {
