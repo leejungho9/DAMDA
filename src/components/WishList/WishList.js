@@ -1,11 +1,16 @@
 import React from "react";
 import WishItem from "../WishItem/WishItem";
-const WishList = ({ wishItems, editMode }) => {
-  console.log(wishItems);
+const WishList = ({ wishItems, editMode, setCheckItemId, checkItemId }) => {
   return wishItems.length !== 0 ? (
     <>
       {wishItems.map((item, index) => (
-        <WishItem item={item} key={item.pid} editMode={editMode} />
+        <WishItem
+          item={item}
+          key={item.pid}
+          editMode={editMode}
+          setCheckItemId={setCheckItemId}
+          checkItemId={checkItemId}
+        />
       ))}
     </>
   ) : (
