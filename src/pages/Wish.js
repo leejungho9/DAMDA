@@ -3,7 +3,7 @@ import styled from "styled-components";
 import WishList from "../components/WishList/WishList";
 import { useDispatch, useSelector } from "react-redux";
 import { getWishItem } from "../apis/apis";
-import { setWishItem } from "../reducers/wishSlice";
+import { removeWishItem, setWishItem } from "../reducers/wishSlice";
 import { useNavigate } from "react-router-dom";
 
 const WishContainer = styled.main`
@@ -58,9 +58,10 @@ const WiShEditMenuBox = styled.div``;
 const Wish = () => {
   const dispatch = useDispatch();
   const navigator = useNavigate();
+  const wishItems = useSelector((state) => state.wishItems || []);
   const [editMode, setEditMode] = useState(false);
   const userId = sessionStorage.getItem("userId");
-
+  const [checkItemId, setCheckItemId] = useState([]);
   useEffect(() => {
     // //! user가 없을 시 로그인 페이지 이동
     if (userId === null) {
@@ -69,11 +70,19 @@ const Wish = () => {
     }
   }, []);
 
-  const handleEditMode = () => {
+  const editModeHandle = () => {
     setEditMode(!editMode);
   };
 
-  const wishItems = useSelector((state) => state.wishItems || []);
+  //! 관심상품 삭제하기
+  const checkRemoveHandler = async () => {
+    try {
+      dispatch(removeWishItem({ checkItemId, userId }));
+      setEditMode(false);
+    } catch (error) {
+      console.log(error);
+    }
+  };
 
   // * getWishItem : 관심상품 가져오기
   useEffect(() => {
@@ -86,26 +95,31 @@ const Wish = () => {
       }
     };
     getWishItemFunc();
-  }, []);
+  }, [wishItems]);
 
   return (
     <WishContainer>
       <WishTitleH1>관심상품</WishTitleH1>
       <WishCountBox>
-        <WishCountSpan>총 5 개 </WishCountSpan>
+        <WishCountSpan>총 {wishItems.length}개 </WishCountSpan>
 
         {editMode ? (
           <WiShEditMenuBox>
-            <WishEditSpan>삭제 </WishEditSpan>
-            <WishEditSpan onClick={handleEditMode}>취소 </WishEditSpan>
+            <WishEditSpan onClick={checkRemoveHandler}>삭제 </WishEditSpan>
+            <WishEditSpan onClick={editModeHandle}>취소 </WishEditSpan>
           </WiShEditMenuBox>
         ) : (
-          <WishEditSpan onClick={handleEditMode}>편집 </WishEditSpan>
+          <WishEditSpan onClick={editModeHandle}>편집 </WishEditSpan>
         )}
       </WishCountBox>
       <hr />
       <WishBox>
-        <WishList editMode={editMode} wishItems={wishItems} />
+        <WishList
+          editMode={editMode}
+          wishItems={wishItems}
+          setCheckItemId={setCheckItemId}
+          checkItemId={checkItemId}
+        />
       </WishBox>
     </WishContainer>
   );
