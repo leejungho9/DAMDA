@@ -4,7 +4,7 @@ import { FiUser, FiSearch } from "react-icons/fi";
 import { Link } from "react-router-dom";
 import Sidebar from "./Sidebar";
 import { BsCart4, BsHeart } from "react-icons/bs";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { IoIosLogOut } from "react-icons/io";
 import { logout } from "../reducers/userSlice";
 import { signOut } from "firebase/auth";
@@ -150,6 +150,7 @@ function Nav(props) {
   const [isSidebar, setSidebar] = useState(false);
   const userId = sessionStorage.getItem("userId");
   const dispatch = useDispatch();
+  const { isLoggedIn } = useSelector((state) => state.user);
 
   //! 로그아웃
   const handleLogout = () => {
@@ -177,10 +178,13 @@ function Nav(props) {
               <a>BRAND</a>
             </MenuContainer>
             <IconsContainer>
-              {userId ? (
+              {isLoggedIn ? (
                 <>
                   <FiUser className="icon userIcon user-login" />
-                  <IconMenuBox className="icon iconMenuBox" checkLogin={userId}>
+                  <IconMenuBox
+                    className="icon iconMenuBox"
+                    checkLogin={userId !== null}
+                  >
                     <Link to="/cart">
                       <BsCart4 className="icon cartIcon" />
                     </Link>
@@ -198,7 +202,10 @@ function Nav(props) {
                   <Link to="/login">
                     <FiUser className="icon userIcon" />
                   </Link>
-                  <IconMenuBox className="icon iconMenuBox" checkLogin={userId}>
+                  <IconMenuBox
+                    className="icon iconMenuBox"
+                    checkLogin={userId !== null}
+                  >
                     <Link to="/cart">
                       <BsCart4 className="icon cartIcon" />
                     </Link>
