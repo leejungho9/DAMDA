@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useRef } from "react";
 import { BsCart4 } from "react-icons/bs";
 import styled from "styled-components";
 import { AddCartHandler } from "../../apis/apis";
@@ -75,8 +75,19 @@ const CheckInput = styled.input`
   }
 `;
 
-const WishItem = ({ item, editMode }) => {
+const WishItem = ({ item, editMode, setCheckItemId, checkItemId }) => {
   const dispatch = useDispatch();
+  const checkRef = useRef(null);
+  const ChangeCheckHandler = () => {
+    checkRef.current.checked = !checkRef.current.checked;
+    if (checkRef.current.checked) {
+      setCheckItemId([...checkItemId, item.pid]);
+    } else {
+      setCheckItemId((prevItemId) =>
+        prevItemId.filter((id) => id !== item.pid)
+      );
+    }
+  };
   return (
     <WishImageBox>
       <WishImage src={item.url} alt="이미지" />
@@ -84,8 +95,8 @@ const WishItem = ({ item, editMode }) => {
         <CartIcon onClick={() => AddCartHandler(item, 1, dispatch)} />
       </CartIconBox>
       {editMode && (
-        <CloseBox>
-          <CheckInput type="checkbox"></CheckInput>
+        <CloseBox onClick={ChangeCheckHandler}>
+          <CheckInput type="checkbox" ref={checkRef}></CheckInput>
         </CloseBox>
       )}
     </WishImageBox>
