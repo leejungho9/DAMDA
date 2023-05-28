@@ -13,7 +13,7 @@ import {
   getDetailItem,
   getWishItem,
 } from "../apis/apis";
-import { useDispatch, useSelector } from "react-redux";
+import { useDispatch } from "react-redux";
 import Button from "../components/Button/Button";
 import PriceFormat from "../hooks/PriceFormat";
 import { addWishItem } from "../reducers/wishSlice";
@@ -161,8 +161,7 @@ function ShopDetail(props) {
   const [quantity, setQuantity] = useState(1);
   const [isLoading, setIsLoading] = useState(true);
   // ! store에 있는 user 정보
-  const { user } = useSelector((state) => state.user);
-  const userId = [Object.keys(user)].join("");
+  const userId = sessionStorage.getItem("userId");
 
   useEffect(() => {
     const fetchDetailImg = async () => {
@@ -202,7 +201,7 @@ function ShopDetail(props) {
 
   const AddWishHandler = async () => {
     // ! 비로그인 관심상품 사용 x
-    if (Object.keys(user).length === 0) {
+    if (userId === null) {
       navigator("/login");
       return;
     }
