@@ -9,14 +9,13 @@ import ImageSkeleton from "../components/Skeleton/ImageSkeleton";
 import QuantityCounts from "../components/Counts/QuantityCounts";
 import {
   AddCartHandler,
+  AddWishHandler,
   getDetailImage,
   getDetailItem,
-  getWishItem,
 } from "../apis/apis";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import Button from "../components/Button/Button";
 import PriceFormat from "../hooks/PriceFormat";
-import { addWishItem } from "../reducers/wishSlice";
 const ShopDetailWrapper = styled.div`
   padding-top: 90px;
   margin: 0 auto;
@@ -160,8 +159,9 @@ function ShopDetail(props) {
   const [detailImage, setdetailImage] = useState([]);
   const [quantity, setQuantity] = useState(1);
   const [isLoading, setIsLoading] = useState(true);
-  // ! store에 있는 user 정보
-  const userId = sessionStorage.getItem("userId");
+
+  const { isLoggedIn, user } = useSelector((state) => state.user);
+  const userId = user.userId;
 
   useEffect(() => {
     const fetchDetailImg = async () => {
@@ -189,43 +189,6 @@ function ShopDetail(props) {
 
     fetchDetailItem();
   }, []);
-  const checkWish = async () => {
-    // ! 관심상품 중복 체크
-    try {
-      const wishItems = await getWishItem(userId);
-      return wishItems.some((item) => Number(item.pid) === Number(id));
-    } catch (error) {
-      console.log(error);
-    }
-  };
-
-  const AddWishHandler = async () => {
-    // ! 비로그인 관심상품 사용 x
-    if (userId === null) {
-      navigator("/login");
-      return;
-    }
-    let check = await checkWish();
-
-    if (check) {
-      alert("이미 관심상품으로 지정된 상품입니다.");
-    } else {
-      const data = {
-        pid: Number(id),
-        title: detail.title,
-        company: detail.company,
-        quantity: quantity,
-        url: detail.url,
-        price: detail.price,
-        discount: Number(detail.discount),
-      };
-
-      dispatch(addWishItem({ data, userId }));
-      alert("상품이 정상적으로 관심상품에 담겼습니다.");
-    }
-  };
-
-  const clickOrder = () => {};
 
   const onClickNaverPayButton = () => {
     const oPay = window.Naver.Pay.create({
@@ -243,6 +206,25 @@ function ShopDetail(props) {
         Math.floor(detail.price * (1 - detail.discount / 100)) * quantity, // ? 면세금액
       returnUrl: `${process.env.REACT_APP_API}/shop/${detail.pid}`,
     });
+  };
+
+  const clickAddCartButton = () => {
+    if (!isLoggedIn) {
+      alert("로그인 후 이용가능합니다.");
+      navigator("/login");
+      return;
+    }
+    AddCartHandler(detail, quantity, dispatch, userId);
+  };
+
+  const clickAddWishButton = () => {
+    if (!isLoggedIn) {
+      alert("로그인 후 이용가능합니다.");
+      navigator("/login");
+      return;
+    }
+
+    AddWishHandler(detail, quantity, dispatch, userId);
   };
   return (
     <ShopDetailWrapper>
@@ -292,11 +274,11 @@ function ShopDetail(props) {
             <ShopIconsBox>
               <BsCart4
                 className="icons cartIcon"
-                onClick={() => AddCartHandler(detail, quantity, dispatch)}
+                onClick={clickAddCartButton}
               />
               <AiOutlineHeart
                 className="icons heartIcon"
-                onClick={AddWishHandler}
+                onClick={clickAddWishButton}
               />
             </ShopIconsBox>
           </ShopDetailTitleBox>
@@ -363,7 +345,6 @@ function ShopDetail(props) {
               width={305}
               height={55}
               radius={10}
-              onClick={clickOrder}
               className="orderButton"
               icon={false}
               link={true}
