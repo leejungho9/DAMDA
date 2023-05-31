@@ -29,7 +29,7 @@ const QuantityButton = styled.button`
 const QuantityCounts = ({ quantity, setQuantity, pid, orderNowMode }) => {
   const dispatch = useDispatch();
   const { user } = useSelector((state) => state.user);
-  const userId = [Object.keys(user)].join("");
+  const userId = user.userId;
 
   const plusQuantityHandler = () => {
     if (quantity < 20) {
