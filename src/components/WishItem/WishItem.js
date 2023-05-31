@@ -2,7 +2,7 @@ import React, { useRef } from "react";
 import { BsCart4 } from "react-icons/bs";
 import styled from "styled-components";
 import { AddCartHandler } from "../../apis/apis";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 
 const WishImageBox = styled.div`
   width: 300px;
@@ -78,6 +78,9 @@ const CheckInput = styled.input`
 const WishItem = ({ item, editMode, setCheckItemId, checkItemId }) => {
   const dispatch = useDispatch();
   const checkRef = useRef(null);
+  const { isLoggedIn, user } = useSelector((state) => state.user);
+  const userId = user.userId;
+
   const ChangeCheckHandler = () => {
     checkRef.current.checked = !checkRef.current.checked;
     if (checkRef.current.checked) {
@@ -88,11 +91,20 @@ const WishItem = ({ item, editMode, setCheckItemId, checkItemId }) => {
       );
     }
   };
+
+  const clickAddCartButton = () => {
+    if (!isLoggedIn) {
+      alert("로그인 후 이용가능합니다.");
+      navigator("/login");
+      return;
+    }
+    AddCartHandler(item, 1, dispatch, userId);
+  };
   return (
     <WishImageBox>
       <WishImage src={item.url} alt="이미지" />
       <CartIconBox>
-        <CartIcon onClick={() => AddCartHandler(item, 1, dispatch)} />
+        <CartIcon onClick={clickAddCartButton} />
       </CartIconBox>
       {editMode && (
         <CloseBox onClick={ChangeCheckHandler}>
