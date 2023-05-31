@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect } from "react";
 import styled from "styled-components";
 import ShoppingCart from "../components/ShoppingCart/ShoppingCart";
 import DaumPostcode from "react-daum-postcode";
@@ -178,7 +178,19 @@ const Order = () => {
   const [address, setAddress] = useState("");
   const cartItems = useSelector((state) => state.cartItems || []);
   const { user } = useSelector((state) => state.user);
-  const key = Object.keys(user);
+
+  const [count, setCount] = useState(0);
+
+  useEffect(() => {
+    for (const key in user.coupon) {
+      console.log(key);
+      console.log(user.coupon[key].status);
+      if (user.coupon[key].status === false) {
+        setCount(count + 1);
+      }
+    }
+  }, [user]);
+  console.log(count);
   return (
     <OrderContainer>
       {daumPostModal && (
@@ -201,11 +213,7 @@ const Order = () => {
             <OrderInfoSpanBox>
               <OrderInfolabel htmlFor="name">이름</OrderInfolabel>
             </OrderInfoSpanBox>
-            <OrdererInfoInput
-              type="text"
-              id="name"
-              value={user[key] && user[key].name}
-            />
+            <OrdererInfoInput type="text" id="name" value={user && user.name} />
           </OrderInfoBox>
           <OrderInfoBox>
             <OrderInfoSpanBox>
@@ -214,7 +222,7 @@ const Order = () => {
             <OrdererInfoInput
               type="text"
               id="phone"
-              value={user[key] && user[key].phone}
+              value={user && user.phone}
             />
           </OrderInfoBox>
           <OrderInfoBox>
@@ -224,7 +232,7 @@ const Order = () => {
             <OrdererInfoInput
               type="text"
               id="email"
-              value={user[key] && user[key].email}
+              value={user && user.email}
             />
           </OrderInfoBox>
         </OrderBox>
@@ -235,9 +243,7 @@ const Order = () => {
             <OrderInfoSpanBox>
               <OrderInfoSapn>사용가능쿠폰</OrderInfoSapn>
             </OrderInfoSpanBox>
-            <OrderInfoSapn>
-              {user[key].coupon ? user[key].coupon : 0} 개
-            </OrderInfoSapn>
+            <OrderInfoSapn>{count} 개</OrderInfoSapn>
           </OrderInfoBox>
           <OrderInfoBox>
             <OrderInfoSpanBox>
@@ -246,8 +252,8 @@ const Order = () => {
             <PointInput
               type="text"
               id="point"
-              max={user[key] && user[key].point}
-              value={user[key] && user[key].point}
+              max={user && user.point}
+              value={user && user.point}
             />
             <OrderInfoSapn>원</OrderInfoSapn>
             {/*  !버튼 사용 고민중 */}
