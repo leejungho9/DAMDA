@@ -5,11 +5,13 @@ import { IoCloseOutline } from "react-icons/io5";
 
 const SidebarWrapper = styled.div`
   width: 375px;
-  background-color: #f7f8f8;
+  background-color: #fbfbfb;
   height: 100%;
   position: fixed;
   right: ${(props) => (props.state ? "0" : "-400px")};
   transition: all 0.35s;
+  z-index: 1;
+  top: 0;
 `;
 
 const SidebarContainer = styled.div`
@@ -41,7 +43,7 @@ const SearchInput = styled.input`
     outline: none;
   }
   &::placeholder {
-    color: #858585
+    color: #858585;
   }
 `;
 const TopSearched = styled.p`
@@ -71,11 +73,11 @@ const TopSearchedTag = styled.div`
 const PriceContainer = styled.div`
   position: relative;
   padding-top: 30px;
-`
+`;
 
 const SelectValue = styled.div`
   position: absolute;
-  top : -25%;
+  top: -25%;
   span {
     line-height: 24px;
     text-align: center;
@@ -86,7 +88,7 @@ const SelectValue = styled.div`
     left: 50%;
     transform: translate(-50%, 0);
 
-    &::before{
+    &::before {
       content: "";
       position: absolute;
       width: 0;
@@ -100,14 +102,13 @@ const SelectValue = styled.div`
       margin-top: -1px;
     }
   }
-
-`
+`;
 const PriceRange = styled.input.attrs({ type: "range" })`
   width: 100%;
   height: 3px;
   -webkit-appearance: none;
   background-color: #f28b39;
-  
+
   &::before {
     content: "";
     display: block;
@@ -130,19 +131,18 @@ const PriceRange = styled.input.attrs({ type: "range" })`
     -webkit-appearance: none;
     background: #ffffff;
     cursor: pointer;
-    border: 3px solid #f28b39; 
+    border: 3px solid #f28b39;
     border-radius: 50%;
-    height: 15px;   
+    height: 15px;
     width: 15px;
-    
-    &::-webkit-slider-thumb ::after{
+
+    &::-webkit-slider-thumb ::after {
       content: "=";
       display: block;
       background: #f28b39;
       width: 10px;
       border-radius: 50%;
       height: 10px;
-    
     }
   }
 `;
@@ -160,7 +160,7 @@ const RadioButton = styled.input.attrs({ type: "radio" })`
   width: 15px;
   height: 15px;
   cursor: pointer;
-  &:checked{
+  &:checked {
     background-color: #ffffff;
     border: 4px solid #f28b39;
     cursor: pointer;
@@ -177,20 +177,19 @@ function Sidebar({ isSidebar, setSidebar }) {
   const [value, setValue] = useState(0);
 
   const rangeChange = () => {
-    let min = rangeRef.current.min
-    let max = rangeRef.current.max
+    let min = rangeRef.current.min;
+    let max = rangeRef.current.max;
 
-    setValue(rangeRef.current.value)
-    const newValue = Number((value - min) * 100 / (max- min)),
-    newPosition = 20 - (newValue * 0.4);
+    setValue(rangeRef.current.value);
+    const newValue = Number(((value - min) * 100) / (max - min)),
+      newPosition = 20 - newValue * 0.4;
     valueRef.current.style.left = `calc(${newValue}% + (${newPosition}px))`;
     // console.log(value)
-  }
-  
+  };
 
   useEffect(() => {
     rangeChange();
-  },[value])
+  }, [value]);
 
   return (
     <SidebarWrapper state={isSidebar}>
@@ -209,10 +208,18 @@ function Sidebar({ isSidebar, setSidebar }) {
           <TopSearchedTag>명절선물</TopSearchedTag>
           <TopSearchedTag>명절선물</TopSearchedTag>
         </TagContainer>
-          <TopSearched>금액대</TopSearched>
+        <TopSearched>금액대</TopSearched>
         <PriceContainer>
-          <SelectValue ref={valueRef}><span>{value}</span></SelectValue>
-          <PriceRange ref={rangeRef} value={value} onChange={rangeChange}  min={0}max={200000}/>
+          <SelectValue ref={valueRef}>
+            <span>{value}</span>
+          </SelectValue>
+          <PriceRange
+            ref={rangeRef}
+            value={value}
+            onChange={rangeChange}
+            min={0}
+            max={200000}
+          />
         </PriceContainer>
         <TopSearched>배송</TopSearched>
         <RadioContainer>
