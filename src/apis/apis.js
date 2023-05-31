@@ -2,6 +2,7 @@ import { getAuth, onAuthStateChanged } from "firebase/auth";
 import { db } from "../Firebase";
 import { ref, get, set, query } from "firebase/database";
 import { addCartItem } from "../reducers/cartSlice";
+import { addWishItem } from "../reducers/wishSlice";
 
 export const getProducts = async () => {
   const productsRef = ref(db, "products");
@@ -70,7 +71,6 @@ export const getCartItem = async (id) => {
     const product = childSnapshot.val();
     cartItems.push(product);
   });
-
   return cartItems;
 };
 
@@ -97,38 +97,20 @@ export const getUser = async (userId) => {
 };
 
 // ! 현재 로그인한 사용자 정보 가져오기 (혹시 모르니 남겨두기)
-
 export const CheckLoginUserInfo = async () => {
   const auth = getAuth();
-
-  const getLoggedInUserId = new Promise((resolve, reject) => {
-    onAuthStateChanged(auth, (user) => {
-      if (user) {
-        resolve(user.uid);
-      } else {
-        reject(null);
-      }
-    });
+  onAuthStateChanged(auth, (user) => {
+    if (user) {
+      return true;
+    } else {
+      return false;
+    }
   });
-  if (getLoggedInUserId) {
-    const userId = await getLoggedInUserId;
-    const userInfo = await getUser(userId);
-    return userInfo;
-  } else {
-    return undefined;
-  }
 };
 
 //! 장바구니 추가 함수
-export const AddCartHandler = async (item, quantity, dispatch) => {
-  // ! 비로그인 장바구니 사용 x
-  const userId = sessionStorage.getItem("userId");
-
-  if (userId === null) {
-    navigator("/login");
-    return;
-  }
-  let check = await checkCart(item.pid);
+export const AddCartHandler = async (item, quantity, dispatch, userId) => {
+  let check = await CheckCart(item.pid, userId);
   if (check) {
     alert("이미 장바구니에 추가된 상품입니다.");
   } else {
@@ -147,12 +129,44 @@ export const AddCartHandler = async (item, quantity, dispatch) => {
   }
 };
 
-export const checkCart = async (id) => {
-  const userId = sessionStorage.getItem("userId");
-  // ! 장바구니 상품 중복 체크
+// ! 장바구니 상품 중복 체크
+const CheckCart = async (pid, userId) => {
   try {
     const cartItems = await getCartItem(userId);
-    return cartItems.some((item) => Number(item.pid) === Number(id));
+    return cartItems.some((item) => Number(item.pid) === Number(pid));
+  } catch (error) {
+    console.log(error);
+  }
+};
+
+export const AddWishHandler = async (item, quantity, dispatch, userId) => {
+  // ! 비로그인 관심상품 사용 x
+
+  let check = await checkWish(item.pid, userId);
+
+  if (check) {
+    alert("이미 관심상품으로 지정된 상품입니다.");
+  } else {
+    const data = {
+      pid: Number(item.pid),
+      title: item.title,
+      company: item.company,
+      quantity: quantity,
+      url: item.url,
+      price: item.price,
+      discount: Number(item.discount),
+    };
+
+    dispatch(addWishItem({ data, userId }));
+    alert("상품이 정상적으로 관심상품에 담겼습니다.");
+  }
+};
+
+// ! 관심상품 중복 체크
+const checkWish = async (pid, userId) => {
+  try {
+    const wishItems = await getWishItem(userId);
+    return wishItems.some((item) => Number(item.pid) === Number(pid));
   } catch (error) {
     console.log(error);
   }
