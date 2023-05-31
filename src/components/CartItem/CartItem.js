@@ -23,8 +23,7 @@ const CloseIcon = styled(IoMdClose)`
 const CartItem = ({ orderNowMode, item }) => {
   const dispatch = useDispatch();
   const { user } = useSelector((state) => state.user);
-  const userId = [Object.keys(user)].join("");
-
+  const userId = user.userId;
   const onRemoveCartItem = (pid) => {
     dispatch(removeCartItem({ pid, userId }));
   };
