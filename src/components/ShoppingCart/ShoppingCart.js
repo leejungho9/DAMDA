@@ -4,7 +4,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { getCartItem } from "../../apis/apis";
 import { setCartItem } from "../../reducers/cartSlice";
 import Button from "../Button/Button";
-import { useLocation, useNavigate } from "react-router-dom";
+import { useLocation } from "react-router-dom";
 import CartList from "../CartList/CartList";
 import PriceFormat from "../../hooks/PriceFormat";
 const CartBox = styled.div`
@@ -117,20 +117,14 @@ const TableBody = styled.table`
 `;
 const ShoppingCart = () => {
   const dispatch = useDispatch();
-  const navigator = useNavigate();
   const cartItems = useSelector((state) => state.cartItems || []);
   const [discountPrice, setDiscountPrice] = useState(0);
   const [totalPrice, setTotalPrice] = useState(0);
   const [orderNowMode, setOrderNowMode] = useState(false);
   const location = useLocation();
-
+  const { user } = useSelector((state) => state.user);
+  const userId = user.userId;
   useEffect(() => {
-    //! user가 없을 시 로그인 페이지 이동
-    const userId = sessionStorage.getItem("userId");
-    if (userId === null) {
-      navigator("/");
-      return;
-    }
     if (location.pathname === "/orders") {
       setOrderNowMode(true);
     }
@@ -138,13 +132,14 @@ const ShoppingCart = () => {
     const getCartItemFunc = async () => {
       try {
         const cartItems = await getCartItem(userId);
+
         dispatch(setCartItem(cartItems));
       } catch (error) {
         console.error(error);
       }
     };
     getCartItemFunc();
-  }, []);
+  }, [user]);
 
   useEffect(() => {
     // * CartItem 총 금액 구하기
