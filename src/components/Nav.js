@@ -141,11 +141,6 @@ const SearchContainer = styled.div`
   }
 `;
 
-const SidebarContainer = styled.div`
-  position: absolute;
-  z-index: 999;
-`;
-
 function Nav(props) {
   const dispatch = useDispatch();
   const [isSidebar, setSidebar] = useState(false);
@@ -223,9 +218,7 @@ function Nav(props) {
           </NavMenu>
         </NavContainer>
       </NavWrapper>
-      <SidebarContainer>
-        <Sidebar isSidebar={isSidebar} setSidebar={setSidebar} />
-      </SidebarContainer>
+      <Sidebar isSidebar={isSidebar} setSidebar={setSidebar} />
     </nav>
   );
 }
