@@ -1,8 +1,9 @@
 import { getAuth, onAuthStateChanged } from "firebase/auth";
 import { db } from "../Firebase";
-import { ref, get, set, query } from "firebase/database";
+import { ref, get, set, query, orderByChild, equalTo } from "firebase/database";
 import { addCartItem } from "../reducers/cartSlice";
 import { addWishItem } from "../reducers/wishSlice";
+import { login } from "../reducers/userSlice";
 
 export const getProducts = async () => {
   const productsRef = ref(db, "products");
@@ -167,6 +168,49 @@ const checkWish = async (pid, userId) => {
   try {
     const wishItems = await getWishItem(userId);
     return wishItems.some((item) => Number(item.pid) === Number(pid));
+  } catch (error) {
+    console.log(error);
+  }
+};
+
+//! 웰컴 쿠폰 받기
+export const addCouponHandler = async (couponId, userId, dispatch) => {
+  const check = await CheckCoupon(couponId, userId);
+  if (check) {
+    alert("이미 받은 쿠폰입니다.");
+  } else {
+    try {
+      const data = {
+        couponId: couponId,
+        couponName: " 웰컴쿠폰10%",
+        discount: 10,
+        status: false,
+      };
+
+      dispatch(login({ user: { coupon: data } }));
+      set(ref(db, "users/" + userId + "/coupon/" + couponId), data);
+      alert("쿠폰이 정상적으로 발급되었습니다.");
+    } catch (error) {
+      console.log(error);
+    }
+  }
+};
+
+//! 웰컴 쿠폰 중복
+const CheckCoupon = async (couponId, userId) => {
+  try {
+    const usersRef = query(
+      ref(db, "users/" + userId + "/coupon"),
+      orderByChild("couponId"),
+      equalTo(couponId)
+    );
+    const snapshot = await get(usersRef);
+
+    if (snapshot.val()) {
+      return true;
+    } else {
+      return false;
+    }
   } catch (error) {
     console.log(error);
   }
