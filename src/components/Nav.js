@@ -147,16 +147,14 @@ const SidebarContainer = styled.div`
 `;
 
 function Nav(props) {
-  const [isSidebar, setSidebar] = useState(false);
-  const userId = sessionStorage.getItem("userId");
   const dispatch = useDispatch();
+  const [isSidebar, setSidebar] = useState(false);
   const { isLoggedIn } = useSelector((state) => state.user);
 
   //! 로그아웃
   const handleLogout = () => {
     signOut(auth)
       .then((response) => {
-        sessionStorage.removeItem("userId");
         dispatch(logout());
         window.location.href = "/";
       })
@@ -183,7 +181,7 @@ function Nav(props) {
                   <FiUser className="icon userIcon user-login" />
                   <IconMenuBox
                     className="icon iconMenuBox"
-                    checkLogin={userId !== null}
+                    checkLogin={isLoggedIn}
                   >
                     <Link to="/cart">
                       <BsCart4 className="icon cartIcon" />
@@ -204,7 +202,7 @@ function Nav(props) {
                   </Link>
                   <IconMenuBox
                     className="icon iconMenuBox"
-                    checkLogin={userId !== null}
+                    checkLogin={isLoggedIn}
                   >
                     <Link to="/cart">
                       <BsCart4 className="icon cartIcon" />
