@@ -187,8 +187,6 @@ function Login() {
       const userInfo = await getUser(user.uid);
       dispatch(login({ user: userInfo }));
 
-      sessionStorage.setItem("userId", user.uid);
-
       navigator("/");
     } catch (err) {
       switch (err.code) {
