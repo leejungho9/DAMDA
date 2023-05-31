@@ -4,8 +4,6 @@ import WishList from "../components/WishList/WishList";
 import { useDispatch, useSelector } from "react-redux";
 import { getWishItem } from "../apis/apis";
 import { removeWishItem, setWishItem } from "../reducers/wishSlice";
-import { useNavigate } from "react-router-dom";
-
 const WishContainer = styled.main`
   margin: 0 auto;
   width: 1300px;
@@ -57,18 +55,24 @@ const WiShEditMenuBox = styled.div``;
 
 const Wish = () => {
   const dispatch = useDispatch();
-  const navigator = useNavigate();
   const wishItems = useSelector((state) => state.wishItems || []);
   const [editMode, setEditMode] = useState(false);
-  const userId = sessionStorage.getItem("userId");
   const [checkItemId, setCheckItemId] = useState([]);
+  const { user } = useSelector((state) => state.user);
+  const userId = user.userId;
+
+  // * getWishItem : 관심상품 가져오기
   useEffect(() => {
-    // //! user가 없을 시 로그인 페이지 이동
-    if (userId === null) {
-      navigator("/login");
-      return;
-    }
-  }, []);
+    const getWishItemFunc = async () => {
+      try {
+        const wishItems = await getWishItem(userId);
+        dispatch(setWishItem(wishItems));
+      } catch (error) {
+        console.error(error);
+      }
+    };
+    getWishItemFunc();
+  }, [wishItems, userId]);
 
   const editModeHandle = () => {
     setEditMode(!editMode);
@@ -83,20 +87,6 @@ const Wish = () => {
       console.log(error);
     }
   };
-
-  // * getWishItem : 관심상품 가져오기
-  useEffect(() => {
-    const getWishItemFunc = async () => {
-      try {
-        const wishItems = await getWishItem(userId);
-        dispatch(setWishItem(wishItems));
-      } catch (error) {
-        console.error(error);
-      }
-    };
-    getWishItemFunc();
-  }, [wishItems]);
-
   return (
     <WishContainer>
       <WishTitleH1>관심상품</WishTitleH1>
