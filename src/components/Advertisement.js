@@ -27,7 +27,7 @@ const AdvertisementContainer = styled.div`
 `;
 
 const AdvertisementText = styled.div`
-  background-image: url(images/event3.png);
+  background-image: url(../images/event3.png);
   background-repeat: no-repeat;
   background-size: contain;
   background-position: center;
@@ -38,7 +38,7 @@ const AdvertisementText = styled.div`
 `;
 
 const AdvertisementButton = styled.div`
-  background-image: url(images/event2.png);
+  background-image: url(../images/event2.png);
   background-repeat: no-repeat;
   background-size: contain;
   background-position: center;
@@ -49,7 +49,7 @@ const AdvertisementButton = styled.div`
 `;
 
 const AdvertisementCoupon = styled.div`
-  background-image: url(images/event1.png);
+  background-image: url(../images/event1.png);
   background-repeat: no-repeat;
   background-size: contain;
   background-position: center;
