@@ -48,6 +48,9 @@ const ProductCompany = styled.div`
   justify-content: space-between;
   padding-bottom: 25px;
 `;
+
+const ProductScore = styled.div``;
+const TextStrong = styled.strong``;
 const ProductTitle = styled.span`
   font-family: "LINESeedKR-Rg";
   font-size: 16px;
@@ -69,8 +72,6 @@ const ProductDiscountPrice = styled.span`
   font-size: 16px;
   color: #f28b39;
 `;
-const ProductScore = styled.div``;
-const TextStrong = styled.strong``;
 
 function BestSellerCarousel({ items }) {
   const settings = {
@@ -82,7 +83,6 @@ function BestSellerCarousel({ items }) {
     autoplay: true,
     arrows: false,
   };
-  console.log(items);
 
   return (
     <CarouselContianer>
