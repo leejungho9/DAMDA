@@ -1,4 +1,4 @@
-import React from 'react';
+import React from "react";
 import styled from "styled-components";
 
 const BrandWrapper = styled.div`
@@ -20,7 +20,7 @@ const BrandBoxContainer = styled.div`
   align-content: space-between;
   justify-content: space-evenly;
   margin: 0 auto;
-`
+`;
 const BrandBox = styled.div`
   width: 610px;
   height: 140px;
@@ -33,28 +33,23 @@ const BrandBox = styled.div`
   background-repeat: no-repeat;
   background-position: center;
 
-  &:hover{  
-    background-color : #f3f3f3;
+  &:hover {
+    background-color: #f3f3f3;
     p {
       opacity: 1;
     }
   }
-`
+`;
 
 function Brand(props) {
   return (
     <BrandWrapper>
       <BrandMainTitle>BRAND</BrandMainTitle>
       <BrandBoxContainer>
-        <BrandBox src={"images/brand1.png"}>
-        </BrandBox>
-        <BrandBox src={"images/brand2.png"}>
-        </BrandBox>
-        <BrandBox src={"images/brand3.png"}>
-        </BrandBox>
-        <BrandBox src={"images/brand4.png"}>
-        </BrandBox>
-
+        <BrandBox src={"../images/brand1.png"}></BrandBox>
+        <BrandBox src={"../images/brand2.png"}></BrandBox>
+        <BrandBox src={"../images/brand3.png"}></BrandBox>
+        <BrandBox src={"../images/brand4.png"}></BrandBox>
       </BrandBoxContainer>
     </BrandWrapper>
   );
