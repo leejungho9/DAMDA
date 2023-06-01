@@ -30,7 +30,6 @@ function BestSeller() {
     const fetchProducts = async () => {
       try {
         const products = await getProducts();
-        console.log(products);
         setProducts(products);
         setLoading(false);
       } catch (error) {
