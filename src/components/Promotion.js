@@ -2,6 +2,7 @@ import React, { useEffect, useState } from "react";
 import styled from "styled-components";
 import { ref, onValue } from "firebase/database";
 import { db } from "../Firebase";
+import { Link } from "react-router-dom";
 
 const PrmotionWrapper = styled.div`
   width: 100%;
@@ -62,6 +63,9 @@ const ItemImage = styled.div`
   height: 220px;
   background-image: url(${(props) => props.src});
   background-repeat: no-repeat;
+  background-position: center;
+  background-size: cover;
+  cursor: pointer;
 `;
 const ItemInfo = styled.div`
   margin-left: 25px;
@@ -94,7 +98,7 @@ const ItemPrice = styled.p`
 
 function Promotion(props) {
   const [isPromotions, setIsPromotions] = useState([]);
-  //firebase promotions data 받아오기
+  // ! firebase promotions data 받아오기
   useEffect(() => {
     const value = ref(db, "promotions/");
     onValue(value, (snapshot) => {
@@ -102,6 +106,8 @@ function Promotion(props) {
       setIsPromotions([data]);
     });
   }, []);
+
+  console.log(isPromotions);
 
   return (
     <PrmotionWrapper>
@@ -122,7 +128,9 @@ function Promotion(props) {
                 <PromotionDate>{promotion.start_date}</PromotionDate>
                 <PromotionDes>{promotion.desc}</PromotionDes>
                 <ItemContainer>
-                  <ItemImage src={promotion.sub_url} />
+                  <Link to={`/shop/${promotion.product1.pid}`}>
+                    <ItemImage src={promotion.product1.url} />
+                  </Link>
                   <ItemInfo>
                     <ItemCompany>{promotion.product1.company}</ItemCompany>
                     <ItemName>{promotion.product1.title}</ItemName>
