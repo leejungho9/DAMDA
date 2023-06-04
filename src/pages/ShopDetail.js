@@ -12,10 +12,13 @@ import {
   AddWishHandler,
   getDetailImage,
   getDetailItem,
+  plusViews,
 } from "../apis/apis";
 import { useDispatch, useSelector } from "react-redux";
 import Button from "../components/Button/Button";
 import PriceFormat from "../hooks/PriceFormat";
+import DetailImageCard from "../components/ImageCard/DetailImageCard";
+
 const ShopDetailWrapper = styled.div`
   padding-top: 90px;
   margin: 0 auto;
@@ -35,11 +38,6 @@ const ShopImageGalleryBox = styled.div`
   margin-top: 23px;
 `;
 
-const ShopImage = styled.img`
-  width: 100px;
-  height: 100px;
-  object-fit: cover;
-`;
 const ShopDetailImg = styled.img`
   width: 600px;
   height: 600px;
@@ -156,18 +154,20 @@ function ShopDetail(props) {
   const navigator = useNavigate();
   const dispatch = useDispatch();
   const [detail, setDetail] = useState([]);
-  const [detailImage, setdetailImage] = useState([]);
+  const [detailImages, setdetailImages] = useState([]);
   const [quantity, setQuantity] = useState(1);
+  const [views, setViews] = useState(0);
   const [isLoading, setIsLoading] = useState(true);
 
   const { isLoggedIn, user } = useSelector((state) => state.user);
   const userId = user.userId;
 
+  //! detil Imaage 가져오기
   useEffect(() => {
     const fetchDetailImg = async () => {
       try {
         const detailImg = await getDetailImage(id);
-        setdetailImage(detailImg);
+        setdetailImages(detailImg);
         setIsLoading(false);
       } catch (error) {
         console.log(error);
@@ -177,6 +177,7 @@ function ShopDetail(props) {
     fetchDetailImg();
   }, []);
 
+  //!  detail Product 정보 가져오기
   useEffect(() => {
     const fetchDetailItem = async () => {
       try {
@@ -188,6 +189,20 @@ function ShopDetail(props) {
     };
 
     fetchDetailItem();
+  }, []);
+
+  //! 조회수 올리기
+  useEffect(() => {
+    const increaseViews = async () => {
+      try {
+        const detailItem = await plusViews(id);
+        setViews(detailItem);
+      } catch (error) {
+        console.log(error);
+      }
+    };
+
+    increaseViews();
   }, []);
 
   const onClickNaverPayButton = () => {
@@ -226,6 +241,7 @@ function ShopDetail(props) {
 
     AddWishHandler(detail, quantity, dispatch, userId);
   };
+  console.log(detail);
   return (
     <ShopDetailWrapper>
       <ShopDetailContainer>
@@ -243,28 +259,7 @@ function ShopDetail(props) {
               <ImageSkeleton length={5} width={100} height={100} />
             </ShopImageGalleryBox>
           ) : (
-            <ShopImageGalleryBox>
-              <ShopImage
-                alt="상품 디테일 이미지"
-                src={`${process.env.PUBLIC_URL}/${detailImage.url1}`}
-              />
-              <ShopImage
-                alt="상품 디테일 이미지"
-                src={`${process.env.PUBLIC_URL}/${detailImage.url2}`}
-              />
-              <ShopImage
-                alt="상품 디테일 이미지"
-                src={`${process.env.PUBLIC_URL}/${detailImage.url3}`}
-              />
-              <ShopImage
-                alt="상품 디테일 이미지"
-                src={`${process.env.PUBLIC_URL}/${detailImage.url4}`}
-              />
-              <ShopImage
-                alt="상품 디테일 이미지"
-                src={`${process.env.PUBLIC_URL}/${detailImage.url5}`}
-              />
-            </ShopImageGalleryBox>
+            <DetailImageCard detailImages={detailImages} />
           )}
         </ShopDetailImgBox>
         <ShopDetailContentBox>
@@ -359,7 +354,7 @@ function ShopDetail(props) {
       <DetialTitle>상품 상세</DetialTitle>
       <DetailImageBox>
         <DetailImage
-          src={`${process.env.PUBLIC_URL}/${detailImage.detailurl}`}
+          src={`${process.env.PUBLIC_URL}/${detail.detailUrl}`}
           alt="상품상세 이미지"
         />
       </DetailImageBox>
