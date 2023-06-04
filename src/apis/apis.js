@@ -29,15 +29,31 @@ export const getProducts = async () => {
 };
 
 export const getDetailImage = async (pid) => {
-  const productsRef = ref(db, `detail`);
-  const snapshot = await get(productsRef);
+  try {
+    const queryRef = query(
+      ref(db, "detail"),
+      orderByChild("pid"),
+      equalTo(Number(pid))
+    );
 
-  if (!snapshot.exists()) {
-    throw new Error("상품의 상세이미지를 불러올 수 없습니다.");
+    const snapshot = await get(queryRef);
+    const detail = snapshot.val();
+    const images = [];
+
+    if (detail) {
+      const key = Object.keys(detail);
+      const productRef = ref(db, `detail/${key}/url`);
+      const productImages = await get(productRef);
+
+      productImages.forEach((childSnapshot) => {
+        const product = childSnapshot.val();
+        images.push(product);
+      });
+    }
+    return images;
+  } catch (error) {
+    console.log(error);
   }
-  const data = snapshot.val();
-  const product = Object.values(data).find((item) => item.pid === Number(pid));
-  return product;
 };
 
 export const getDetailItem = async (pid) => {
