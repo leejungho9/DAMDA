@@ -150,7 +150,6 @@ function Shop() {
     fetchProducts();
   }, [isFilter]);
 
-  console.log(isProduct);
   const radioRef = useRef([]);
 
   const CreatedItem = isProduct.map((el) => {
