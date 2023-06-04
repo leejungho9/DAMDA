@@ -104,6 +104,7 @@ function Shop() {
   const [isProduct, setProducts] = useState([]);
   const [isLoading, setLoading] = useState(true);
 
+  //! 카테고리 별 정렬
   useEffect(() => {
     const fetchProducts = async () => {
       try {
@@ -118,6 +119,38 @@ function Shop() {
     fetchProducts();
   }, [isCategory]);
 
+  //! 클릭, 리뷰 ,구입 순으로 정렬
+  useEffect(() => {
+    const fetchProducts = async () => {
+      try {
+        const products = await getProducts();
+        const checkCategory = products.filter(
+          (el) => el.category === isCategory
+        );
+        switch (isFilter) {
+          case "리뷰순":
+            setProducts(
+              checkCategory.sort((a, b) => b.reviews.length - a.reviews.length)
+            );
+            break;
+          case "클릭순":
+            setProducts(checkCategory.sort((a, b) => b.views - a.views));
+            break;
+          case "구입순":
+            setProducts(
+              checkCategory.sort((a, b) => b.purchaseCount - a.purchaseCount)
+            );
+            break;
+          default:
+        }
+      } catch (error) {
+        console.log(error);
+      }
+    };
+    fetchProducts();
+  }, [isFilter]);
+
+  console.log(isProduct);
   const radioRef = useRef([]);
 
   const CreatedItem = isProduct.map((el) => {
