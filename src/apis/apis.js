@@ -1,6 +1,14 @@
 import { getAuth, onAuthStateChanged } from "firebase/auth";
 import { db } from "../Firebase";
-import { ref, get, set, query, orderByChild, equalTo } from "firebase/database";
+import {
+  ref,
+  get,
+  set,
+  query,
+  orderByChild,
+  equalTo,
+  update,
+} from "firebase/database";
 import { addCartItem } from "../reducers/cartSlice";
 import { addWishItem } from "../reducers/wishSlice";
 import { login } from "../reducers/userSlice";
@@ -211,6 +219,27 @@ const CheckCoupon = async (couponId, userId) => {
     } else {
       return false;
     }
+  } catch (error) {
+    console.log(error);
+  }
+};
+// ! 조회수 증가
+export const plusViews = async (pid) => {
+  try {
+    const queryRef = query(
+      ref(db, "products/"),
+      orderByChild("pid"),
+      equalTo(Number(pid))
+    );
+
+    get(queryRef).then((snapshot) => {
+      const product = snapshot.val();
+      const key = Object.keys(product);
+      if (product) {
+        const productRef = ref(db, `products/${key}`);
+        update(productRef, { views: product[key].views + 1 });
+      }
+    });
   } catch (error) {
     console.log(error);
   }
