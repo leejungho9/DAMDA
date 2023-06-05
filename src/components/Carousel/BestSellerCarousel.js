@@ -87,8 +87,8 @@ function BestSellerCarousel({ items }) {
   return (
     <CarouselContianer>
       <Slider {...settings}>
-        {items.map((item) => (
-          <CarouselBox>
+        {items.map((item, index) => (
+          <CarouselBox key={index}>
             <Link to={`/shop/${item.pid}`}>
               <CarouselImageBox>
                 <CarouselImage src={item.url} alt="이미지" />
