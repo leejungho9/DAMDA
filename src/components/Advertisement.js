@@ -2,7 +2,7 @@ import React from "react";
 import { useDispatch, useSelector } from "react-redux";
 import styled from "styled-components";
 import { useNavigate } from "react-router-dom";
-import { addCouponHandler } from "../apis/apis";
+import { addCoupon } from "../apis/apis";
 
 const AdvertisementWrapper = styled.div`
   width: 100%;
@@ -71,7 +71,11 @@ function Advertisement() {
       navigator("/login");
       return;
     }
-    addCouponHandler(couponId, userId, dispatch);
+    try {
+      addCoupon(couponId, userId, dispatch);
+    } catch (error) {
+      console.log(error);
+    }
   };
 
   return (

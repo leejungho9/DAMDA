@@ -1,8 +1,8 @@
 import React, { useRef } from "react";
 import { BsCart4 } from "react-icons/bs";
 import styled from "styled-components";
-import { AddCartHandler } from "../../apis/apis";
 import { useDispatch, useSelector } from "react-redux";
+import { AddCart } from "../../apis/apis";
 
 const WishImageBox = styled.div`
   width: 300px;
@@ -98,7 +98,12 @@ const WishItem = ({ item, editMode, setCheckItemId, checkItemId }) => {
       navigator("/login");
       return;
     }
-    AddCartHandler(item, 1, dispatch, userId);
+
+    try {
+      AddCart(item, 1, dispatch, userId);
+    } catch (error) {
+      console.log(error);
+    }
   };
   return (
     <WishImageBox>
