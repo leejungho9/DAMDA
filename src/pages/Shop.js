@@ -129,9 +129,11 @@ function Shop() {
         );
         switch (isFilter) {
           case "리뷰순":
-            setProducts(
-              checkCategory.sort((a, b) => b.reviews.length - a.reviews.length)
-            );
+            checkCategory.sort((a, b) => {
+              const reviewCountA = a.review ? a.review.length : 0;
+              const reviewCountB = b.review ? b.review.length : 0;
+              return reviewCountB - reviewCountA;
+            });
             break;
           case "클릭순":
             setProducts(checkCategory.sort((a, b) => b.views - a.views));
@@ -148,7 +150,7 @@ function Shop() {
       }
     };
     fetchProducts();
-  }, [isFilter]);
+  }, [isCategory, isFilter]);
 
   const radioRef = useRef([]);
 
