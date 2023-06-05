@@ -22,9 +22,10 @@ const ShopImage = styled.img`
 function DetailImageCard({ detailImages }) {
   return (
     <ShopImageGalleryBox>
-      {detailImages.map((image) => {
+      {detailImages.map((image, index) => {
         return (
           <ShopImage
+            key={index}
             alt="상품 디테일 이미지"
             src={`${process.env.PUBLIC_URL}/${image}`}
           />
