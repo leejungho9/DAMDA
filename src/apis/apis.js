@@ -8,6 +8,8 @@ import {
   orderByChild,
   equalTo,
   update,
+  remove,
+  push,
 } from "firebase/database";
 import { addCartItem } from "../reducers/cartSlice";
 import { addWishItem } from "../reducers/wishSlice";
@@ -29,31 +31,27 @@ export const getProducts = async () => {
 };
 
 export const getDetailImage = async (pid) => {
-  try {
-    const queryRef = query(
-      ref(db, "detail"),
-      orderByChild("pid"),
-      equalTo(Number(pid))
-    );
+  const queryRef = query(
+    ref(db, "detail"),
+    orderByChild("pid"),
+    equalTo(Number(pid))
+  );
 
-    const snapshot = await get(queryRef);
-    const detail = snapshot.val();
-    const images = [];
+  const snapshot = await get(queryRef);
+  const detail = snapshot.val();
+  const images = [];
 
-    if (detail) {
-      const key = Object.keys(detail);
-      const productRef = ref(db, `detail/${key}/url`);
-      const productImages = await get(productRef);
+  if (detail) {
+    const key = Object.keys(detail);
+    const productRef = ref(db, `detail/${key}/url`);
+    const productImages = await get(productRef);
 
-      productImages.forEach((childSnapshot) => {
-        const product = childSnapshot.val();
-        images.push(product);
-      });
-    }
-    return images;
-  } catch (error) {
-    console.log(error);
+    productImages.forEach((childSnapshot) => {
+      const product = childSnapshot.val();
+      images.push(product);
+    });
   }
+  return images;
 };
 
 export const getDetailItem = async (pid) => {
@@ -134,7 +132,7 @@ export const CheckLoginUserInfo = async () => {
 };
 
 //! 장바구니 추가 함수
-export const AddCartHandler = async (item, quantity, dispatch, userId) => {
+export const AddCart = async (item, quantity, dispatch, userId) => {
   let check = await CheckCart(item.pid, userId);
   if (check) {
     alert("이미 장바구니에 추가된 상품입니다.");
@@ -164,7 +162,7 @@ const CheckCart = async (pid, userId) => {
   }
 };
 
-export const AddWishHandler = async (item, quantity, dispatch, userId) => {
+export const AddWish = async (item, quantity, dispatch, userId) => {
   // ! 비로그인 관심상품 사용 x
 
   let check = await checkWish(item.pid, userId);
@@ -198,25 +196,21 @@ const checkWish = async (pid, userId) => {
 };
 
 //! 웰컴 쿠폰 받기
-export const addCouponHandler = async (couponId, userId, dispatch) => {
+export const addCoupon = async (couponId, userId, dispatch) => {
   const check = await CheckCoupon(couponId, userId);
   if (check) {
     alert("이미 받은 쿠폰입니다.");
   } else {
-    try {
-      const data = {
-        couponId: couponId,
-        couponName: " 웰컴쿠폰10%",
-        discount: 10,
-        status: false,
-      };
+    const data = {
+      couponId: couponId,
+      couponName: " 웰컴쿠폰10%",
+      discount: 10,
+      status: false,
+    };
 
-      dispatch(login({ user: { coupon: data } }));
-      set(ref(db, "users/" + userId + "/coupon/" + couponId), data);
-      alert("쿠폰이 정상적으로 발급되었습니다.");
-    } catch (error) {
-      console.log(error);
-    }
+    dispatch(login({ user: { coupon: data } }));
+    set(ref(db, "users/" + userId + "/coupon/" + couponId), data);
+    alert("쿠폰이 정상적으로 발급되었습니다.");
   }
 };
 
@@ -241,22 +235,90 @@ const CheckCoupon = async (couponId, userId) => {
 };
 // ! 조회수 증가
 export const plusViews = async (pid) => {
-  try {
-    const queryRef = query(
-      ref(db, "products/"),
-      orderByChild("pid"),
-      equalTo(Number(pid))
-    );
+  const queryRef = query(
+    ref(db, "products/"),
+    orderByChild("pid"),
+    equalTo(Number(pid))
+  );
 
-    get(queryRef).then((snapshot) => {
-      const product = snapshot.val();
-      const key = Object.keys(product);
-      if (product) {
-        const productRef = ref(db, `products/${key}`);
-        update(productRef, { views: product[key].views + 1 });
-      }
-    });
-  } catch (error) {
-    console.log(error);
-  }
+  get(queryRef).then((snapshot) => {
+    const product = snapshot.val();
+    const key = Object.keys(product);
+    if (product) {
+      const productRef = ref(db, `products/${key}`);
+      update(productRef, { views: product[key].views + 1 });
+    }
+  });
+};
+
+//! 리뷰작성하기
+export const addReview = async (
+  pid,
+  reviewScore,
+  reviewContent,
+  userId,
+  userName
+) => {
+  const reviewItems = await getReviewLengths(pid);
+  const data = {
+    reviewId: reviewItems.length + 1,
+    userId: userId,
+    pid: Number(pid),
+    userName: userName,
+    reviewScore: reviewScore,
+    reviewContent: reviewContent,
+    like: 3,
+  };
+
+  const reviewRef = ref(db, `reviews/`);
+  const newReviewRef = push(reviewRef);
+  set(newReviewRef, data);
+};
+
+// ! 리뷰 길이 가져오기
+export const getReviewLengths = async () => {
+  const reviewRef = ref(db, `reviews/`);
+  const snapshot = await get(reviewRef);
+  const reviewItems = [];
+
+  snapshot.forEach((childSnapshot) => {
+    const review = childSnapshot.val();
+    reviewItems.push(review);
+  });
+  return reviewItems;
+};
+
+// ! 리뷰 가져오기
+export const getReviews = async (pid) => {
+  const queryRef = query(
+    ref(db, "reviews/"),
+    orderByChild("pid"),
+    equalTo(Number(pid))
+  );
+
+  const snapshot = await get(queryRef);
+  const reviewItems = [];
+  snapshot.forEach((childSnapshot) => {
+    const review = childSnapshot.val();
+    reviewItems.push(review);
+  });
+
+  return reviewItems;
+};
+
+//!리뷰 삭제
+export const removeReview = async (reviewId, pid) => {
+  const queryRef = query(
+    ref(db, "reviews/"),
+    orderByChild("reviewId"),
+    equalTo(Number(reviewId))
+  );
+
+  await get(queryRef).then((childSnapshot) => {
+    const reviews = childSnapshot.val();
+    const key = Object.keys(reviews);
+    const reviewRef = ref(db, `reviews/${key}`);
+
+    remove(reviewRef);
+  });
 };
