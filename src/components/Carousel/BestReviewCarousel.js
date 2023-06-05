@@ -61,15 +61,15 @@ function BestReviewCarousel({ items }) {
     speed: 500,
     slidesToShow: 2,
     slidesToScroll: 2,
-    // autoplay: true,
+    autoplay: true,
     arrows: false,
   };
 
   return (
     <CarouselContianer>
       <Slider {...settings}>
-        {items.map((item) => (
-          <CarouselBox>
+        {items.map((item, index) => (
+          <CarouselBox key={index}>
             <CarouselImageBox>
               <CarouselImage src={item.url} alt="이미지" />
             </CarouselImageBox>
