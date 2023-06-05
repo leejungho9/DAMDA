@@ -4,8 +4,9 @@ import { AiOutlinePlus, AiOutlineMinus } from "react-icons/ai";
 import { Rate } from "antd";
 import { addReview, getReviews } from "../apis/apis";
 import { useSelector } from "react-redux";
-import ReviewCarosule from "./Carousel/ReviewCarosule";
+
 import LineBar from "./BorderBar";
+import ReviewCarousel from "./Carousel/ReviewCarousel";
 
 const ReviewWrapper = styled.div`
   margin-top: 105px;
@@ -175,7 +176,7 @@ const BestDetailReview = ({
               <ReviewContentText> 작성된 리뷰가 없습니다.</ReviewContentText>
             </ReviewContentBox>
           ) : (
-            <ReviewCarosule
+            <ReviewCarousel
               pid={pid}
               isLoading={isLoading}
               isReviews={isReviews}
