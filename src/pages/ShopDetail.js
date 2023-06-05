@@ -8,8 +8,8 @@ import LineBar from "../components/BorderBar";
 import ImageSkeleton from "../components/Skeleton/ImageSkeleton";
 import QuantityCounts from "../components/Counts/QuantityCounts";
 import {
-  AddCartHandler,
-  AddWishHandler,
+  AddCart,
+  AddWish,
   getDetailImage,
   getDetailItem,
   plusViews,
@@ -158,7 +158,7 @@ function ShopDetail(props) {
   const [quantity, setQuantity] = useState(1);
   const [views, setViews] = useState(0);
   const [isLoading, setIsLoading] = useState(true);
-
+  const [reviewWriteMode, setReviewWriteMode] = useState(false);
   const { isLoggedIn, user } = useSelector((state) => state.user);
   const userId = user.userId;
 
@@ -175,7 +175,7 @@ function ShopDetail(props) {
     };
 
     fetchDetailImg();
-  }, []);
+  }, [id]);
 
   //!  detail Product 정보 가져오기
   useEffect(() => {
@@ -189,7 +189,7 @@ function ShopDetail(props) {
     };
 
     fetchDetailItem();
-  }, []);
+  }, [id]);
 
   //! 조회수 올리기
   useEffect(() => {
@@ -203,7 +203,7 @@ function ShopDetail(props) {
     };
 
     increaseViews();
-  }, []);
+  }, [id]);
 
   const onClickNaverPayButton = () => {
     const oPay = window.Naver.Pay.create({
@@ -229,7 +229,11 @@ function ShopDetail(props) {
       navigator("/login");
       return;
     }
-    AddCartHandler(detail, quantity, dispatch, userId);
+    try {
+      AddCart(detail, quantity, dispatch, userId);
+    } catch (error) {
+      console.log(error);
+    }
   };
 
   const clickAddWishButton = () => {
@@ -238,10 +242,12 @@ function ShopDetail(props) {
       navigator("/login");
       return;
     }
-
-    AddWishHandler(detail, quantity, dispatch, userId);
+    try {
+      AddWish(detail, quantity, dispatch, userId);
+    } catch (error) {
+      console.log(error);
+    }
   };
-  console.log(detail);
   return (
     <ShopDetailWrapper>
       <ShopDetailContainer>
@@ -350,7 +356,14 @@ function ShopDetail(props) {
           </PayBox>
         </ShopDetailContentBox>
       </ShopDetailContainer>
-      <BestDetailReview item={detail} />
+      <BestDetailReview
+        pid={id}
+        item={detail}
+        reviewWriteMode={reviewWriteMode}
+        setReviewWriteMode={setReviewWriteMode}
+        detailImages={detail.url}
+      />
+
       <DetialTitle>상품 상세</DetialTitle>
       <DetailImageBox>
         <DetailImage
