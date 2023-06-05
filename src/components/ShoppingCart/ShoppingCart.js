@@ -139,7 +139,7 @@ const ShoppingCart = () => {
       }
     };
     getCartItemFunc();
-  }, [user]);
+  }, [userId, dispatch, location]);
 
   useEffect(() => {
     // * CartItem 총 금액 구하기
