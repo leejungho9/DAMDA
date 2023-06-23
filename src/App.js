@@ -16,6 +16,7 @@ import { getAuth, onAuthStateChanged } from "firebase/auth";
 import { useDispatch } from "react-redux";
 import { login } from "./reducers/userSlice";
 import { getUser } from "./apis/apis";
+import Promotion from "./pages/Promotion";
 
 function App() {
   const dispatch = useDispatch();
@@ -60,6 +61,7 @@ function App() {
           <Route path="/orders" element={<Order />}></Route>
           <Route path="/shop" element={<Shop />}></Route>
           <Route path="/shop/:id" element={<ShopDetail />}></Route>
+          <Route path="/promotion" element={<Promotion />}></Route>
         </Routes>
         <Footer />
       </BrowserRouter>
