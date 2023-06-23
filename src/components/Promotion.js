@@ -1,8 +1,8 @@
 import React, { useEffect, useState } from "react";
 import styled from "styled-components";
-import { ref, onValue } from "firebase/database";
-import { db } from "../Firebase";
 import { Link } from "react-router-dom";
+import { getDetailItem, getPromotions } from "../apis/apis";
+import PriceFormat from "../hooks/PriceFormat";
 
 const PrmotionWrapper = styled.div`
   width: 100%;
@@ -96,46 +96,67 @@ const ItemPrice = styled.p`
   color: #f28b39;
 `;
 
-function Promotion(props) {
+function Promotion() {
   const [isPromotions, setIsPromotions] = useState([]);
+  const [isProduct, setIsProduct] = useState([]);
+
   // ! firebase promotions data 받아오기
   useEffect(() => {
-    const value = ref(db, "promotions/");
-    onValue(value, (snapshot) => {
-      const data = snapshot.val();
-      setIsPromotions([data]);
-    });
+    const fetchPromotion = async () => {
+      try {
+        const promotions = await getPromotions();
+        setIsPromotions(promotions);
+      } catch (error) {
+        console.log(error);
+      }
+    };
+
+    fetchPromotion();
   }, []);
 
-  console.log(isPromotions);
+  useEffect(() => {
+    const fetchProduct = async () => {
+      try {
+        const product = await getDetailItem(isPromotions[0].pid);
+        setIsProduct(product);
+      } catch (error) {
+        console.log(error);
+      }
+    };
+
+    if (isPromotions.length !== 0) {
+      fetchProduct();
+    }
+  }, [isPromotions]);
 
   return (
     <PrmotionWrapper>
       <PromotionMainTitle>PROMOTION</PromotionMainTitle>
       {isPromotions &&
         isPromotions.map((promotion) => {
-          let buyPrice = (
-            promotion.product1.price *
-            (promotion.product1.discount / 100)
-          )
-            .toString()
-            .replace(/\B(?=(\d{3})+(?!\d))/g, ",");
           return (
-            <PromotionContainer key={promotion.promotion_id}>
+            <PromotionContainer key={promotion.promotionId}>
               <PrmotionMainImage src={promotion.url} />
               <PromotionInfo>
                 <PromotionTitle>{promotion.title}</PromotionTitle>
                 <PromotionDate>{promotion.start_date}</PromotionDate>
                 <PromotionDes>{promotion.desc}</PromotionDes>
                 <ItemContainer>
-                  <Link to={`/shop/${promotion.product1.pid}`}>
-                    <ItemImage src={promotion.product1.url} />
+                  <Link to={`/shop/${promotion.productId}`}>
+                    <ItemImage src={isProduct.url} />
                   </Link>
                   <ItemInfo>
-                    <ItemCompany>{promotion.product1.company}</ItemCompany>
-                    <ItemName>{promotion.product1.title}</ItemName>
-                    <ItemDiscount>{promotion.product1.discount}%</ItemDiscount>
-                    <ItemPrice>{buyPrice}</ItemPrice>
+                    <ItemCompany>{isProduct.company}</ItemCompany>
+                    <ItemName>{isProduct.title}</ItemName>
+                    <ItemDiscount>{isProduct.discount}%</ItemDiscount>
+                    <ItemPrice>
+                      {isProduct.price &&
+                        PriceFormat(
+                          Math.floor(
+                            isProduct.price * (1 - isProduct.discount / 100)
+                          )
+                        )}
+                    </ItemPrice>
                   </ItemInfo>
                 </ItemContainer>
               </PromotionInfo>
