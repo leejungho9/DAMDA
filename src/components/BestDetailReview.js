@@ -95,6 +95,8 @@ const BestDetailReview = ({
   const [isReviews, setReviews] = useState([]);
   const [allScore, setAllScore] = useState();
   const [isLoading, setIsLoading] = useState(true);
+  const { isLoggedIn } = useSelector((state) => state.user);
+
   const changeReviewHandelr = (event) => {
     setReviewScore(event);
   };
@@ -162,13 +164,15 @@ const BestDetailReview = ({
         <ReviewTextArea>
           <ReviewTitle>BEST 고객리뷰</ReviewTitle>
           <ReviewScope> {allScore} / 5.0</ReviewScope>
-          <ReviewWriteButton>
-            {reviewWriteMode ? (
-              <AiOutlineMinus onClick={() => setReviewWriteMode(false)} />
-            ) : (
-              <AiOutlinePlus onClick={() => setReviewWriteMode(true)} />
-            )}
-          </ReviewWriteButton>
+          {isLoggedIn && (
+            <ReviewWriteButton>
+              {reviewWriteMode ? (
+                <AiOutlineMinus onClick={() => setReviewWriteMode(false)} />
+              ) : (
+                <AiOutlinePlus onClick={() => setReviewWriteMode(true)} />
+              )}
+            </ReviewWriteButton>
+          )}
         </ReviewTextArea>
         <ReviewContentWrapper>
           {isReviews.length === 0 ? (
