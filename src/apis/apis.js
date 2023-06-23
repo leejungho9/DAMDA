@@ -97,6 +97,18 @@ export const getCartItem = async (id) => {
   return cartItems;
 };
 
+export const getPromotions = async () => {
+  const promotionsRef = ref(db, "promotions/");
+  const snapshot = await get(promotionsRef);
+
+  const promotionItems = [];
+  snapshot.forEach((childSnapshot) => {
+    const promotion = childSnapshot.val();
+    promotionItems.push(promotion);
+  });
+
+  return promotionItems;
+};
 // ! signup
 export const postSignup = async (userInfo) => {
   const data = {
