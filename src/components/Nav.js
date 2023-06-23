@@ -167,7 +167,7 @@ function Nav(props) {
           <NavMenu>
             <MenuContainer>
               <Link to="/shop">SHOP</Link>
-              <a>PROMOTION</a>
+              <Link to="/promotion">PROMOTION</Link>
               <a>BRAND</a>
             </MenuContainer>
             <IconsContainer>
