@@ -52,8 +52,6 @@ const ItemPrice = styled.span`
 `;
 
 function CreatedCard({ data }) {
-  let displayPrice = PriceFormat(data.price);
-
   const navigate = useNavigate();
 
   function goToDetail() {
@@ -71,7 +69,10 @@ function CreatedCard({ data }) {
           </span>
         </ItemName>
         <ItemTitle>{data.company}</ItemTitle>
-        <ItemPrice>{displayPrice}</ItemPrice>
+        <ItemPrice>
+          {data.price &&
+            PriceFormat(Math.floor(data.price * (1 - data.discount / 100)))}
+        </ItemPrice>
       </CardDecription>
     </CardWrapper>
   );

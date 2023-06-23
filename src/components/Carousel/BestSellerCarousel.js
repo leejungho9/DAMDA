@@ -4,6 +4,7 @@ import "slick-carousel/slick/slick.css";
 import "slick-carousel/slick/slick-theme.css";
 import styled from "styled-components";
 import { Link } from "react-router-dom";
+import PriceFormat from "../../hooks/PriceFormat";
 const CarouselContianer = styled.div`
   width: 1300px;
 
@@ -104,8 +105,13 @@ function BestSellerCarousel({ items }) {
               <ProductTitle>{item.title}</ProductTitle>
               <ProductDiscount>{item.discount}%</ProductDiscount>
               <ProductPriceBox>
-                <ProductDiscountPrice>{item.price}</ProductDiscountPrice>
-                <ProductPrice>{item.price}</ProductPrice>
+                <ProductDiscountPrice>
+                  {item.price &&
+                    PriceFormat(
+                      Math.floor(item.price * (1 - item.discount / 100))
+                    )}
+                </ProductDiscountPrice>
+                <ProductPrice>{PriceFormat(item.price)}</ProductPrice>
               </ProductPriceBox>
             </ProductDecription>
           </CarouselBox>
