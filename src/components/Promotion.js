@@ -105,7 +105,7 @@ function Promotion() {
     const fetchPromotion = async () => {
       try {
         const promotions = await getPromotions();
-        setIsPromotions(promotions);
+        setIsPromotions(promotions[0]);
       } catch (error) {
         console.log(error);
       }
@@ -117,7 +117,7 @@ function Promotion() {
   useEffect(() => {
     const fetchProduct = async () => {
       try {
-        const product = await getDetailItem(isPromotions[0].pid);
+        const product = await getDetailItem(isPromotions.pid);
         setIsProduct(product);
       } catch (error) {
         console.log(error);
@@ -129,40 +129,35 @@ function Promotion() {
     }
   }, [isPromotions]);
 
+  console.log(isPromotions);
   return (
     <PrmotionWrapper>
       <PromotionMainTitle>PROMOTION</PromotionMainTitle>
-      {isPromotions &&
-        isPromotions.map((promotion) => {
-          return (
-            <PromotionContainer key={promotion.promotionId}>
-              <PrmotionMainImage src={promotion.url} />
-              <PromotionInfo>
-                <PromotionTitle>{promotion.title}</PromotionTitle>
-                <PromotionDate>{promotion.start_date}</PromotionDate>
-                <PromotionDes>{promotion.desc}</PromotionDes>
-                <ItemContainer>
-                  <Link to={`/shop/${promotion.productId}`}>
-                    <ItemImage src={isProduct.url} />
-                  </Link>
-                  <ItemInfo>
-                    <ItemCompany>{isProduct.company}</ItemCompany>
-                    <ItemName>{isProduct.title}</ItemName>
-                    <ItemDiscount>{isProduct.discount}%</ItemDiscount>
-                    <ItemPrice>
-                      {isProduct.price &&
-                        PriceFormat(
-                          Math.floor(
-                            isProduct.price * (1 - isProduct.discount / 100)
-                          )
-                        )}
-                    </ItemPrice>
-                  </ItemInfo>
-                </ItemContainer>
-              </PromotionInfo>
-            </PromotionContainer>
-          );
-        })}
+      <PromotionContainer key={isPromotions.promotionId}>
+        <PrmotionMainImage src={isPromotions.url} />
+        <PromotionInfo>
+          <PromotionTitle>{isPromotions.title}</PromotionTitle>
+          <PromotionDate>{isPromotions.start_date}</PromotionDate>
+          <PromotionDes>{isPromotions.desc}</PromotionDes>
+          <ItemContainer>
+            <Link to={`/shop/${isPromotions.pid}`}>
+              <ItemImage src={isProduct.url} />
+            </Link>
+            <ItemInfo>
+              <ItemCompany>{isProduct && isProduct.company}</ItemCompany>
+              <ItemName>{isProduct && isProduct.title}</ItemName>
+              <ItemDiscount>{isProduct && isProduct.discount}%</ItemDiscount>
+              <ItemPrice>
+                {isProduct &&
+                  isProduct.price &&
+                  PriceFormat(
+                    Math.floor(isProduct.price * (1 - isProduct.discount / 100))
+                  )}
+              </ItemPrice>
+            </ItemInfo>
+          </ItemContainer>
+        </PromotionInfo>
+      </PromotionContainer>
     </PrmotionWrapper>
   );
 }
