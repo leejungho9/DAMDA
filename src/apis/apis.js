@@ -109,6 +109,19 @@ export const getPromotions = async () => {
 
   return promotionItems;
 };
+
+export const getBrands = async () => {
+  const brandsRef = ref(db, "brand/");
+  const snapshot = await get(brandsRef);
+
+  const brandItems = [];
+  snapshot.forEach((childSnapshot) => {
+    const brand = childSnapshot.val();
+    brandItems.push(brand);
+  });
+
+  return brandItems;
+};
 // ! signup
 export const postSignup = async (userInfo) => {
   const data = {
