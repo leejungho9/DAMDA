@@ -1,8 +1,7 @@
 import React, { useState } from "react";
 import styled from "styled-components";
-import { FiUser, FiSearch } from "react-icons/fi";
-import { Link } from "react-router-dom";
-import Sidebar from "./Sidebar";
+import { FiUser } from "react-icons/fi";
+import { Link, useLocation } from "react-router-dom";
 import { BsCart4, BsHeart } from "react-icons/bs";
 import { useDispatch, useSelector } from "react-redux";
 import { IoIosLogOut } from "react-icons/io";
@@ -44,6 +43,10 @@ const MenuContainer = styled.div`
       color: black;
     }
   }
+`;
+
+const Menu = styled(Link)`
+  color: ${(props) => (props.active === "true" ? "#f28b39" : "#3e3e3e")};
 `;
 
 const IconsContainer = styled.div`
@@ -126,26 +129,11 @@ const IconMenuBox = styled.div`
   border-radius: 30px;
   display: none;
 `;
-const SearchContainer = styled.div`
-  display: flex;
-  align-items: center;
-  .icon {
-    cursor: pointer;
-    font-size: 20px;
-    .icon:hover {
-      font-weight: bold;
-    }
-  }
-  .searchIcon {
-    margin-left: 20px;
-  }
-`;
 
 function Nav(props) {
   const dispatch = useDispatch();
-  const [isSidebar, setSidebar] = useState(false);
   const { isLoggedIn } = useSelector((state) => state.user);
-
+  const { pathname } = useLocation();
   //! 로그아웃
   const handleLogout = () => {
     signOut(auth)
@@ -166,9 +154,21 @@ function Nav(props) {
           </Link>
           <NavMenu>
             <MenuContainer>
-              <Link to="/shop">SHOP</Link>
-              <Link to="/promotion">PROMOTION</Link>
-              <a>BRAND</a>
+              <Menu to="/shop" active={pathname === "/shop" ? "true" : "false"}>
+                SHOP
+              </Menu>
+              <Menu
+                to="/promotion"
+                active={pathname === "/promotion" ? "true" : "false"}
+              >
+                PROMOTION
+              </Menu>
+              <Menu
+                to="/brand"
+                active={pathname === "/brand" ? "true" : "false"}
+              >
+                BRAND
+              </Menu>
             </MenuContainer>
             <IconsContainer>
               {isLoggedIn ? (
@@ -209,16 +209,9 @@ function Nav(props) {
                 </>
               )}
             </IconsContainer>
-            <SearchContainer>
-              <FiSearch
-                onClick={() => setSidebar(!isSidebar)}
-                className="icon searchIcon"
-              />
-            </SearchContainer>
           </NavMenu>
         </NavContainer>
       </NavWrapper>
-      <Sidebar isSidebar={isSidebar} setSidebar={setSidebar} />
     </nav>
   );
 }
