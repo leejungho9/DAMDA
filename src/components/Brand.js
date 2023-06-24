@@ -1,5 +1,6 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import styled from "styled-components";
+import { getBrands } from "../apis/apis";
 
 const BrandWrapper = styled.div`
   width: 100%;
@@ -41,15 +42,27 @@ const BrandBox = styled.div`
   }
 `;
 
-function Brand(props) {
+function Brand() {
+  const [brands, setBrands] = useState([]);
+  useEffect(() => {
+    const fetchBrands = async () => {
+      try {
+        const Brands = await getBrands();
+        setBrands(Brands);
+      } catch (error) {
+        console.log(error);
+      }
+    };
+    fetchBrands();
+  }, []);
   return (
     <BrandWrapper>
       <BrandMainTitle>BRAND</BrandMainTitle>
       <BrandBoxContainer>
-        <BrandBox src={"../images/brand1.png"}></BrandBox>
-        <BrandBox src={"../images/brand2.png"}></BrandBox>
-        <BrandBox src={"../images/brand3.png"}></BrandBox>
-        <BrandBox src={"../images/brand4.png"}></BrandBox>
+        {brands &&
+          brands.map((items) => (
+            <BrandBox src={items.url} key={items.brandId}></BrandBox>
+          ))}
       </BrandBoxContainer>
     </BrandWrapper>
   );
