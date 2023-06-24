@@ -17,6 +17,7 @@ import { useDispatch } from "react-redux";
 import { login } from "./reducers/userSlice";
 import { getUser } from "./apis/apis";
 import Promotion from "./pages/Promotion";
+import Brand from "./pages/Brand";
 
 function App() {
   const dispatch = useDispatch();
@@ -62,6 +63,7 @@ function App() {
           <Route path="/shop" element={<Shop />}></Route>
           <Route path="/shop/:id" element={<ShopDetail />}></Route>
           <Route path="/promotion" element={<Promotion />}></Route>
+          <Route path="/brand" element={<Brand />}></Route>
         </Routes>
         <Footer />
       </BrowserRouter>
