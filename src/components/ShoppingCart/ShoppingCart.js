@@ -8,7 +8,7 @@ import { useLocation } from "react-router-dom";
 import CartList from "../CartList/CartList";
 import PriceFormat from "../../hooks/PriceFormat";
 const CartBox = styled.div`
-  min-height: 500px;
+  min-height: 800px;
   margin-bottom: 85px;
   table input[type="checkbox"] {
     width: 60px;

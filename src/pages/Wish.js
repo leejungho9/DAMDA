@@ -23,8 +23,8 @@ const WishTitleH1 = styled.h1`
 `;
 
 const WishBox = styled.div`
-  min-height: 500px;
-  margin-top: 20px;
+  min-height: 800px;
+  margin-top: 45px;
   margin-bottom: 85px;
   display: flex;
   flex-wrap: wrap;
