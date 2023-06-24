@@ -35,12 +35,13 @@ const PromotionCountSpan = styled.span`
   text-align: center;
 `;
 const PromotionBox = styled.div`
-  min-height: 500px;
-  margin-top: 20px;
+  min-height: 800px;
+  margin-top: 45px;
   margin-bottom: 85px;
   display: flex;
   flex-wrap: wrap;
 `;
+
 const Promotion = () => {
   const [promotions, setPromotions] = useState();
   useEffect(() => {
@@ -59,7 +60,9 @@ const Promotion = () => {
     <PromotionWrapper>
       <PromotioTitle>프로모션</PromotioTitle>
       <PromotionCountBox>
-        <PromotionCountSpan>총 {promotions.length} 개 </PromotionCountSpan>
+        <PromotionCountSpan>
+          총 {promotions && promotions.length} 개
+        </PromotionCountSpan>
       </PromotionCountBox>
       <hr />
       <PromotionBox>
