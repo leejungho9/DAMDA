@@ -183,14 +183,11 @@ const Order = () => {
 
   useEffect(() => {
     for (const key in user.coupon) {
-      console.log(key);
-      console.log(user.coupon[key].status);
       if (user.coupon[key].status === false) {
         setCount(count + 1);
       }
     }
   }, [user]);
-  console.log(count);
   return (
     <OrderContainer>
       {daumPostModal && (

@@ -129,7 +129,6 @@ function Promotion() {
     }
   }, [isPromotions]);
 
-  console.log(isPromotions);
   return (
     <PrmotionWrapper>
       <PromotionMainTitle>PROMOTION</PromotionMainTitle>
