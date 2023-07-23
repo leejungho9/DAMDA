@@ -304,31 +304,14 @@ const Order = () => {
           <OrderMenuSpan>결제수단</OrderMenuSpan>
           <hr />
           <PaymentInfoBox>
-            <PaymentInputRadio type="radio" name="payment" id="creditCard" />
+            <PaymentInputRadio
+              type="radio"
+              name="payment"
+              id="creditCard"
+              checked={true}
+            />
             <OrderInfoSpanBox>
               <OrderInfolabel htmlFor="creditCard">신용카드</OrderInfolabel>
-            </OrderInfoSpanBox>
-          </PaymentInfoBox>
-          <PaymentInfoBox>
-            <PaymentInputRadio
-              type="radio"
-              name="payment"
-              id="accountTransfer"
-            />
-            <OrderInfoSpanBox>
-              <OrderInfolabel htmlFor="accountTransfer">
-                계좌이체
-              </OrderInfolabel>
-            </OrderInfoSpanBox>
-          </PaymentInfoBox>
-          <PaymentInfoBox>
-            <PaymentInputRadio
-              type="radio"
-              name="payment"
-              id="virtualAccount"
-            />
-            <OrderInfoSpanBox>
-              <OrderInfolabel htmlFor="virtualAccount">가상계좌</OrderInfolabel>
             </OrderInfoSpanBox>
           </PaymentInfoBox>
         </OrderBox>
