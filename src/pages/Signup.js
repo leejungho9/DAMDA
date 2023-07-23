@@ -253,7 +253,10 @@ const Signup = () => {
     }
 
     setCheckSignUp(true);
-    handleSignup();
+
+    if (checkSignUp) {
+      handleSignup();
+    }
   };
 
   const handleSignup = async () => {
@@ -263,7 +266,6 @@ const Signup = () => {
         uId: user.user.uid,
         name,
         email: id,
-        id,
         password,
         phone,
         address,
