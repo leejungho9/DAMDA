@@ -7,11 +7,17 @@ const Tbody = styled.tbody`
     padding-top: 10px;
   }
 `;
-const CartList = ({ cartItems, orderNowMode }) => {
+const CartList = ({ cartItems, orderNowMode, checkItems, setCheckItems }) => {
   return cartItems.length !== 0 ? (
     <Tbody>
       {cartItems.map((item, index) => (
-        <CartItem key={index} item={item} orderNowMode={orderNowMode} />
+        <CartItem
+          key={index}
+          item={item}
+          orderNowMode={orderNowMode}
+          checkItems={checkItems}
+          setCheckItems={setCheckItems}
+        />
       ))}
     </Tbody>
   ) : (
