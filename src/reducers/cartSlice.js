@@ -82,6 +82,26 @@ const cartSlice = createSlice({
 
       return state.filter((item) => item.pid !== pid);
     },
+    removeMultipleCartItems: (state, action) => {
+      const { checkItems, userId } = action.payload;
+
+      checkItems.forEach((pid) => {
+        const cartItemsRef = ref(db, "cart_items/" + userId);
+        const queryRef = query(cartItemsRef, orderByChild("pid"), equalTo(pid));
+
+        get(queryRef).then((snapshot) => {
+          const cartItems = snapshot.val();
+          if (cartItems) {
+            Object.keys(cartItems).forEach((key) => {
+              const itemRef = ref(db, `cart_items/${userId}/${key}`);
+              remove(itemRef);
+            });
+          }
+        });
+      });
+
+      return state.filter((item) => !checkItems.includes(item.pid));
+    },
   },
 });
 
@@ -91,6 +111,7 @@ export const {
   plusQuantity,
   minusQuantity,
   removeCartItem,
+  removeMultipleCartItems,
 } = cartSlice.actions;
 
 export default cartSlice.reducer;
