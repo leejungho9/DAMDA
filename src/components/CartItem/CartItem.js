@@ -20,7 +20,7 @@ const CloseIcon = styled(IoMdClose)`
   }
 `;
 
-const CartItem = ({ orderNowMode, item }) => {
+const CartItem = ({ orderNowMode, item, checkItems, setCheckItems }) => {
   const dispatch = useDispatch();
   const { user } = useSelector((state) => state.user);
   const userId = user.userId;
@@ -28,9 +28,26 @@ const CartItem = ({ orderNowMode, item }) => {
     dispatch(removeCartItem({ pid, userId }));
   };
 
+  const handleSingleCheck = (checked, id) => {
+    if (checked) {
+      setCheckItems((prev) => [...prev, id]);
+    } else {
+      setCheckItems(checkItems.filter((el) => el !== id));
+    }
+  };
   return (
     <tr key={item.pid}>
-      <td className="t_1">{!orderNowMode && <input type="checkbox" />}</td>
+      <td className="t_1">
+        {!orderNowMode && (
+          <input
+            type="checkbox"
+            onChange={(event) =>
+              handleSingleCheck(event.target.checked, item.pid)
+            }
+            checked={checkItems.includes(item.pid) ? true : false}
+          />
+        )}
+      </td>
       <td className="t_2">
         <Link to={`/shop/${item.pid}`}>
           <ProductImg
