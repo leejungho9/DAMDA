@@ -15,8 +15,7 @@ jobs:
       - name: Install dependencies
         run: npm install
 
-
-      - name: Generate Environment Variables File for Production
+      - name: Generate Environment Variables
         run: |
           echo "REACT_APP_APIKEY=$REACT_APP_APIKEY" >> .env
           echo "REACT_APP_DATABASE_URL=$REACT_APP_DATABASE_URL" >> .env
@@ -39,24 +38,18 @@ jobs:
           REACT_APP_MEASUREMENT_ID: ${{ secrets.REACT_APP_MEASUREMENT_ID }}
           REACT_APP_CLIENT_ID: ${{ secrets.REACT_APP_CLIENT_ID }}
 
-
       - name: Build
-        run: CI= npm run build
-        
-      - name: SHOW AWS CLI VERSION
-        env:
-          AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
-          AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
-          AWS_EC2_METADATA_DISABLED: true
-        run: |
-          aws --version
+        run: npm run build
+
+      - name: Configure AWS credentials
+        uses: aws-actions/configure-aws-credentials@v1
+        with:
+          aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
+          aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+          aws-region: ap-northeast-2
 
       - name: Sync Bucket
-        env:
-          AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
-          AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
-          AWS_EC2_METADATA_DISABLED: true
         run: |
           aws s3 sync \
             --region ap-northeast-2 \
-            build s3://damda-s3\
+            build s3://${{ secrets.AWS_S3_BUCKET }}\
