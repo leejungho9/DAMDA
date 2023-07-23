@@ -2,7 +2,7 @@ import React, { useEffect, useState } from "react";
 import styled from "styled-components";
 import { useDispatch, useSelector } from "react-redux";
 import { getCartItem } from "../../apis/apis";
-import { setCartItem } from "../../reducers/cartSlice";
+import { removeMultipleCartItems, setCartItem } from "../../reducers/cartSlice";
 import Button from "../Button/Button";
 import { useLocation } from "react-router-dom";
 import CartList from "../CartList/CartList";
@@ -84,6 +84,9 @@ const TableHeader = styled.table`
   }
   .t_3 {
     width: 50%;
+    span {
+      cursor: pointer;
+    }
   }
 `;
 const TableBody = styled.table`
@@ -162,7 +165,21 @@ const ShoppingCart = () => {
   }, [cartItems]);
 
   const onClickNaverPayButton = () => {};
-  const onClickOrderNowButton = () => {};
+
+  const [checkItems, setCheckItems] = useState([]);
+  const handleAllCheck = (checked) => {
+    if (checked) {
+      const idArr = [];
+      cartItems.forEach((el) => idArr.push(el.pid));
+      setCheckItems(idArr);
+    } else {
+      setCheckItems([]);
+    }
+  };
+
+  const handleRemoveCheck = () => {
+    dispatch(removeMultipleCartItems({ userId, checkItems }));
+  };
 
   return (
     <CartBox>
@@ -172,10 +189,21 @@ const ShoppingCart = () => {
             <tbody>
               <tr>
                 <td className="t_1">
-                  <input type="checkbox" />
+                  <input
+                    type="checkbox"
+                    id="allCheck"
+                    onChange={(event) => handleAllCheck(event.target.checked)}
+                    checked={
+                      checkItems.length === cartItems.length ? true : false
+                    }
+                  />
                 </td>
-                <td className="t_2">전체선택</td>
-                <td className="t_3"> 전체삭제</td>
+                <td className="t_2">
+                  <label htmlFor="allCheck">전체선택</label>
+                </td>
+                <td className="t_3" onClick={() => handleRemoveCheck()}>
+                  <span>선택삭제</span>
+                </td>
               </tr>
             </tbody>
           </TableHeader>
@@ -184,7 +212,12 @@ const ShoppingCart = () => {
       )}
       <CartContext>
         <TableBody>
-          <CartList cartItems={cartItems} orderNowMode={orderNowMode} />
+          <CartList
+            cartItems={cartItems}
+            orderNowMode={orderNowMode}
+            checkItems={checkItems}
+            setCheckItems={setCheckItems}
+          />
         </TableBody>
         <OrderContainer>
           <OrderBox>
@@ -218,7 +251,6 @@ const ShoppingCart = () => {
                   width={316}
                   height={55}
                   radius={10}
-                  onClick={onClickOrderNowButton}
                   className="orderButton"
                   link={true}
                   fontSize={14}
