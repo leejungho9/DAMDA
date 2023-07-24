@@ -108,6 +108,7 @@ const SigninBtn = styled.div`
   border: solid 1px;
   border-radius: 53px;
   font-family: "LINESeedKR-Rg";
+
   span {
     padding-left: 24px;
   }
@@ -131,29 +132,10 @@ const LoginOption = styled.div`
   display: flex;
   flex-direction: row;
   align-items: baseline;
-  justify-content: space-between;
   width: 100%;
-`;
-const LoginOptionBox = styled.div`
-  display: flex;
-  align-items: center;
-  flex-direction: row;
-  justify-content: space-between;
+  justify-content: flex-end;
 `;
 
-const AutoLogin = styled.input`
-  display: flex;
-  width: 18px;
-  height: 18px;
-  margin-left: 15px;
-  margin-right: 20px;
-`;
-const AutoLoginLabel = styled.label`
-  font-size: 15px;
-  color: #868686;
-  cursor: pointer;
-  font-family: "LINESeedKR-Rg";
-`;
 const NaverLogin = styled.div`
   display: none;
 `;
@@ -319,10 +301,6 @@ function Login() {
           onChange={onPasswordHandler}
         />
         <LoginOption>
-          <LoginOptionBox>
-            <AutoLogin type={"checkbox"} />
-            <AutoLoginLabel>자동로그인</AutoLoginLabel>
-          </LoginOptionBox>
           <LoginBtn onClick={onLoginHandler}>로그인</LoginBtn>
         </LoginOption>
       </LoginBox>
