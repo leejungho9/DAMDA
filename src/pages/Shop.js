@@ -129,11 +129,9 @@ function Shop() {
         );
         switch (isFilter) {
           case "리뷰순":
-            checkCategory.sort((a, b) => {
-              const reviewCountA = a.review ? a.review.length : 0;
-              const reviewCountB = b.review ? b.review.length : 0;
-              return reviewCountB - reviewCountA;
-            });
+            setProducts(
+              checkCategory.sort((a, b) => b.reviews.length - a.reviews.length)
+            );
             break;
           case "클릭순":
             setProducts(checkCategory.sort((a, b) => b.views - a.views));
