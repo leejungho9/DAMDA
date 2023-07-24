@@ -1,11 +1,10 @@
 import React, { useState } from "react";
-import { TfiClose } from "react-icons/tfi";
 import styled from "styled-components";
-import DaumPostcode from "react-daum-postcode";
 import { createUserWithEmailAndPassword } from "firebase/auth";
 import { auth } from "../Firebase";
 import { postSignup } from "../apis/apis";
 import { useNavigate } from "react-router-dom";
+import DaumPostModal from "../components/DaumPostModal";
 
 const SignupContainer = styled.div`
   margin: 0 auto;
@@ -104,36 +103,6 @@ const SignupSpan = styled.span`
   margin-right: 20px;
 `;
 
-const DaumPostcodeContainer = styled.div`
-  position: fixed;
-  top: 0;
-  bottom: 0;
-  left: 0;
-  right: 0;
-  margin: auto;
-  width: 500px;
-  height: 600px;
-  z-index: 100;
-  display: block;
-  background-color: red;
-  border: 1px solid #363636;
-`;
-const DaumPostcodeHeader = styled.div`
-  height: 50px;
-  background-color: #fff;
-  position: relative;
-  display: flex;
-  justify-content: end;
-  align-items: center;
-  padding-right: 15px;
-`;
-const DaumPostClsoeButton = styled(TfiClose)`
-  width: 15px;
-  height: 15px;
-  color: #000;
-  cursor: pointer;
-`;
-
 const Signup = () => {
   const navigator = useNavigate();
   const [daumPostModal, setDaumPostModal] = useState(false);
@@ -146,12 +115,8 @@ const Signup = () => {
   const [phone, setPhone] = useState("");
   const [address, setAddress] = useState("");
   const [detailAddress, setDetailAddress] = useState("");
-  const DaumPostStyle = {
-    width: "500px",
-    height: "550px",
-  };
+
   const onCompleteAdress = (e) => {
-    console.log(e);
     setAddress(e.address);
     setDaumPostModal(false);
   };
@@ -289,12 +254,10 @@ const Signup = () => {
   return (
     <SignupContainer>
       {daumPostModal && (
-        <DaumPostcodeContainer>
-          <DaumPostcodeHeader>
-            <DaumPostClsoeButton onClick={() => setDaumPostModal(false)} />
-          </DaumPostcodeHeader>
-          <DaumPostcode onComplete={onCompleteAdress} style={DaumPostStyle} />
-        </DaumPostcodeContainer>
+        <DaumPostModal
+          setDaumPostModal={setDaumPostModal}
+          onCompleteAdress={onCompleteAdress}
+        />
       )}
       <SignupWrapper>
         <SignupTitle>회원가입</SignupTitle>
