@@ -99,7 +99,7 @@ function Shop() {
     "건강디저트",
   ]);
   const [isCategory, setCategory] = useState("수제 청");
-  const [selectFilter] = useState(["리뷰순", "클릭순", "구입순"]);
+  const [selectFilter] = useState(["리뷰순", "클릭순"]);
   const [isFilter, setFilter] = useState("리뷰순");
   const [isProduct, setProducts] = useState([]);
   const [isLoading, setLoading] = useState(true);
@@ -137,11 +137,6 @@ function Shop() {
             break;
           case "클릭순":
             setProducts(checkCategory.sort((a, b) => b.views - a.views));
-            break;
-          case "구입순":
-            setProducts(
-              checkCategory.sort((a, b) => b.purchaseCount - a.purchaseCount)
-            );
             break;
           default:
         }
