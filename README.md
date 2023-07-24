@@ -12,17 +12,22 @@
 - **`Link` :** [🌐DAMDA ](http://damda-s3.s3-website.ap-northeast-2.amazonaws.com)
 
 
+## 💄 Front-end
+
+| React | React Router | Redux | React Icons | Styled-Components |
+| :---: | :---: | :---: | :---: | :---: | 
+| <img src="https://github.com/leejungho9/DAMDA/assets/71073027/324aafbb-d67b-47c5-b6dc-661be68c4967" alt="icon" width="65" height="65" />  |  <img src="https://github.com/leejungho9/DAMDA/assets/71073027/96bc0463-267b-4d2c-95e4-67070b41143e" alt="icon" width="65" height="65" />  |  <img src="https://github.com/leejungho9/DAMDA/assets/71073027/0a8f39c3-f74c-442c-98cd-e986547f7450" alt="icon" width="65" height="65" />  |  <img src="https://github.com/leejungho9/DAMDA/assets/71073027/673c977f-b08d-4eb9-87d4-740ae34e7b37" alt="icon" width="65" height="65" />  |  <img src="https://github.com/leejungho9/DAMDA/assets/71073027/f507615a-dde2-417e-b147-0a3899b41fae5" alt="icon" width="65" height="65" /> | 
+
+## 🛠️ Deploy & Back-end
+| AWS S3 | Firebase | GitActions | 
+| :---: | :---: | :---: | 
+| <img src="https://github.com/leejungho9/DAMDA/assets/71073027/324aafbb-d67b-47c5-b6dc-661be68c4967" alt="icon" width="65" height="65" />  | <img src="https://github.com/leejungho9/DAMDA/assets/71073027/5fd07f28-3941-4ed3-8750-04448e5075a9" alt="icon" width="65" height="65" />  |  <img src="https://github.com/leejungho9/DAMDA/assets/71073027/d68c7279-2011-4d25-a138-99579c45b59f" alt="icon" width="65" height="65" />  | 
+
+
 ## ⚙️ Tools ⚙️ 
-| <a href="https://github.com/MNK-photoday/photoday" target="_blank">Github</a> | Discord |<a href="https://www.notion.so/codestates/1754f40362bd47ca930d38ab4177d496" target="_blank">Notion</a>|
+| VSCode| Git | Notion | 
 | :---: | :---: |:---:|
-| <img alt="github logo" src="https://techstack-generator.vercel.app/github-icon.svg" width="65" height="65"> | <img alt="Discord logo" src="https://assets-global.website-files.com/6257adef93867e50d84d30e2/62595384e89d1d54d704ece7_3437c10597c1526c3dbd98c737c2bcae.svg" height="65" width="65"> |<img alt="Notion logo" src="https://www.notion.so/cdn-cgi/image/format=auto,width=640,quality=100/front-static/shared/icons/notion-app-icon-3d.png" height="65" width="65">|
-
-<br/>
-
-## 🛠️ Technology Stack
-
-</br>
-
+| <img src="https://github.com/leejungho9/DAMDA/assets/71073027/028e5714-1c64-46c4-95d5-c0129087ff98" alt="icon" width="65" height="65" />  | <img src="https://github.com/leejungho9/DAMDA/assets/71073027/84277f32-eb2c-466a-af96-d18c951b13e7" alt="icon" width="65" height="65" />  | <img src="https://github.com/leejungho9/DAMDA/assets/71073027/fda03fff-e651-40e1-a0b7-19e2270b4f5e" alt="icon" width="65" height="65" />  | 
 
 ## 💻 Pages & Features
 
