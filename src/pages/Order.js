@@ -228,8 +228,6 @@ const Order = () => {
               defaultValue={user === null ? user.point : 0}
             />
             <OrderInfoSapn>원</OrderInfoSapn>
-            {/*  !버튼 사용 고민중 */}
-            {/* <OrderButton>사용하기</OrderButton> */}
           </OrderInfoBox>
         </OrderBox>
       </OrdererContainer>
