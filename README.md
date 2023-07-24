@@ -1,4 +1,4 @@
-<div  align="center">
+<div align="leftr">
 
 ![image](https://github.com/leejungho9/DAMDA/assets/71073027/e33bec52-a448-40f1-8309-35e17994cc23)
 
@@ -10,7 +10,7 @@
 - **`Project duration` :** 2023.02.05 - 2023.04.30
 - **`members` :** 이정호
 - **`Link` :** [🌐DAMDA ](http://damda-s3.s3-website.ap-northeast-2.amazonaws.com)
-<br/>
+
 
 ## ⚙️ Tools ⚙️ 
 | <a href="https://github.com/MNK-photoday/photoday" target="_blank">Github</a> | Discord |<a href="https://www.notion.so/codestates/1754f40362bd47ca930d38ab4177d496" target="_blank">Notion</a>|
