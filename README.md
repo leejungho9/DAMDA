@@ -54,36 +54,28 @@
       <td style="text-align: center;"><img src="https://github.com/leejungho9/DAMDA/assets/71073027/3d8a6e89-d46e-47b9-aed7-f0749b4c0abc" alt="상품 상세 페이지"></td>
     </tr>
     <tr>
-      <td><strong style="text-align: center;">상품 페이지</strong></td>
-      <td><strong style="text-align: center;">상품 상세 페이지</strong></td>
-    </tr>
-    <tr>
-      <td style="text-align: center;"><img src="https://github.com/leejungho9/DAMDA/assets/71073027/b999fa06-4134-4031-ae7e-e3c3de626f76" alt="상품 페이지"></td>
-      <td style="text-align: center;"><img src="https://github.com/leejungho9/DAMDA/assets/71073027/3d8a6e89-d46e-47b9-aed7-f0749b4c0abc" alt="상품 상세 페이지"></td>
-    </tr>
-     <tr>
       <td><strong style="text-align: center;">장바구니 페이지</strong></td>
       <td><strong style="text-align: center;">관심상품 페이지</strong></td>
     </tr>
     <tr>
-      <td style="text-align: center;"><img src="https://github.com/leejungho9/DAMDA/assets/71073027/b999fa06-4134-4031-ae7e-e3c3de626f76" alt="상품 페이지"></td>
+      <td style="text-align: center;"><img src="https://github.com/leejungho9/DAMDA/assets/71073027/7743871e-2d08-4bb7-814e-207c347cf6b2" alt="장바구니 페이지"></td>
+      <td style="text-align: center;"><img src="https://github.com/leejungho9/DAMDA/assets/71073027/e40b30e6-c10d-48f2-9b38-c4f98d1e5b68" alt="관심상품 페이지"></td>
+    </tr>
+     <tr>
+      <td><strong style="text-align: center;">주문 페이지</strong></td>
+      <td><strong style="text-align: center;">네이버페이 기능</strong></td>
+    </tr>
+    <tr>
+      <td style="text-align: center;"><img src="https://github.com/leejungho9/DAMDA/assets/71073027/919c908e-b33d-4ed1-8886-8ab161cdc29a" alt="주문 페이지"></td>
       <td style="text-align: center;"><img src="https://github.com/leejungho9/DAMDA/assets/71073027/3d8a6e89-d46e-47b9-aed7-f0749b4c0abc" alt="상품 상세 페이지"></td>
     </tr>  
      <tr>
-      <td><strong style="text-align: center;">상품 페이지</strong></td>
-      <td><strong style="text-align: center;">상품 상세 페이지</strong></td>
+      <td><strong style="text-align: center;">프로모션 페이지</strong></td>
+      <td><strong style="text-align: center;">브랜드 페이지</strong></td>
     </tr>
     <tr>
-      <td style="text-align: center;"><img src="https://github.com/leejungho9/DAMDA/assets/71073027/b999fa06-4134-4031-ae7e-e3c3de626f76" alt="상품 페이지"></td>
-      <td style="text-align: center;"><img src="https://github.com/leejungho9/DAMDA/assets/71073027/3d8a6e89-d46e-47b9-aed7-f0749b4c0abc" alt="상품 상세 페이지"></td>
-    </tr>  
-     <tr>
-      <td><strong style="text-align: center;">상품 페이지</strong></td>
-      <td><strong style="text-align: center;">상품 상세 페이지</strong></td>
-    </tr>
-    <tr>
-      <td style="text-align: center;"><img src="https://github.com/leejungho9/DAMDA/assets/71073027/b999fa06-4134-4031-ae7e-e3c3de626f76" alt="상품 페이지"></td>
-      <td style="text-align: center;"><img src="https://github.com/leejungho9/DAMDA/assets/71073027/3d8a6e89-d46e-47b9-aed7-f0749b4c0abc" alt="상품 상세 페이지"></td>
+      <td style="text-align: center;"><img src="https://github.com/leejungho9/DAMDA/assets/71073027/b999fa06-4134-4031-ae7e-e3c3de626f76" alt="프로모션 페이지"></td>
+      <td style="text-align: center;"><img src="https://github.com/leejungho9/DAMDA/assets/71073027/3d8a6e89-d46e-47b9-aed7-f0749b4c0abc" alt="브랜드 페이지"></td>
     </tr>  
   </tbody>
 </table>
