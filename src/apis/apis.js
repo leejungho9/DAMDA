@@ -294,10 +294,13 @@ export const addReview = async (
     reviewContent: reviewContent,
     like: 3,
   };
-
-  const reviewRef = ref(db, `reviews/`);
+  const reviewRef = ref(db, "products/product" + pid + "/reviews/");
   const newReviewRef = push(reviewRef);
   set(newReviewRef, data);
+
+  const reviewRefs = ref(db, `reviews/`);
+  const newReviewRefs = push(reviewRefs);
+  set(newReviewRefs, data);
 };
 
 // ! 리뷰 길이 가져오기
@@ -333,8 +336,15 @@ export const getReviews = async (pid) => {
 
 //!리뷰 삭제
 export const removeReview = async (reviewId, pid) => {
+  console.log(reviewId);
   const queryRef = query(
     ref(db, "reviews/"),
+    orderByChild("reviewId"),
+    equalTo(Number(reviewId))
+  );
+
+  const queryRef2 = query(
+    ref(db, "products/product" + pid + "/reviews/"),
     orderByChild("reviewId"),
     equalTo(Number(reviewId))
   );
@@ -343,6 +353,13 @@ export const removeReview = async (reviewId, pid) => {
     const reviews = childSnapshot.val();
     const key = Object.keys(reviews);
     const reviewRef = ref(db, `reviews/${key}`);
+    remove(reviewRef);
+  });
+
+  await get(queryRef2).then((childSnapshot) => {
+    const reviews = childSnapshot.val();
+    const key = Object.keys(reviews);
+    const reviewRef = ref(db, `products/product${pid}/reviews/${key}`);
 
     remove(reviewRef);
   });
