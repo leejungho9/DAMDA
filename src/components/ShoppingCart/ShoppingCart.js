@@ -164,7 +164,21 @@ const ShoppingCart = () => {
     }
   }, [cartItems]);
 
-  const onClickNaverPayButton = () => {};
+  const onClickNaverPayButton = () => {
+    const oPay = window.Naver.Pay.create({
+      mode: "production",
+      clientId: process.env.REACT_APP_CLIENT_ID,
+    });
+    oPay.open({
+      merchantUserKey: "DAMDA123",
+      merchantPayKey: "123456789",
+      productName: `${cartItems[0].title} 외 ${cartItems.length} 개`,
+      totalPayAmount: totalPrice, // ? 총 결제금액
+      taxScopeAmount: 0, // ? 과세금액
+      taxExScopeAmount: totalPrice,
+      returnUrl: `${process.env.REACT_APP_API}/cart`,
+    });
+  };
 
   const [checkItems, setCheckItems] = useState([]);
   const handleAllCheck = (checked) => {
