@@ -63,35 +63,24 @@
     </tr>
      <tr>
       <td><strong style="text-align: center;">주문 페이지</strong></td>
-      <td><strong style="text-align: center;">네이버페이 기능</strong></td>
+      <td><strong style="text-align: center;">네이버페이</strong></td>
     </tr>
     <tr>
       <td style="text-align: center;"><img src="https://github.com/leejungho9/DAMDA/assets/71073027/919c908e-b33d-4ed1-8886-8ab161cdc29a" alt="주문 페이지"></td>
-      <td style="text-align: center;"><img src="https://github.com/leejungho9/DAMDA/assets/71073027/3d8a6e89-d46e-47b9-aed7-f0749b4c0abc" alt="상품 상세 페이지"></td>
+      <td style="text-align: center;"><img src="https://github.com/leejungho9/DAMDA/assets/71073027/71e3dc76-e9c2-4649-96b7-b208f0385632" alt="네이퍼 페이"></td>
     </tr>  
      <tr>
       <td><strong style="text-align: center;">프로모션 페이지</strong></td>
       <td><strong style="text-align: center;">브랜드 페이지</strong></td>
     </tr>
     <tr>
-      <td style="text-align: center;"><img src="https://github.com/leejungho9/DAMDA/assets/71073027/b999fa06-4134-4031-ae7e-e3c3de626f76" alt="프로모션 페이지"></td>
-      <td style="text-align: center;"><img src="https://github.com/leejungho9/DAMDA/assets/71073027/3d8a6e89-d46e-47b9-aed7-f0749b4c0abc" alt="브랜드 페이지"></td>
+      <td style="text-align: center;"><img src="https://github.com/leejungho9/DAMDA/assets/71073027/dfeff725-5084-4a22-81bf-a52d7d4d4955" alt="프로모션 페이지"></td>
+      <td style="text-align: center;"><img src="https://github.com/leejungho9/DAMDA/assets/71073027/6b5bb281-97f5-4494-92da-ab883bccf6c4" alt="브랜드 페이지"></td>
     </tr>  
   </tbody>
 </table>
 
 <br/>
-
-
-
-
-
-
-
-
-
-
-<br />
 
 ## ✉️ Commit  Message
 
