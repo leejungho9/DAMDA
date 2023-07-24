@@ -1,11 +1,11 @@
 import React, { useEffect } from "react";
 import styled from "styled-components";
 import ShoppingCart from "../components/ShoppingCart/ShoppingCart";
-import DaumPostcode from "react-daum-postcode";
 import { useState } from "react";
-import { TfiClose } from "react-icons/tfi";
 import Payment from "../components/Payment";
 import { useSelector } from "react-redux";
+import DaumPostModal from "../components/DaumPostModal";
+
 const OrderContainer = styled.div`
   margin: 0 auto;
   width: 1300px;
@@ -136,39 +136,7 @@ const ButtonBox = styled.div`
   justify-content: end;
 `;
 
-const DaumPostcodeContainer = styled.div`
-  position: absolute;
-  top: 50%;
-  left: 32%;
-  width: 500px;
-  height: 600px;
-  z-index: 100;
-  display: block;
-  background-color: red;
-  border: 1px solid #363636;
-`;
-
-const DaumPostcodeHeader = styled.div`
-  height: 50px;
-  background-color: #fff;
-  position: relative;
-  display: flex;
-  justify-content: end;
-  align-items: center;
-  padding-right: 15px;
-`;
-const DaumPostClsoeButton = styled(TfiClose)`
-  width: 15px;
-  height: 15px;
-  color: #000;
-  cursor: pointer;
-`;
 const Order = () => {
-  const DaumPostStyle = {
-    width: "500px",
-    height: "550px",
-  };
-
   const [daumPostModal, setDaumPostModal] = useState(false);
   const onCompleteAdress = (event) => {
     setAddress(event.address);
@@ -178,25 +146,28 @@ const Order = () => {
   const [address, setAddress] = useState("");
   const cartItems = useSelector((state) => state.cartItems || []);
   const { user } = useSelector((state) => state.user);
-
   const [count, setCount] = useState(0);
 
   useEffect(() => {
-    for (const key in user.coupon) {
-      if (user.coupon[key].status === false) {
-        setCount(count + 1);
+    const countCouponse = () => {
+      let couponCount = 0;
+      for (const key in user.coupon) {
+        if (user.coupon[key].status) {
+          couponCount += 1;
+        }
       }
-    }
-  }, [user]);
+      setCount(couponCount);
+    };
+    countCouponse();
+  }, [count, user]);
+
   return (
     <OrderContainer>
       {daumPostModal && (
-        <DaumPostcodeContainer>
-          <DaumPostcodeHeader>
-            <DaumPostClsoeButton onClick={() => setDaumPostModal(false)} />
-          </DaumPostcodeHeader>
-          <DaumPostcode onComplete={onCompleteAdress} style={DaumPostStyle} />
-        </DaumPostcodeContainer>
+        <DaumPostModal
+          onCompleteAdress={onCompleteAdress}
+          setDaumPostModal={setDaumPostModal}
+        />
       )}
       <OrderTitleH1>주문하기</OrderTitleH1>
       <OrderMenuSpan>주문상품</OrderMenuSpan>
@@ -210,7 +181,11 @@ const Order = () => {
             <OrderInfoSpanBox>
               <OrderInfolabel htmlFor="name">이름</OrderInfolabel>
             </OrderInfoSpanBox>
-            <OrdererInfoInput type="text" id="name" value={user && user.name} />
+            <OrdererInfoInput
+              type="text"
+              id="name"
+              defaultValue={user && user.name}
+            />
           </OrderInfoBox>
           <OrderInfoBox>
             <OrderInfoSpanBox>
@@ -219,7 +194,7 @@ const Order = () => {
             <OrdererInfoInput
               type="text"
               id="phone"
-              value={user && user.phone}
+              defaultValue={user && user.phone}
             />
           </OrderInfoBox>
           <OrderInfoBox>
@@ -229,7 +204,7 @@ const Order = () => {
             <OrdererInfoInput
               type="text"
               id="email"
-              value={user && user.email}
+              defaultValue={user && user.email}
             />
           </OrderInfoBox>
         </OrderBox>
@@ -250,7 +225,7 @@ const Order = () => {
               type="text"
               id="point"
               max={user && user.point}
-              value={user && user.point}
+              defaultValue={user === null ? user.point : 0}
             />
             <OrderInfoSapn>원</OrderInfoSapn>
             {/*  !버튼 사용 고민중 */}
@@ -281,7 +256,7 @@ const Order = () => {
             <OrdererInfoInput
               type="text"
               id="receiverAddress"
-              value={address}
+              defaultValue={address}
             />
             <OrderButton onClick={() => setDaumPostModal(true)}>
               주소검색
