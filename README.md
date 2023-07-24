@@ -8,9 +8,10 @@
  
 - **`Project` :** DAMDA (담다)
 - **`Project duration` :** 2023.02.05 - 2023.04.30
+- **`Project description` :**  수제 청, 수제 꿀, 건강식품 까지 다양한 카테고리의 수제식품을 합리적인 가격으로 제공하는 플랫폼입니다. 
 - **`members` :** 이정호
 - **`Link` :** [🌐DAMDA ](http://damda-s3.s3-website.ap-northeast-2.amazonaws.com)
-
+- 
 
 ## 💄 Front-end
 
