@@ -39,7 +39,7 @@
       <td colspan="2" style="display: flex; align-items : center; text-align : center;"><strong>메인페이지</strong></td>
     </tr>
     <tr>
-      <td style="text-align: center;" colspan="2" ><img src="https://github.com/leejungho9/DAMDA/assets/71073027/ce2ec53a-3f16-4b65-9350-2554895f629c" alt="메인 페이지"></td>
+      <td style="text-align: center;" colspan="2" ><img src="https://github.com/leejungho9/DAMDA/assets/71073027/ce2ec53a-3f16-4b65-9350-2554895f629c" alt="메인 페이지" style="margin: 0 auto;"></td>
     </tr>
      <tr>
       <td style="text-align: center;"><strong>로그인 페이지</strong></td>
