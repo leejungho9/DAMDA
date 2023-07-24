@@ -1,4 +1,4 @@
-<div align="leftr">
+<div align="center">
 
 ![image](https://github.com/leejungho9/DAMDA/assets/71073027/e33bec52-a448-40f1-8309-35e17994cc23)
 
