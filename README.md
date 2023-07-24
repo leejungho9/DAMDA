@@ -1,27 +1,101 @@
-## 💻 개요
+<div  align="center">
 
-- 프로젝트 명:
-- 프로젝트 기간:
-- 배포주소:
+![image](https://github.com/leejungho9/DAMDA/assets/71073027/e33bec52-a448-40f1-8309-35e17994cc23)
 
-## 📌 팀원 소개
+</br>
 
-| 이정호 | 윤지원 |
-| :----: | :----: |
-|  사진  |  사진  |
-|   FE   |   FE   |
-| 깃허브 | 깃허브 |
+</div>
+ 
+- **`Project` :** DAMDA (담다)
+- **`Project duration` :** 2023.02.05 - 2023.04.30
+- **`members` :** 이정호
+- **`Link` :** [🌐 DAMDA ](http://damda-s3.s3-website.ap-northeast-2.amazonaws.com/)
+<br/>
 
-## 📌 커밋 규칙
 
-|   이름    |                        내용                        |
-| :-------: | :------------------------------------------------: |
-|   feat    |              새로운 기능에 대한 커밋               |
-|    fix    |                     버그 수정                      |
-|   docs    |                     문서 수정                      |
-|   style   | 코드 포맷팅, 세미콜론 누락, 코드 변경이 없는 경우  |
-| refactor  |                   코드 리펙토링                    |
-|   test    |       테스트 코드, 리펙토링 테스트 코드 추가       |
-|  chore    |         빌드 업무 수정, 패키지 매니저 수정         |
-|  rename   | 파일 혹은 폴더명을 수정하거나 옮기는 작업만인 경우 |
-|  design   |            CSS 등 사용자 UI 디자인 변경            |
+<br/>
+
+## ⚙️ Tools ⚙️ 
+| <a href="https://github.com/MNK-photoday/photoday" target="_blank">Github</a> | Discord |<a href="https://www.notion.so/codestates/1754f40362bd47ca930d38ab4177d496" target="_blank">Notion</a>|
+| :---: | :---: |:---:|
+| <img alt="github logo" src="https://techstack-generator.vercel.app/github-icon.svg" width="65" height="65"> | <img alt="Discord logo" src="https://assets-global.website-files.com/6257adef93867e50d84d30e2/62595384e89d1d54d704ece7_3437c10597c1526c3dbd98c737c2bcae.svg" height="65" width="65"> |<img alt="Notion logo" src="https://www.notion.so/cdn-cgi/image/format=auto,width=640,quality=100/front-static/shared/icons/notion-app-icon-3d.png" height="65" width="65">|
+
+<br/>
+
+## 🛠️ Technology Stack
+
+</br>
+
+
+## 💻 Pages & Features
+|       |       |
+| :---: | :---: |
+|        **메인페이지**    |     |
+|  | |
+|                    **Login page**                     |                     **Signup page**                     |
+| | |
+|                    **Upload page**                     |                 **Tag Update**                  |
+| | |
+|                    **Search page**                     |                 **Detail page**                  |
+| | |
+
+<table>
+  <thead>
+    <tr>
+      <th></th>
+      <th></th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+     <td colspan="2" ><strong>메인페이지</strong></td>
+    </tr>
+    <tr>
+     <td style="text-align: center;" colspan="2" ><img src="https://github.com/leejungho9/DAMDA/assets/71073027/ce2ec53a-3f16-4b65-9350-2554895f629c" alt="메인페이지"></td>
+    </tr>
+     <tr>
+     <td style="text-align: center;"><strong>로그인 페이지</strong></td>
+     <td style="text-align: center;"><strong>회원가입 페이지</strong></td>
+    </tr>
+    <tr>
+     <td style="text-align: center;"><img src="https://github.com/leejungho9/DAMDA/assets/71073027/c3074376-e76d-4bc7-adb7-1051163b7d41" alt="로그인페이지"></td>
+     <td style="text-align: center;">내용</td>
+    </tr>
+  </tbody>
+</table>
+
+<br/>
+
+
+
+
+
+
+
+
+
+
+
+<br />
+
+## ✉️ Commit  Message
+
+|Message|Description|
+|:---:|:---|
+|✨|Introduce new features|
+|🔨|Add or update development scripts|
+|🐛|Fix a bug|
+|🔥|Remove code or files|
+|📝|Add or update documentation|
+|💄|Add or update the UI and style files|
+|✅ |Add or update tests|
+|💚 |Fix CI Build|
+|✅ |Add or update tests|
+|♻️ |Refactor code|
+|⏪ |Revert changes|
+|🔀 |Merge branches|
+|📦 |Add or update compiled files or packages|
+|🚚 |Move or rename resources (e.g.: files paths routes)|
+|🙈 |Add or update a .gitignore file|
+|🍱 |dd or update assets|
+
