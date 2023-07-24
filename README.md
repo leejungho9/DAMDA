@@ -9,10 +9,7 @@
 - **`Project` :** DAMDA (담다)
 - **`Project duration` :** 2023.02.05 - 2023.04.30
 - **`members` :** 이정호
-- **`Link` :** [🌐 DAMDA ](http://damda-s3.s3-website.ap-northeast-2.amazonaws.com/)
-<br/>
-
-
+- **`Link` :** [🌐DAMDA ](http://damda-s3.s3-website.ap-northeast-2.amazonaws.com)
 <br/>
 
 ## ⚙️ Tools ⚙️ 
