@@ -29,46 +29,46 @@
 <table>
   <tbody>
     <tr>
-      <td colspan="2" style="display: flex; align-items : center;"><strong style="text-align : center;">메인페이지</strong></td>
+      <td colspan="2" style="display: flex; align-items : center; text-align : center;"><strong>메인페이지</strong></td>
     </tr>
     <tr>
       <td style="text-align: center;" colspan="2" ><img src="https://github.com/leejungho9/DAMDA/assets/71073027/ce2ec53a-3f16-4b65-9350-2554895f629c" alt="메인 페이지"></td>
     </tr>
      <tr>
-      <td><strong style="text-align: center;">로그인 페이지</strong></td>
-      <td><strong style="text-align: center;">회원가입 페이지</strong></td>
+      <td style="text-align: center;"><strong>로그인 페이지</strong></td>
+      <td style="text-align: center;"><strong>회원가입 페이지</strong></td>
     </tr>
     <tr>
       <td style="text-align: center;"><img src="https://github.com/leejungho9/DAMDA/assets/71073027/c3074376-e76d-4bc7-adb7-1051163b7d41" alt="로그인 페이지"></td>
       <td style="text-align: center;"><img src="https://github.com/leejungho9/DAMDA/assets/71073027/61272001-bf44-4c7e-8051-e06413825c2f" alt="회원가입 페이지"></td>
     </tr>
      <tr>
-      <td><strong style="text-align: center;">상품 페이지</strong></td>
-      <td><strong style="text-align: center;">상품 상세 페이지</strong></td>
+      <td style="text-align: center;"><strong>상품 페이지</strong></td>
+      <td style="text-align: center;"><strong>상품 상세 페이지</strong></td>
     </tr>
     <tr>
       <td style="text-align: center;"><img src="https://github.com/leejungho9/DAMDA/assets/71073027/b999fa06-4134-4031-ae7e-e3c3de626f76" alt="상품 페이지"></td>
       <td style="text-align: center;"><img src="https://github.com/leejungho9/DAMDA/assets/71073027/3d8a6e89-d46e-47b9-aed7-f0749b4c0abc" alt="상품 상세 페이지"></td>
     </tr>
     <tr>
-      <td><strong style="text-align: center;">장바구니 페이지</strong></td>
-      <td><strong style="text-align: center;">관심상품 페이지</strong></td>
+      <td style="text-align: center;"><strong>장바구니 페이지</strong></td>
+      <td  style="text-align: center;"><strong>관심상품 페이지</strong></td>
     </tr>
     <tr>
       <td style="text-align: center;"><img src="https://github.com/leejungho9/DAMDA/assets/71073027/7743871e-2d08-4bb7-814e-207c347cf6b2" alt="장바구니 페이지"></td>
       <td style="text-align: center;"><img src="https://github.com/leejungho9/DAMDA/assets/71073027/e40b30e6-c10d-48f2-9b38-c4f98d1e5b68" alt="관심상품 페이지"></td>
     </tr>
      <tr>
-      <td><strong style="text-align: center;">주문 페이지</strong></td>
-      <td><strong style="text-align: center;">네이버페이</strong></td>
+      <td style="text-align: center;"><strong>주문 페이지</strong></td>
+      <td style="text-align: center;"><strong>네이버페이</strong></td>
     </tr>
     <tr>
       <td style="text-align: center;"><img src="https://github.com/leejungho9/DAMDA/assets/71073027/919c908e-b33d-4ed1-8886-8ab161cdc29a" alt="주문 페이지"></td>
       <td style="text-align: center;"><img src="https://github.com/leejungho9/DAMDA/assets/71073027/71e3dc76-e9c2-4649-96b7-b208f0385632" alt="네이퍼 페이"></td>
     </tr>  
      <tr>
-      <td><strong style="text-align: center;">프로모션 페이지</strong></td>
-      <td><strong style="text-align: center;">브랜드 페이지</strong></td>
+      <td style="text-align: center;"><strong>프로모션 페이지</strong></td>
+      <td style="text-align: center;"><strong>브랜드 페이지</strong></td>
     </tr>
     <tr>
       <td style="text-align: center;"><img src="https://github.com/leejungho9/DAMDA/assets/71073027/dfeff725-5084-4a22-81bf-a52d7d4d4955" alt="프로모션 페이지"></td>
