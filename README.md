@@ -11,13 +11,14 @@
 - **`Project description` :**  수제 청, 수제 꿀, 건강식품 까지 다양한 카테고리의 수제식품을 합리적인 가격으로 제공하는 플랫폼입니다. 
 - **`members` :** 이정호
 - **`Link` :** [🌐DAMDA ](http://damda-s3.s3-website.ap-northeast-2.amazonaws.com)
-- 
+  
 
 ## 💄 Front-end 💄
 
-| React | React Router | Redux | React Icons | Styled-Components |
-| :---: | :---: | :---: | :---: | :---: | 
-| <img src="https://github.com/leejungho9/DAMDA/assets/71073027/324aafbb-d67b-47c5-b6dc-661be68c4967" alt="icon" width="65" height="65" />  |  <img src="https://github.com/leejungho9/DAMDA/assets/71073027/96bc0463-267b-4d2c-95e4-67070b41143e" alt="icon" width="65" height="65" />  |  <img src="https://github.com/leejungho9/DAMDA/assets/71073027/0a8f39c3-f74c-442c-98cd-e986547f7450" alt="icon" width="65" height="65" />  |  <img src="https://github.com/leejungho9/DAMDA/assets/71073027/673c977f-b08d-4eb9-87d4-740ae34e7b37" alt="icon" width="65" height="65" />  |  <img src="https://github.com/leejungho9/DAMDA/assets/71073027/f507615a-dde2-417e-b147-0a3899b41fae5" alt="icon" width="65" height="65" /> | 
+| React | React Router | Redux | React Icons | Styled-Components | HTML | CSS | JavaScript |
+| :---: | :---: | :---: | :---: | :---: | :---: | :---: | :---: | 
+| <img src="https://github.com/leejungho9/DAMDA/assets/71073027/324aafbb-d67b-47c5-b6dc-661be68c4967" alt="icon" width="65" height="65" />  |  <img src="https://github.com/leejungho9/DAMDA/assets/71073027/96bc0463-267b-4d2c-95e4-67070b41143e" alt="icon" width="65" height="65" />  |  <img src="https://github.com/leejungho9/DAMDA/assets/71073027/0a8f39c3-f74c-442c-98cd-e986547f7450" alt="icon" width="65" height="65" />  |  <img src="https://github.com/leejungho9/DAMDA/assets/71073027/673c977f-b08d-4eb9-87d4-740ae34e7b37" alt="icon" width="65" height="65" />  |  <img src="https://github.com/leejungho9/DAMDA/assets/71073027/f507615a-dde2-417e-b147-0a3899b41fae5" alt="icon" width="65" height="65" /> |  <img src="https://github.com/leejungho9/DAMDA/assets/71073027/69339fe7-68c1-42ae-877d-b66d9f9eb788" alt="icon" width="65" height="65" />  |  <img src="https://github.com/leejungho9/DAMDA/assets/71073027/7590dac9-c47b-46da-ad10-8183de10d829" alt="icon" width="65" height="65" />  |  <img src="https://github.com/leejungho9/DAMDA/assets/71073027/c5af528b-a9aa-419b-ad34-fac544d6e1a2" alt="icon" width="65" height="65" /> |
+
 
 ## 🛠️ Deploy & Back-end 🛠️
 | AWS S3 | GitActions |  Firebase |
