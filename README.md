@@ -31,14 +31,49 @@
 |       |       |
 | :---: | :---: |
 |        **메인페이지**    |     |
-| ![ezgif com-video-to-gif (1)](https://github.com/leejungho9/DAMDA/assets/71073027/ce2ec53a-3f16-4b65-9350-2554895f629c)  | |
+|  | |
 |                    **Login page**                     |                     **Signup page**                     |
 | | |
 |                    **Upload page**                     |                 **Tag Update**                  |
 | | |
 |                    **Search page**                     |                 **Detail page**                  |
 | | |
+
+<table>
+  <thead>
+    <tr>
+      <th></th>
+      <th></th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+     <td colspan="2" ><strong>메인페이지</strong></td>
+    </tr>
+    <tr>
+     <td style="text-align: center;" colspan="2" ><img src="https://github.com/leejungho9/DAMDA/assets/71073027/ce2ec53a-3f16-4b65-9350-2554895f629c" alt="메인페이지"></td>
+    </tr>
+     <tr>
+     <td style="text-align: center;"><strong>로그인 페이지</strong></td>
+     <td style="text-align: center;"><strong>회원가입 페이지</strong></td>
+    </tr>
+    <tr>
+     <td style="text-align: center;"><img src="https://github.com/leejungho9/DAMDA/assets/71073027/c3074376-e76d-4bc7-adb7-1051163b7d41" alt="로그인페이지"></td>
+     <td style="text-align: center;">내용</td>
+    </tr>
+  </tbody>
+</table>
+
 <br/>
+
+
+
+
+
+
+
+
+
 
 
 <br />
