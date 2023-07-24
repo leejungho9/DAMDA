@@ -1,5 +1,5 @@
 <div align="center">
-
+ 
 ![image](https://github.com/leejungho9/DAMDA/assets/71073027/e33bec52-a448-40f1-8309-35e17994cc23)
 
 </br>
@@ -11,21 +11,21 @@
 - **`Project description` :**  수제 청, 수제 꿀, 건강식품 까지 다양한 카테고리의 수제식품을 합리적인 가격으로 제공하는 플랫폼입니다. 
 - **`members` :** 이정호
 - **`Link` :** [🌐DAMDA ](http://damda-s3.s3-website.ap-northeast-2.amazonaws.com)
-- 
+  
 
-## 💄 Front-end 💄
+## 💄 Front-end 
+| React | React Router | Redux | React Icons | Styled-Components | HTML | CSS | JavaScript |
+| :---: | :---: | :---: | :---: | :---: | :---: | :---: | :---: | 
+| <img src="https://github.com/leejungho9/DAMDA/assets/71073027/324aafbb-d67b-47c5-b6dc-661be68c4967" alt="icon" width="65" height="65" />  |  <img src="https://github.com/leejungho9/DAMDA/assets/71073027/96bc0463-267b-4d2c-95e4-67070b41143e" alt="icon" width="65" height="65" />  |  <img src="https://github.com/leejungho9/DAMDA/assets/71073027/0a8f39c3-f74c-442c-98cd-e986547f7450" alt="icon" width="65" height="65" />  |  <img src="https://github.com/leejungho9/DAMDA/assets/71073027/673c977f-b08d-4eb9-87d4-740ae34e7b37" alt="icon" width="65" height="65" />  |  <img src="https://github.com/leejungho9/DAMDA/assets/71073027/f507615a-dde2-417e-b147-0a3899b41fae5" alt="icon" width="65" height="65" /> |  <img src="https://github.com/leejungho9/DAMDA/assets/71073027/69339fe7-68c1-42ae-877d-b66d9f9eb788" alt="icon" width="65" height="65" />  |  <img src="https://github.com/leejungho9/DAMDA/assets/71073027/7590dac9-c47b-46da-ad10-8183de10d829" alt="icon" width="65" height="65" />  |  <img src="https://github.com/leejungho9/DAMDA/assets/71073027/c5af528b-a9aa-419b-ad34-fac544d6e1a2" alt="icon" width="65" height="65" /> |
 
-| React | React Router | Redux | React Icons | Styled-Components |
-| :---: | :---: | :---: | :---: | :---: | 
-| <img src="https://github.com/leejungho9/DAMDA/assets/71073027/324aafbb-d67b-47c5-b6dc-661be68c4967" alt="icon" width="65" height="65" />  |  <img src="https://github.com/leejungho9/DAMDA/assets/71073027/96bc0463-267b-4d2c-95e4-67070b41143e" alt="icon" width="65" height="65" />  |  <img src="https://github.com/leejungho9/DAMDA/assets/71073027/0a8f39c3-f74c-442c-98cd-e986547f7450" alt="icon" width="65" height="65" />  |  <img src="https://github.com/leejungho9/DAMDA/assets/71073027/673c977f-b08d-4eb9-87d4-740ae34e7b37" alt="icon" width="65" height="65" />  |  <img src="https://github.com/leejungho9/DAMDA/assets/71073027/f507615a-dde2-417e-b147-0a3899b41fae5" alt="icon" width="65" height="65" /> | 
 
-## 🛠️ Deploy & Back-end 🛠️
+## 🛠️ Deploy & Back-end 
 | AWS S3 | GitActions |  Firebase |
 | :---: | :---: | :---: | 
 | <img src="https://github.com/leejungho9/DAMDA/assets/71073027/324aafbb-d67b-47c5-b6dc-661be68c4967" alt="icon" width="65" height="65" />  |  <img src="https://github.com/leejungho9/DAMDA/assets/71073027/d68c7279-2011-4d25-a138-99579c45b59f" alt="icon" width="65" height="65" />  | <img src="https://github.com/leejungho9/DAMDA/assets/71073027/5fd07f28-3941-4ed3-8750-04448e5075a9" alt="icon" width="65" height="65" />
 
 
-## ⚙️ Tools ⚙️ 
+## ⚙️ Tools 
 | VSCode| Git | Notion | 
 | :---: | :---: |:---:|
 | <img src="https://github.com/leejungho9/DAMDA/assets/71073027/028e5714-1c64-46c4-95d5-c0129087ff98" alt="icon" width="65" height="65" />  | <img src="https://github.com/leejungho9/DAMDA/assets/71073027/84277f32-eb2c-466a-af96-d18c951b13e7" alt="icon" width="65" height="65" />  | <img src="https://github.com/leejungho9/DAMDA/assets/71073027/fda03fff-e651-40e1-a0b7-19e2270b4f5e" alt="icon" width="65" height="65" />  | 
@@ -38,7 +38,7 @@
       <td colspan="2" style="display: flex; align-items : center; text-align : center;"><strong>메인페이지</strong></td>
     </tr>
     <tr>
-      <td style="text-align: center;" colspan="2" ><img src="https://github.com/leejungho9/DAMDA/assets/71073027/ce2ec53a-3f16-4b65-9350-2554895f629c" alt="메인 페이지"></td>
+      <td style="text-align: center;" colspan="2" ><img src="https://github.com/leejungho9/DAMDA/assets/71073027/ce2ec53a-3f16-4b65-9350-2554895f629c" alt="메인 페이지" style="margin: 0 auto;"></td>
     </tr>
      <tr>
       <td style="text-align: center;"><strong>로그인 페이지</strong></td>
