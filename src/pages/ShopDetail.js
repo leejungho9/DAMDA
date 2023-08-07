@@ -143,10 +143,26 @@ const DetailImageBox = styled.div`
   width: 80%;
   height: auto;
   margin: 0 auto;
+  margin-top: 35px;
 `;
 const DetailImage = styled.img`
-  margin-top: 35px;
   width: 100%;
+`;
+
+const PlusButtonBox = styled.div`
+  display: flex;
+  justify-content: center;
+  width: 100%;
+  margin: 20px 0;
+`;
+const PlusButton = styled.button`
+  width: 400px;
+  height: 50px;
+  border-radius: 10px;
+  border: none;
+  font-size: 20px;
+  font-family: "LINESeedKR-Rg";
+  cursor: pointer;
 `;
 
 function ShopDetail(props) {
@@ -160,6 +176,9 @@ function ShopDetail(props) {
   const [isLoading, setIsLoading] = useState(true);
   const [reviewWriteMode, setReviewWriteMode] = useState(false);
   const { isLoggedIn, user } = useSelector((state) => state.user);
+  const [allProductImages, setAllProductImages] = useState([]);
+  const [displayProductImages, setDisplayProductImages] = useState([]);
+  const limitNum = 1;
   const userId = user.userId;
 
   //! detil Imaage 가져오기
@@ -183,6 +202,10 @@ function ShopDetail(props) {
       try {
         const detailItem = await getDetailItem(id);
         setDetail(detailItem);
+        setAllProductImages(Object.values(detailItem.detailUrl));
+        setDisplayProductImages(
+          filterDisplayProductData(Object.values(detailItem.detailUrl))
+        );
       } catch (error) {
         console.log(error);
       }
@@ -204,6 +227,19 @@ function ShopDetail(props) {
 
     increaseViews();
   }, [id]);
+
+  //! 상세 이미지 필터처리
+  const filterDisplayProductData = (
+    allProductImages,
+    displayProductImages = []
+  ) => {
+    const limit = displayProductImages.length + limitNum;
+    const array = allProductImages.filter(
+      (images, index) => index + 1 <= limit
+    );
+
+    return array;
+  };
 
   const onClickNaverPayButton = () => {
     const oPay = window.Naver.Pay.create({
@@ -366,10 +402,36 @@ function ShopDetail(props) {
 
       <DetialTitle>상품 상세</DetialTitle>
       <DetailImageBox>
-        <DetailImage
-          src={`${process.env.PUBLIC_URL}/${detail.detailUrl}`}
-          alt="상품상세 이미지"
-        />
+        {displayProductImages.length > 0 ? (
+          displayProductImages.map((el, index) => (
+            <DetailImage
+              key={index}
+              src={`${process.env.PUBLIC_URL}/${el}`}
+              loading="lazy"
+              alt="상품상세 이미지"
+            />
+          ))
+        ) : isLoading ? (
+          <h2>...Loading</h2>
+        ) : (
+          <h2>상세이미지가 없습니다.</h2>
+        )}
+        {allProductImages.length > displayProductImages.length && (
+          <PlusButtonBox>
+            <PlusButton
+              onClick={() =>
+                setDisplayProductImages(
+                  filterDisplayProductData(
+                    allProductImages,
+                    displayProductImages
+                  )
+                )
+              }
+            >
+              더보기
+            </PlusButton>
+          </PlusButtonBox>
+        )}
       </DetailImageBox>
     </ShopDetailWrapper>
   );
