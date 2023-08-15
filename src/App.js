@@ -26,21 +26,14 @@ function App() {
     const CheckLoginUserInfo = async () => {
       try {
         const auth = getAuth();
-        const getLoggedInUserId = new Promise((resolve, reject) => {
-          onAuthStateChanged(auth, (user) => {
-            if (user) {
-              resolve(user.uid);
-            } else {
-              reject(null);
-            }
-          });
+        onAuthStateChanged(auth, async (user) => {
+          if (user) {
+            const userId = user.uid;
+            const userInfo = await getUser(userId);
+            dispatch(login({ isLoggedIn: true, user: userInfo }));
+            return userInfo;
+          }
         });
-        if (getLoggedInUserId !== null) {
-          const userId = await getLoggedInUserId;
-          const userInfo = await getUser(userId);
-          dispatch(login({ isLoggedIn: true, user: userInfo }));
-          return userInfo;
-        }
       } catch (error) {
         console.error(error);
       }
