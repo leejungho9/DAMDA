@@ -143,10 +143,27 @@ const Order = () => {
     setDaumPostModal(false);
   };
 
-  const [address, setAddress] = useState("");
   const cartItems = useSelector((state) => state.cartItems || []);
   const { user } = useSelector((state) => state.user);
   const [count, setCount] = useState(0);
+
+  const [name, setName] = useState("");
+  const [phone, setPhone] = useState("");
+  const [address, setAddress] = useState("");
+  const [detailAddress, setDetailAddress] = useState("");
+  const [requirement, setRequirement] = useState("");
+
+  const orderInfoData = () => {
+    const data = {
+      name,
+      phone,
+      address,
+      detailAddress,
+      requirement,
+    };
+
+    return data;
+  };
 
   useEffect(() => {
     const countCouponse = () => {
@@ -185,6 +202,7 @@ const Order = () => {
               type="text"
               id="name"
               defaultValue={user && user.name}
+              readOnly
             />
           </OrderInfoBox>
           <OrderInfoBox>
@@ -195,6 +213,7 @@ const Order = () => {
               type="text"
               id="phone"
               defaultValue={user && user.phone}
+              readOnly
             />
           </OrderInfoBox>
           <OrderInfoBox>
@@ -205,6 +224,7 @@ const Order = () => {
               type="text"
               id="email"
               defaultValue={user && user.email}
+              readOnly
             />
           </OrderInfoBox>
         </OrderBox>
@@ -226,6 +246,7 @@ const Order = () => {
               id="point"
               max={user && user.point}
               defaultValue={user === null ? user.point : 0}
+              readOnly={user.point === 0 ? true : false}
             />
             <OrderInfoSapn>원</OrderInfoSapn>
           </OrderInfoBox>
@@ -239,13 +260,23 @@ const Order = () => {
             <OrderInfoSpanBox>
               <OrderInfolabel htmlFor="receiverName">이름</OrderInfolabel>
             </OrderInfoSpanBox>
-            <OrdererInfoInput type="text" id="receiverName" />
+            <OrdererInfoInput
+              type="text"
+              id="receiverName"
+              value={name}
+              onChange={(event) => setName(event.target.value)}
+            />
           </OrderInfoBox>
           <OrderInfoBox>
             <OrderInfoSpanBox>
               <OrderInfolabel htmlFor="receiverPhone">전화번호</OrderInfolabel>
             </OrderInfoSpanBox>
-            <OrdererInfoInput type="text" id="receiverPhone" />
+            <OrdererInfoInput
+              type="text"
+              id="receiverPhone"
+              value={phone}
+              onChange={(event) => setPhone(event.target.value)}
+            />
           </OrderInfoBox>
           <OrderInfoBox>
             <OrderInfoSpanBox>
@@ -254,7 +285,8 @@ const Order = () => {
             <OrdererInfoInput
               type="text"
               id="receiverAddress"
-              defaultValue={address}
+              value={address}
+              onChange={(event) => setAddress(event.target.value)}
             />
             <OrderButton onClick={() => setDaumPostModal(true)}>
               주소검색
@@ -264,13 +296,22 @@ const Order = () => {
             <OrderInfoSpanBox>
               <OrderInfoSapn></OrderInfoSapn>
             </OrderInfoSpanBox>
-            <OrdererInfoInput type="text" />
+            <OrdererInfoInput
+              type="text"
+              value={detailAddress}
+              onChange={(event) => setDetailAddress(event.target.value)}
+            />
           </OrderInfoBox>
           <OrderInfoBox>
             <OrderInfoSpanBox>
               <OrderInfolabel htmlFor="request">요청사항</OrderInfolabel>
             </OrderInfoSpanBox>
-            <OrdererInfoInput type="text" id="request" />
+            <OrdererInfoInput
+              type="text"
+              id="request"
+              value={requirement}
+              onChange={(event) => setRequirement(event.target.value)}
+            />
           </OrderInfoBox>
         </OrderBox>
         <OrderBox>
@@ -281,7 +322,8 @@ const Order = () => {
               type="radio"
               name="payment"
               id="creditCard"
-              checked={true}
+              checked
+              readOnly
             />
             <OrderInfoSpanBox>
               <OrderInfolabel htmlFor="creditCard">신용카드</OrderInfolabel>
@@ -290,7 +332,7 @@ const Order = () => {
         </OrderBox>
       </OrdererContainer>
       <ButtonBox>
-        <Payment cartItems={cartItems} />
+        <Payment cartItems={cartItems} orderInfoData={orderInfoData} />
       </ButtonBox>
     </OrderContainer>
   );
