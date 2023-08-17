@@ -15,30 +15,14 @@ const wishSlice = createSlice({
   name: "wishItem",
   initialState: [],
   reducers: {
-    setWishItem: (state, action) => {
-      return action.payload;
-    },
-    addWishItem: (state, action) => {
+    setWishItem: (_, action) => action.payload,
+    addWishItem: (_, action) => {
       const { data, userId } = action.payload;
-      const wishItemRef = ref(db, "wish_items/" + userId);
-      push(wishItemRef, data);
+      addCartWishItemInFirebase(userId, data);
     },
     removeWishItem: (state, action) => {
       const { checkItemId, userId } = action.payload;
-      const wishItemRef = ref(db, "wish_items/" + userId);
-
-      checkItemId.forEach((pid) => {
-        const queryRef = query(wishItemRef, orderByChild("pid"), equalTo(pid));
-        get(queryRef).then((snapshot) => {
-          const wishItem = snapshot.val();
-          const key = Object.keys(wishItem);
-          if (wishItem) {
-            const wishRef = ref(db, `wish_items/${userId}/${key}`);
-            remove(wishRef);
-          }
-        });
-      });
-
+      removeWishItemInFirebase(userId, checkItemId);
       return state.filter((pid) => !checkItemId.includes(pid));
     },
   },
@@ -47,3 +31,25 @@ const wishSlice = createSlice({
 export const { setWishItem, addWishItem, removeWishItem } = wishSlice.actions;
 
 export default wishSlice.reducer;
+
+//! firebase 코드 분리
+
+const addCartWishItemInFirebase = async (userId, data) => {
+  const wishItemRef = ref(db, `wish_items/${userId}`);
+  push(wishItemRef, data);
+};
+
+const removeWishItemInFirebase = async (userId, checkItemId) => {
+  const wishItemRef = ref(db, `wish_items/${userId}`);
+  checkItemId.forEach((pid) => {
+    const queryRef = query(wishItemRef, orderByChild("pid"), equalTo(pid));
+    get(queryRef).then((snapshot) => {
+      const wishItem = snapshot.val();
+      const key = Object.keys(wishItem);
+      if (wishItem) {
+        const wishRef = ref(db, `wish_items/${userId}/${key}`);
+        remove(wishRef);
+      }
+    });
+  });
+};
