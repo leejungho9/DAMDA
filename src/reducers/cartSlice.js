@@ -17,90 +17,36 @@ const cartSlice = createSlice({
   name: "cartItem",
   initialState: [],
   reducers: {
-    setCartItem: (state, action) => {
-      return action.payload;
-    },
-    addCartItem: (state, action) => {
+    setCartItem: (_, action) => action.payload,
+    addCartItem: (_, action) => {
       const { data, userId } = action.payload;
-      const cartItemsRef = ref(db, "cart_items/" + userId);
-      const newCartRef = push(cartItemsRef);
-      set(newCartRef, data);
-    },
-    plusQuantity: (state, action) => {
-      const { pid, userId } = action.payload;
-      // ! 장바구니 안에서 같은 pid 의 quantity 값 + 1
-      const items = state.find((item) => item.pid === pid);
-      if (items) {
-        items.quantity += 1;
-        // ! db 안에 pid 값 비교
-        const cartItemsRef = ref(db, "cart_items/" + userId);
-        const queryRef = query(cartItemsRef, orderByChild("pid"), equalTo(pid));
-
-        get(queryRef).then((snapshot) => {
-          const cartItem = snapshot.val();
-          const key = Object.keys(cartItem);
-          if (cartItem) {
-            const ItemRef = ref(db, `cart_items/${userId}/${key}`);
-            update(ItemRef, { quantity: cartItem[key].quantity + 1 });
-          }
-        });
-      }
-    },
-    minusQuantity: (state, action) => {
-      const { pid, userId } = action.payload;
-      // ! 장바구니 안에서 같은 pid 의 quantity 값 - 1
-      const items = state.find((item) => item.pid === pid);
-      if (items) {
-        items.quantity -= 1;
-        // ! db 안에 pid 값 비교
-        const cartItemsRef = ref(db, "cart_items/" + userId);
-        const queryRef = query(cartItemsRef, orderByChild("pid"), equalTo(pid));
-
-        get(queryRef).then((snapshot) => {
-          const cartItem = snapshot.val();
-          const key = Object.keys(cartItem);
-          if (cartItem) {
-            const ItemRef = ref(db, `cart_items/${userId}/${key}`);
-            update(ItemRef, { quantity: cartItem[key].quantity - 1 });
-          }
-        });
-      }
+      addCartItemInFirebase(userId, data);
     },
     removeCartItem: (state, action) => {
       const { pid, userId } = action.payload;
-      const cartItemsRef = ref(db, "cart_items/" + userId);
-      const queryRef = query(cartItemsRef, orderByChild("pid"), equalTo(pid));
-
-      get(queryRef).then((snapshot) => {
-        const cartItem = snapshot.val();
-        const key = Object.keys(cartItem);
-        if (cartItem) {
-          const ItemRef = ref(db, `cart_items/${userId}/${key}`);
-          remove(ItemRef);
-        }
-      });
-
+      removeCartItemInFirebase(userId, pid);
       return state.filter((item) => item.pid !== pid);
     },
     removeMultipleCartItems: (state, action) => {
       const { checkItems, userId } = action.payload;
-
-      checkItems.forEach((pid) => {
-        const cartItemsRef = ref(db, "cart_items/" + userId);
-        const queryRef = query(cartItemsRef, orderByChild("pid"), equalTo(pid));
-
-        get(queryRef).then((snapshot) => {
-          const cartItems = snapshot.val();
-          if (cartItems) {
-            Object.keys(cartItems).forEach((key) => {
-              const itemRef = ref(db, `cart_items/${userId}/${key}`);
-              remove(itemRef);
-            });
-          }
-        });
-      });
-
+      removeMultipleCartItemsInFirebase(userId, checkItems);
       return state.filter((item) => !checkItems.includes(item.pid));
+    },
+    plusQuantity: (state, action) => {
+      const { pid, userId } = action.payload;
+      const items = state.find((item) => item.pid === pid);
+      if (items) {
+        items.quantity += 1;
+        plusQuantityInFirebase(userId, pid);
+      }
+    },
+    minusQuantity: (state, action) => {
+      const { pid, userId } = action.payload;
+      const items = state.find((item) => item.pid === pid);
+      if (items) {
+        items.quantity -= 1;
+        minusQuantityInFirebase(userId, pid);
+      }
     },
   },
 });
@@ -115,3 +61,69 @@ export const {
 } = cartSlice.actions;
 
 export default cartSlice.reducer;
+
+//! firebase 코드 분리
+
+const addCartItemInFirebase = async (userId, data) => {
+  const cartItemsRef = ref(db, `cart_items/${userId}`);
+  const newCartRef = push(cartItemsRef);
+  set(newCartRef, data);
+};
+
+const removeCartItemInFirebase = async (userId, pid) => {
+  const cartItemsRef = ref(db, `cart_items/${userId}`);
+  const queryRef = query(cartItemsRef, orderByChild("pid"), equalTo(pid));
+  get(queryRef).then((snapshot) => {
+    const cartItem = snapshot.val();
+    if (cartItem) {
+      const key = Object.keys(cartItem);
+      const ItemRef = ref(db, `cart_items/${userId}/${key}`);
+      remove(ItemRef);
+    }
+  });
+};
+
+const removeMultipleCartItemsInFirebase = async (userId, checkItems) => {
+  checkItems.forEach((pid) => {
+    const cartItemsRef = ref(db, `cart_items/${userId}`);
+    const queryRef = query(cartItemsRef, orderByChild("pid"), equalTo(pid));
+
+    get(queryRef).then((snapshot) => {
+      const cartItems = snapshot.val();
+      if (cartItems) {
+        Object.keys(cartItems).forEach((key) => {
+          const itemRef = ref(db, `cart_items/${userId}/${key}`);
+          remove(itemRef);
+        });
+      }
+    });
+  });
+};
+
+const plusQuantityInFirebase = async (userId, pid) => {
+  const cartItemsRef = ref(db, `cart_items/${userId}`);
+  const queryRef = query(cartItemsRef, orderByChild("pid"), equalTo(pid));
+
+  get(queryRef).then((snapshot) => {
+    const cartItem = snapshot.val();
+    const key = Object.keys(cartItem);
+    if (cartItem) {
+      const ItemRef = ref(db, `cart_items/${userId}/${key}`);
+      update(ItemRef, { quantity: cartItem[key].quantity + 1 });
+    }
+  });
+};
+
+const minusQuantityInFirebase = async (userId, pid) => {
+  const cartItemsRef = ref(db, `cart_items/${userId}`);
+  const queryRef = query(cartItemsRef, orderByChild("pid"), equalTo(pid));
+
+  get(queryRef).then((snapshot) => {
+    const cartItem = snapshot.val();
+    const key = Object.keys(cartItem);
+    if (cartItem) {
+      const ItemRef = ref(db, `cart_items/${userId}/${key}`);
+      update(ItemRef, { quantity: cartItem[key].quantity - 1 });
+    }
+  });
+};
