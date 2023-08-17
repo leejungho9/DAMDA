@@ -84,10 +84,9 @@ const removeCartItemInFirebase = async (userId, pid) => {
 };
 
 const removeMultipleCartItemsInFirebase = async (userId, checkItems) => {
+  const cartItemsRef = ref(db, `cart_items/${userId}`);
   checkItems.forEach((pid) => {
-    const cartItemsRef = ref(db, `cart_items/${userId}`);
     const queryRef = query(cartItemsRef, orderByChild("pid"), equalTo(pid));
-
     get(queryRef).then((snapshot) => {
       const cartItems = snapshot.val();
       if (cartItems) {
