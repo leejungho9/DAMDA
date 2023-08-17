@@ -104,61 +104,38 @@ function Shop() {
   const [isProduct, setProducts] = useState([]);
   const [isLoading, setLoading] = useState(true);
 
-  //! 카테고리 별 정렬
   useEffect(() => {
-    const fetchProducts = async () => {
-      try {
-        const products = await getProducts();
-        setProducts(products.filter((el) => el.category === isCategory));
-        setLoading(false);
-      } catch (error) {
-        console.log(error);
-      }
-    };
-
-    fetchProducts();
-  }, [isCategory]);
-
-  //! 클릭, 리뷰 ,구입 순으로 정렬
-  useEffect(() => {
-    const fetchProducts = async () => {
-      try {
-        const products = await getProducts();
-        const checkCategory = products.filter(
-          (el) => el.category === isCategory
-        );
-        switch (isFilter) {
-          case "리뷰순":
-            setProducts(
-              checkCategory.sort((a, b) => b.reviews.length - a.reviews.length)
-            );
-            break;
-          case "클릭순":
-            setProducts(checkCategory.sort((a, b) => b.views - a.views));
-            break;
-          default:
-        }
-      } catch (error) {
-        console.log(error);
-      }
-    };
     fetchProducts();
   }, [isCategory, isFilter]);
 
-  const radioRef = useRef([]);
+  const fetchProducts = async () => {
+    try {
+      const products = await getProducts();
+      const checkCategory = products.filter((el) => el.category === isCategory);
+      let sortedProducts = [...checkCategory];
 
-  const CreatedItem = isProduct.map((el) => {
-    return (
-      <ItemContainer key={el.pid}>
-        <CreatedCard data={el} />
-      </ItemContainer>
-    );
-  });
+      if (isFilter === "리뷰순") {
+        setProducts(
+          sortedProducts.sort((a, b) => b.reviews?.length - a.reviews?.length)
+        );
+      } else if (isFilter === "클릭순") {
+        setProducts(sortedProducts.sort((a, b) => b.views - a.views));
+      } else {
+        setProducts(checkCategory);
+      }
+
+      setLoading(false);
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
+  const radioRef = useRef([]);
 
   const handleCategory = (e) => setCategory(e.currentTarget.children[0].value);
   const handleFilter = (e) => setFilter(e.currentTarget.children[0].value);
 
-  function CreaedButton({ item, menuIdx }) {
+  function CreatedRadioButton({ item, menuIdx }) {
     return item.map((el, idx) => {
       return (
         <RadioContainer
@@ -186,12 +163,12 @@ function Shop() {
           <CategoryContainer>
             <MenuTitle>CATEGORY</MenuTitle>
             <SplitLine />
-            <CreaedButton item={selectCategory} menuIdx={0} />
+            <CreatedRadioButton item={selectCategory} menuIdx={0} />
           </CategoryContainer>
           <FilterContainer>
             <MenuTitle>FILTER</MenuTitle>
             <SplitLine />
-            <CreaedButton item={selectFilter} menuIdx={1} />
+            <CreatedRadioButton item={selectFilter} menuIdx={1} />
           </FilterContainer>
         </MenuWrapper>
         {isLoading && (
@@ -200,7 +177,15 @@ function Shop() {
           </ItemWrapper>
         )}
         {!isLoading && isProduct.length !== 0 && (
-          <ItemWrapper>{CreatedItem}</ItemWrapper>
+          <ItemWrapper>
+            {isProduct.map((el) => {
+              return (
+                <ItemContainer key={el.pid}>
+                  <CreatedCard data={el} />
+                </ItemContainer>
+              );
+            })}
+          </ItemWrapper>
         )}
         {!isLoading && isProduct.length === 0 && (
           <ItemWrapper>
