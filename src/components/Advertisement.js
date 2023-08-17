@@ -60,20 +60,22 @@ const AdvertisementCoupon = styled.div`
 `;
 
 function Advertisement() {
-  const { isLoggedIn, user } = useSelector((state) => state.user);
-  const userId = user.userId;
-  const couponId = "WECOMECO01";
   const navigator = useNavigate();
   const dispatch = useDispatch();
-  const clickAddCouponButton = () => {
+  const { isLoggedIn, user } = useSelector((state) => state.user);
+
+  const clickAddCouponButton = async () => {
+    const userId = isLoggedIn && user.userId;
+    const COUPON_ID = "WECOMECO01";
     if (!isLoggedIn) {
       alert("로그인 후 이용가능합니다.");
       navigator("/login");
       return;
     }
     try {
-      addCoupon(couponId, userId, dispatch);
+      await addCoupon(COUPON_ID, userId, dispatch);
     } catch (error) {
+      alert("쿠폰 발급에 오류가 발생했습니다. 다시 시도해주세요.");
       console.log(error);
     }
   };
