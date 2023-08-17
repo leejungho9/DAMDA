@@ -23,22 +23,22 @@ function App() {
   const dispatch = useDispatch();
   //! 현재 로그인 유저 확인
   useEffect(() => {
-    const CheckLoginUserInfo = async () => {
+    const auth = getAuth();
+    const unsubscribe = onAuthStateChanged(auth, async (user) => {
       try {
-        const auth = getAuth();
-        onAuthStateChanged(auth, async (user) => {
-          if (user) {
-            const userId = user.uid;
-            const userInfo = await getUser(userId);
-            dispatch(login({ isLoggedIn: true, user: userInfo }));
-            return userInfo;
-          }
-        });
+        if (user) {
+          const userId = user.uid;
+          const userInfo = await getUser(userId);
+          dispatch(login({ isLoggedIn: true, user: userInfo }));
+        }
       } catch (error) {
         console.error(error);
       }
+    });
+
+    return () => {
+      unsubscribe();
     };
-    CheckLoginUserInfo();
   }, []);
 
   return (
