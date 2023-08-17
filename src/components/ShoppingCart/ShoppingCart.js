@@ -7,6 +7,8 @@ import Button from "../Button/Button";
 import { useLocation } from "react-router-dom";
 import CartList from "../CartList/CartList";
 import PriceFormat from "../../hooks/PriceFormat";
+import useCartPrice from "../../hooks/useCartPrice";
+
 const CartBox = styled.div`
   min-height: 400px;
   margin-bottom: 85px;
@@ -121,8 +123,7 @@ const TableBody = styled.table`
 const ShoppingCart = () => {
   const dispatch = useDispatch();
   const cartItems = useSelector((state) => state.cartItems || []);
-  const [discountPrice, setDiscountPrice] = useState(0);
-  const [totalPrice, setTotalPrice] = useState(0);
+  const { discountPrice, totalPrice } = useCartPrice(cartItems);
   const [orderNowMode, setOrderNowMode] = useState(false);
   const location = useLocation();
   const { user } = useSelector((state) => state.user);
@@ -143,26 +144,6 @@ const ShoppingCart = () => {
     };
     getCartItemFunc();
   }, [userId, dispatch, location]);
-
-  useEffect(() => {
-    // * CartItem 총 금액 구하기
-    if (cartItems.length > 0) {
-      const newTotalPrice = cartItems.reduce(
-        (acc, cur) => acc + cur.price * cur.quantity,
-        0
-      );
-      // * CartItem 총 할인금액 구하기
-      let result = 0;
-      cartItems.map((el) => {
-        let buyPrice = Math.floor(el.price * (el.discount / 100) * el.quantity);
-        result += buyPrice;
-        return result;
-      });
-
-      setDiscountPrice(result);
-      setTotalPrice(newTotalPrice);
-    }
-  }, [cartItems]);
 
   const onClickNaverPayButton = () => {
     const oPay = window.Naver.Pay.create({
