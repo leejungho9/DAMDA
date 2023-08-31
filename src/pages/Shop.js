@@ -2,6 +2,7 @@ import React, { useState, useRef, useEffect } from "react";
 import styled from "styled-components";
 import CreatedCard from "../components/CreatedCard";
 import { getProducts } from "../apis/apis";
+import RadioButton from "../components/RadioButton/RadioButton";
 
 const ShopWrapper = styled.div`
   display: flex;
@@ -73,24 +74,8 @@ const ItemContainer = styled.li`
   padding-bottom: 90px;
 `;
 
-const RadioContainer = styled.div`
-  font-family: "LINESeedKR-Rg";
-  font-size: 14px;
-  width: 280px;
-  display: flex;
-  align-items: center;
-  padding-bottom: 20px;
-  input[type="radio"]:checked + span {
-    color: #f28b39;
-  }
-  cursor: pointer;
-`;
-const RadioButton = styled.input`
-  width: 100%;
-`;
-const RadioTitle = styled.span``;
-
 function Shop() {
+  const [selectFilter] = useState(["리뷰순", "클릭순"]);
   const [selectCategory] = useState([
     "수제 청",
     "수제 꿀",
@@ -99,7 +84,6 @@ function Shop() {
     "건강디저트",
   ]);
   const [isCategory, setCategory] = useState("수제 청");
-  const [selectFilter] = useState(["리뷰순", "클릭순"]);
   const [isFilter, setFilter] = useState("리뷰순");
   const [isProduct, setProducts] = useState([]);
   const [isLoading, setLoading] = useState(true);
@@ -130,32 +114,6 @@ function Shop() {
     }
   };
 
-  const radioRef = useRef([]);
-
-  const handleCategory = (e) => setCategory(e.currentTarget.children[0].value);
-  const handleFilter = (e) => setFilter(e.currentTarget.children[0].value);
-
-  function CreatedRadioButton({ item, menuIdx }) {
-    return item.map((el, idx) => {
-      return (
-        <RadioContainer
-          key={idx}
-          onClick={menuIdx === 0 ? handleCategory : handleFilter}
-        >
-          <RadioButton
-            id={el}
-            value={el}
-            ref={() => radioRef.current[idx]}
-            name={menuIdx === 0 ? "Category" : "Filter"}
-            type="radio"
-            onChange={menuIdx === 0 ? handleCategory : handleFilter}
-            checked={(menuIdx === 0 ? isCategory : isFilter) === el}
-          />
-          <RadioTitle>{el}</RadioTitle>
-        </RadioContainer>
-      );
-    });
-  }
   return (
     <>
       <ShopWrapper>
@@ -163,12 +121,23 @@ function Shop() {
           <CategoryContainer>
             <MenuTitle>CATEGORY</MenuTitle>
             <SplitLine />
-            <CreatedRadioButton item={selectCategory} menuIdx={0} />
+            <RadioButton
+              item={selectCategory}
+              menuIdx={0}
+              isItem={isCategory}
+              setFun={setCategory}
+            />
           </CategoryContainer>
+
           <FilterContainer>
             <MenuTitle>FILTER</MenuTitle>
             <SplitLine />
-            <CreatedRadioButton item={selectFilter} menuIdx={1} />
+            <RadioButton
+              item={selectFilter}
+              menuIdx={1}
+              isItem={isFilter}
+              setFun={setFilter}
+            />
           </FilterContainer>
         </MenuWrapper>
         {isLoading && (
