@@ -66,7 +66,7 @@ function Advertisement() {
 
   const clickAddCouponButton = async () => {
     const userId = isLoggedIn && user.userId;
-    const COUPON_ID = "WECOMECO01";
+    const COUPON_ID = "WEICOME_COUPONE_01";
     if (!isLoggedIn) {
       alert("로그인 후 이용가능합니다.");
       navigator("/login");
