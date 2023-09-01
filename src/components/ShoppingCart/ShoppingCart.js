@@ -8,6 +8,7 @@ import { useLocation } from "react-router-dom";
 import CartList from "../CartList/CartList";
 import PriceFormat from "../../hooks/PriceFormat";
 import useCartPrice from "../../hooks/useCartPrice";
+import onClickNaverPay from "../../utils/openNaverPay";
 
 const CartBox = styled.div`
   min-height: 400px;
@@ -145,22 +146,6 @@ const ShoppingCart = () => {
     getCartItemFunc();
   }, [userId, dispatch, location]);
 
-  const onClickNaverPayButton = () => {
-    const oPay = window.Naver.Pay.create({
-      mode: "production",
-      clientId: process.env.REACT_APP_CLIENT_ID,
-    });
-    oPay.open({
-      merchantUserKey: "DAMDA123",
-      merchantPayKey: "123456789",
-      productName: `${cartItems[0].title} 외 ${cartItems.length} 개`,
-      totalPayAmount: totalPrice, // ? 총 결제금액
-      taxScopeAmount: 0, // ? 과세금액
-      taxExScopeAmount: totalPrice,
-      returnUrl: `${process.env.REACT_APP_API}/cart`,
-    });
-  };
-
   const [checkItems, setCheckItems] = useState([]);
   const handleAllCheck = (checked) => {
     if (checked) {
@@ -260,7 +245,7 @@ const ShoppingCart = () => {
                   width={316}
                   height={55}
                   radius={10}
-                  onClick={onClickNaverPayButton}
+                  onClick={() => onClickNaverPay(cartItems, totalPrice)}
                   className="orderButton"
                   icon={true}
                   fontSize={14}
