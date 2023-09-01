@@ -2,11 +2,10 @@ import React, { useEffect, useState } from "react";
 import styled from "styled-components";
 import { AiOutlinePlus, AiOutlineMinus } from "react-icons/ai";
 import { Rate } from "antd";
-import { addReview, getReviews } from "../apis/apis";
+import { addReview, getReviews } from "../../apis/apis";
 import { useSelector } from "react-redux";
-
-import LineBar from "./BorderBar";
-import ReviewCarousel from "./Carousel/ReviewCarousel";
+import LineBar from "../BorderBar";
+import ReviewCarousel from "../Carousel/ReviewCarousel";
 
 const ReviewWrapper = styled.div`
   margin-top: 105px;
@@ -90,37 +89,41 @@ const BestDetailReview = ({
 }) => {
   const [reviewScore, setReviewScore] = useState(2.5);
   const [reviewContent, setReviewContent] = useState("");
-  const { user } = useSelector((state) => state.user);
+  const { user, isLoggedIn } = useSelector((state) => state.user);
   const userId = user.userId;
   const [isReviews, setReviews] = useState([]);
   const [allScore, setAllScore] = useState();
   const [isLoading, setIsLoading] = useState(true);
-  const { isLoggedIn } = useSelector((state) => state.user);
 
   const changeReviewHandelr = (event) => {
     setReviewScore(event);
   };
+
   const changeReviewHandler = (event) => {
     setReviewContent(event.target.value);
   };
 
-  const SubmitReviewHandler = async () => {
+  const resetReview = () => {
+    setReviewContent("");
+    setReviewScore(2.5);
+    setReviewWriteMode(false);
+  };
+
+  const submitReviewHandler = async () => {
     try {
       await addReview(pid, reviewScore, reviewContent, userId, user.name);
-      setReviewContent("");
-      setReviewScore(2.5);
+      resetReview();
       alert("리뷰가 정상적으로 작성됐습니다.");
-      setReviewWriteMode(false);
 
       // ! 작성한 리뷰를 isReviews 배열에 추가
-      const newReview = {
+      const newReviewData = {
         reviewId: isReviews.length + 1,
         userId: userId,
         userName: user.name,
         reviewScore: reviewScore,
         reviewContent: reviewContent,
       };
-      setReviews([...isReviews, newReview]);
+      setReviews([...isReviews, newReviewData]);
     } catch (error) {
       console.log(error);
     }
@@ -140,7 +143,7 @@ const BestDetailReview = ({
     fetchReviews();
   }, [pid]);
 
-  //! pid에 대한 리뷰 가져오기
+  //! 평균 평점 점수내는 함수
   useEffect(() => {
     const allScoreHandler = () => {
       if (isReviews.length === 0) {
@@ -210,7 +213,7 @@ const BestDetailReview = ({
             onChange={changeReviewHandler}
           />
           <SubmitReviewButtonBox>
-            <SubmitReviewButton onClick={SubmitReviewHandler}>
+            <SubmitReviewButton onClick={submitReviewHandler}>
               등록
             </SubmitReviewButton>
           </SubmitReviewButtonBox>
