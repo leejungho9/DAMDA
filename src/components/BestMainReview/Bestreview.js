@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from "react";
 import styled from "styled-components";
-import BestReviewCarousel from "./Carousel/BestReviewCarousel";
-import { getProducts } from "../apis/apis";
+import BestReviewCarousel from "../Carousel/BestReviewCarousel";
+import { getProducts } from "../../apis/apis";
 
 const CaroselContainer = styled.div`
   max-width: 1300px;
