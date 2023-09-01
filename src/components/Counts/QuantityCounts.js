@@ -30,19 +30,23 @@ const QuantityCounts = ({ quantity, setQuantity, pid, orderNowMode }) => {
   const dispatch = useDispatch();
   const { user } = useSelector((state) => state.user);
   const userId = user.userId;
+  const MAX_QUANTITY = 20;
+  const MIN_QUANTITY = 1;
 
   const changeQuantity = (type) => {
     if (type === "minus") {
-      if (quantity > 1) {
+      if (quantity > MIN_QUANTITY) {
         dispatch(minusQuantity({ pid, userId }));
         setQuantity && setQuantity(quantity - 1);
       }
+      return;
     }
     if (type === "plus") {
-      if (quantity < 20) {
+      if (quantity < MAX_QUANTITY) {
         dispatch(plusQuantity({ pid, userId }));
         setQuantity && setQuantity(quantity + 1);
       }
+      return;
     }
   };
 
