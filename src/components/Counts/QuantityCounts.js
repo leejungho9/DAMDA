@@ -31,16 +31,18 @@ const QuantityCounts = ({ quantity, setQuantity, pid, orderNowMode }) => {
   const { user } = useSelector((state) => state.user);
   const userId = user.userId;
 
-  const plusQuantityHandler = () => {
-    if (quantity < 20) {
-      dispatch(plusQuantity({ pid, userId }));
-      setQuantity && setQuantity(quantity + 1);
+  const changeQuantity = (type) => {
+    if (type === "minus") {
+      if (quantity > 1) {
+        dispatch(minusQuantity({ pid, userId }));
+        setQuantity && setQuantity(quantity - 1);
+      }
     }
-  };
-  const minusQuantityHandler = () => {
-    if (quantity > 1) {
-      dispatch(minusQuantity({ pid, userId }));
-      setQuantity && setQuantity(quantity - 1);
+    if (type === "plus") {
+      if (quantity < 20) {
+        dispatch(plusQuantity({ pid, userId }));
+        setQuantity && setQuantity(quantity + 1);
+      }
     }
   };
 
@@ -49,14 +51,17 @@ const QuantityCounts = ({ quantity, setQuantity, pid, orderNowMode }) => {
       {!orderNowMode && (
         <QuantityButton
           className="icon minusIcon"
-          onClick={minusQuantityHandler}
+          onClick={() => changeQuantity("minus")}
         >
           <AiOutlineMinus size={12} onClick={minusQuantity} />
         </QuantityButton>
       )}
       <QuantitDiv>{quantity}</QuantitDiv>
       {!orderNowMode && (
-        <QuantityButton className="icon plusIcon" onClick={plusQuantityHandler}>
+        <QuantityButton
+          className="icon plusIcon"
+          onClick={() => changeQuantity("plus")}
+        >
           <AiOutlinePlus size={12} onClick={plusQuantity} />
         </QuantityButton>
       )}
