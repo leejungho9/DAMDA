@@ -3,7 +3,7 @@ import { useNavigate, useParams } from "react-router-dom";
 import styled from "styled-components";
 import { BsCart4 } from "react-icons/bs";
 import { AiOutlineHeart } from "react-icons/ai";
-import BestDetailReview from "../components/BestDetailReview";
+import BestDetailReview from "../components/BestDetailReview/BestDetailReview";
 import LineBar from "../components/BorderBar";
 import ImageSkeleton from "../components/Skeleton/ImageSkeleton";
 import QuantityCounts from "../components/Counts/QuantityCounts";
@@ -18,6 +18,7 @@ import { useDispatch, useSelector } from "react-redux";
 import Button from "../components/Button/Button";
 import PriceFormat from "../hooks/PriceFormat";
 import DetailImageCard from "../components/ImageCard/DetailImageCard";
+import onClickNaverPay from "../utils/openNaverPay";
 
 const ShopDetailWrapper = styled.div`
   padding-top: 90px;
@@ -172,7 +173,7 @@ function ShopDetail(props) {
   const [detail, setDetail] = useState([]);
   const [detailImages, setdetailImages] = useState([]);
   const [quantity, setQuantity] = useState(1);
-  const [views, setViews] = useState(0);
+  const [_, setViews] = useState(0);
   const [isLoading, setIsLoading] = useState(true);
   const [reviewWriteMode, setReviewWriteMode] = useState(false);
   const { isLoggedIn, user } = useSelector((state) => state.user);
@@ -180,7 +181,6 @@ function ShopDetail(props) {
   const [displayProductImages, setDisplayProductImages] = useState([]);
   const limitNum = 1;
   const userId = user.userId;
-
   //! detil Imaage 가져오기
   useEffect(() => {
     const fetchDetailImg = async () => {
@@ -241,24 +241,6 @@ function ShopDetail(props) {
     return array;
   };
 
-  const onClickNaverPayButton = () => {
-    const oPay = window.Naver.Pay.create({
-      mode: "production",
-      clientId: process.env.REACT_APP_CLIENT_ID,
-    });
-    oPay.open({
-      merchantUserKey: "DAMDA123",
-      merchantPayKey: "123456789",
-      productName: detail.title,
-      totalPayAmount:
-        Math.floor(detail.price * (1 - detail.discount / 100)) * quantity, // ? 총 결제금액
-      taxScopeAmount: 0, // ? 과세금액
-      taxExScopeAmount:
-        Math.floor(detail.price * (1 - detail.discount / 100)) * quantity, // ? 면세금액
-      returnUrl: `${process.env.REACT_APP_API}/shop/${detail.pid}`,
-    });
-  };
-
   const clickAddCartButton = () => {
     if (!isLoggedIn) {
       alert("로그인 후 이용가능합니다.");
@@ -284,6 +266,12 @@ function ShopDetail(props) {
       console.log(error);
     }
   };
+
+  const totalPrice = (detail, quantity) => {
+    return Math.floor(detail.price * (1 - detail.discount / 100)) * quantity;
+  };
+
+  console.log(detail);
   return (
     <ShopDetailWrapper>
       <ShopDetailContainer>
@@ -358,10 +346,7 @@ function ShopDetail(props) {
             <ShopDetailPrice>
               {detail.price &&
                 quantity &&
-                PriceFormat(
-                  Math.floor(detail.price * (1 - detail.discount / 100)) *
-                    quantity
-                )}
+                PriceFormat(totalPrice(detail, quantity))}
             </ShopDetailPrice>
           </AmountBox>
           <PayBox>
@@ -370,7 +355,9 @@ function ShopDetail(props) {
               width={305}
               height={55}
               radius={10}
-              onClick={onClickNaverPayButton}
+              onClick={() =>
+                onClickNaverPay(detail, totalPrice(detail, quantity))
+              }
               className="orderButton"
               icon={true}
             >
@@ -392,6 +379,7 @@ function ShopDetail(props) {
           </PayBox>
         </ShopDetailContentBox>
       </ShopDetailContainer>
+
       <BestDetailReview
         pid={id}
         item={detail}
@@ -399,7 +387,6 @@ function ShopDetail(props) {
         setReviewWriteMode={setReviewWriteMode}
         detailImages={detail.url}
       />
-
       <DetialTitle>상품 상세</DetialTitle>
       <DetailImageBox>
         {displayProductImages.length > 0 ? (
