@@ -5,14 +5,14 @@ import BestSeller from "../components/Bestseller";
 import Promotion from "../components/Promotion";
 import Advertisement from "../components/Advertisement";
 import Brand from "../components/Brand";
-import BestReview from "../components/Bestreview";
+import BestReview from "../components/BestMainReview/Bestreview";
 
 function Main() {
   return (
     <>
       <Banner />
       <BestSeller />
-      <Advertisement/>
+      <Advertisement />
       <Promotion />
       <BestReview />
       <Brand />
