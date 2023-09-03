@@ -4,7 +4,7 @@ const onClickNaverPay = (cartItems, totalPrice) => {
     clientId: `${process.env.REACT_APP_CLIENT_ID}`,
   });
 
-  const createProductName = () => {
+  const formatName = () => {
     if (cartItems.length > 1) {
       return `${cartItems[0].title} ${cartItems.length} 개`;
     } else {
@@ -15,7 +15,7 @@ const onClickNaverPay = (cartItems, totalPrice) => {
   oPay.open({
     merchantUserKey: `${process.env.REACT_MERCHANT_USER_KEY}`,
     merchantPayKey: `${process.env.REACT_MERCHANT_PAY_KEY}`,
-    productName: createProductName(),
+    productName: formatName(),
     totalPayAmount: totalPrice, // ! 총 지불 금액
     taxScopeAmount: 0, // !  과세 금액
     taxExScopeAmount: totalPrice, //! 비과세 금액
