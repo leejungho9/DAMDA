@@ -140,6 +140,7 @@ const Order = () => {
   const [daumPostModal, setDaumPostModal] = useState(false);
   const onCompleteAdress = (event) => {
     setAddress(event.address);
+    setPostCode(event.zonecode);
     setDaumPostModal(false);
   };
 
@@ -152,6 +153,7 @@ const Order = () => {
   const [address, setAddress] = useState("");
   const [detailAddress, setDetailAddress] = useState("");
   const [requirement, setRequirement] = useState("");
+  const [postcode, setPostCode] = useState("");
 
   const orderInfoData = () => {
     const data = {
@@ -160,6 +162,7 @@ const Order = () => {
       address,
       detailAddress,
       requirement,
+      postcode,
     };
 
     return data;
