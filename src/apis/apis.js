@@ -300,7 +300,6 @@ export const getReviews = async (pid) => {
 
 //!리뷰 삭제
 export const removeReview = async (reviewId, pid) => {
-  console.log(reviewId);
   const queryRef = query(
     ref(db, "reviews/"),
     orderByChild("reviewId"),

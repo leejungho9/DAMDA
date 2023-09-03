@@ -271,7 +271,6 @@ function ShopDetail(props) {
     return Math.floor(detail.price * (1 - detail.discount / 100)) * quantity;
   };
 
-  console.log(detail);
   return (
     <ShopDetailWrapper>
       <ShopDetailContainer>

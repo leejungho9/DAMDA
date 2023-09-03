@@ -240,7 +240,7 @@ const Signup = () => {
       alert("정상적으로 회원가입 되었습니다.");
       navigator("/login");
     } catch (err) {
-      //console.log(err.code);
+      console.log(err.code);
       switch (err.code) {
         case "auth/email-already-in-use":
           alert("이미 가입되어 있는 계정입니다");
