@@ -22,12 +22,8 @@ export const getProducts = async () => {
   if (!snapshot.exists()) {
     throw new Error("No products found");
   }
-  const products = [];
-  snapshot.forEach((childSnapshot) => {
-    const product = childSnapshot.val();
-    products.push(product);
-  });
-  return products;
+  const productItems = Object.values(snapshot.val());
+  return productItems;
 };
 
 export const getDetailImage = async (pid) => {
@@ -39,19 +35,16 @@ export const getDetailImage = async (pid) => {
 
   const snapshot = await get(queryRef);
   const detail = snapshot.val();
-  const images = [];
 
   if (detail) {
     const key = Object.keys(detail);
     const productRef = ref(db, `detail/${key}/url`);
-    const productImages = await get(productRef);
+    const snapshot = await get(productRef);
 
-    productImages.forEach((childSnapshot) => {
-      const product = childSnapshot.val();
-      images.push(product);
-    });
+    const detailImages = Object.values(snapshot.val());
+
+    return detailImages;
   }
-  return images;
 };
 
 export const getDetailItem = async (pid) => {
@@ -73,12 +66,7 @@ export const getWishItem = async (id) => {
   if (!snapshot.exists()) {
     return null;
   }
-  const wishItems = [];
-  snapshot.forEach((childSnapshot) => {
-    const product = childSnapshot.val();
-    wishItems.push(product);
-  });
-
+  const wishItems = Object.values(snapshot.val());
   return wishItems;
 };
 
@@ -89,11 +77,7 @@ export const getCartItem = async (id) => {
   if (!snapshot.exists()) {
     return null;
   }
-  const cartItems = [];
-  snapshot.forEach((childSnapshot) => {
-    const product = childSnapshot.val();
-    cartItems.push(product);
-  });
+  const cartItems = Object.values(snapshot.val());
   return cartItems;
 };
 
@@ -101,12 +85,7 @@ export const getPromotions = async () => {
   const promotionsRef = ref(db, "promotions/");
   const snapshot = await get(promotionsRef);
 
-  const promotionItems = [];
-  snapshot.forEach((childSnapshot) => {
-    const promotion = childSnapshot.val();
-    promotionItems.push(promotion);
-  });
-
+  const promotionItems = Object.values(snapshot.val());
   return promotionItems;
 };
 
@@ -114,12 +93,7 @@ export const getBrands = async () => {
   const brandsRef = ref(db, "brand/");
   const snapshot = await get(brandsRef);
 
-  const brandItems = [];
-  snapshot.forEach((childSnapshot) => {
-    const brand = childSnapshot.val();
-    brandItems.push(brand);
-  });
-
+  const brandItems = Object.values(snapshot.val());
   return brandItems;
 };
 // ! signup
@@ -307,12 +281,7 @@ export const addReview = async (
 export const getReviewLengths = async () => {
   const reviewRef = ref(db, `reviews/`);
   const snapshot = await get(reviewRef);
-  const reviewItems = [];
-
-  snapshot.forEach((childSnapshot) => {
-    const review = childSnapshot.val();
-    reviewItems.push(review);
-  });
+  const reviewItems = Object.values(snapshot.val());
   return reviewItems;
 };
 
@@ -325,12 +294,7 @@ export const getReviews = async (pid) => {
   );
 
   const snapshot = await get(queryRef);
-  const reviewItems = [];
-  snapshot.forEach((childSnapshot) => {
-    const review = childSnapshot.val();
-    reviewItems.push(review);
-  });
-
+  const reviewItems = Object.values(snapshot.val());
   return reviewItems;
 };
 
