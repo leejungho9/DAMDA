@@ -4,7 +4,7 @@ import { createUserWithEmailAndPassword } from "firebase/auth";
 import { auth } from "../Firebase";
 import { postSignup } from "../apis/apis";
 import { useNavigate } from "react-router-dom";
-import DaumPostModal from "../components/DaumPostModal";
+import DaumPostModal from "../components/Common/DaumPostModal";
 
 const SignupContainer = styled.div`
   margin: 0 auto;

@@ -5,9 +5,9 @@ import { Link, useLocation } from "react-router-dom";
 import { BsCart4, BsHeart } from "react-icons/bs";
 import { useDispatch, useSelector } from "react-redux";
 import { IoIosLogOut } from "react-icons/io";
-import { logout } from "../reducers/userSlice";
+import { logout } from "../../reducers/userSlice";
 import { signOut } from "firebase/auth";
-import { auth } from "../Firebase";
+import { auth } from "../../Firebase";
 
 const NavWrapper = styled.div`
   z-index: 1;

@@ -1,6 +1,6 @@
-import React, { useState, useRef, useEffect } from "react";
+import React, { useState, useEffect } from "react";
 import styled from "styled-components";
-import CreatedCard from "../components/CreatedCard";
+import CreatedCard from "../components/Common/CreatedCard";
 import { getProducts } from "../apis/apis";
 import RadioButton from "../components/RadioButton/RadioButton";
 

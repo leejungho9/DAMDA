@@ -1,7 +1,7 @@
 import React from "react";
 import { useNavigate } from "react-router-dom";
 import styled from "styled-components";
-import PriceFormat from "../hooks/PriceFormat";
+import PriceFormat from "../../hooks/PriceFormat";
 
 const CardWrapper = styled.div`
   * {

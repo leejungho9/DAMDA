@@ -4,7 +4,7 @@ import styled from "styled-components";
 import { BsCart4 } from "react-icons/bs";
 import { AiOutlineHeart } from "react-icons/ai";
 import BestDetailReview from "../components/BestDetailReview/BestDetailReview";
-import LineBar from "../components/BorderBar";
+import LineBar from "../components/Common/BorderBar";
 import ImageSkeleton from "../components/Skeleton/ImageSkeleton";
 import QuantityCounts from "../components/Counts/QuantityCounts";
 import {
@@ -173,6 +173,7 @@ function ShopDetail(props) {
   const [detail, setDetail] = useState([]);
   const [detailImages, setdetailImages] = useState([]);
   const [quantity, setQuantity] = useState(1);
+  // eslint-disable-next-line no-unused-vars
   const [_, setViews] = useState(0);
   const [isLoading, setIsLoading] = useState(true);
   const [reviewWriteMode, setReviewWriteMode] = useState(false);

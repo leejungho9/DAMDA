@@ -1,10 +1,10 @@
 import React from "react";
-import Button from "./Button/Button";
-import useCartPrice from "../hooks/useCartPrice";
+import Button from "./Button";
+import useCartPrice from "../../hooks/useCartPrice";
 import { useSelector } from "react-redux";
-import { onClickPayment } from "../utils/openPayMent";
+import { onClickPayment } from "../../utils/openPayMent";
 
-const Payment = React.memo(({ cartItems }) => {
+const PaymentButton = React.memo(({ cartItems }) => {
   const { discountPrice, totalPrice } = useCartPrice(cartItems);
   const { user } = useSelector((state) => state.user);
 
@@ -25,4 +25,4 @@ const Payment = React.memo(({ cartItems }) => {
   );
 });
 
-export default Payment;
+export default PaymentButton;

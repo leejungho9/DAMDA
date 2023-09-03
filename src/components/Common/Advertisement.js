@@ -2,7 +2,7 @@ import React from "react";
 import { useDispatch, useSelector } from "react-redux";
 import styled from "styled-components";
 import { useNavigate } from "react-router-dom";
-import { addCoupon } from "../apis/apis";
+import { addCoupon } from "../../apis/apis";
 
 const AdvertisementWrapper = styled.div`
   width: 100%;

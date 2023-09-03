@@ -1,10 +1,9 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
+import { useSelector } from "react-redux";
 import styled from "styled-components";
 import ShoppingCart from "../components/ShoppingCart/ShoppingCart";
-import { useState } from "react";
-import Payment from "../components/Payment";
-import { useSelector } from "react-redux";
-import DaumPostModal from "../components/DaumPostModal";
+import Payment from "../components/Button/PaymentButton";
+import DaumPostModal from "../components/Common/DaumPostModal";
 
 const OrderContainer = styled.div`
   margin: 0 auto;

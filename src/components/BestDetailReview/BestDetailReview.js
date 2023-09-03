@@ -4,7 +4,7 @@ import { AiOutlinePlus, AiOutlineMinus } from "react-icons/ai";
 import { Rate } from "antd";
 import { addReview, getReviews } from "../../apis/apis";
 import { useSelector } from "react-redux";
-import LineBar from "../BorderBar";
+import LineBar from "../Common/BorderBar";
 import ReviewCarousel from "../Carousel/ReviewCarousel";
 
 const ReviewWrapper = styled.div`

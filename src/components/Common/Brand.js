@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import styled from "styled-components";
-import { getBrands } from "../apis/apis";
+import { getBrands } from "../../apis/apis";
 
 const BrandWrapper = styled.div`
   width: 100%;

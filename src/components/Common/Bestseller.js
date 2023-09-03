@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from "react";
 import styled from "styled-components";
-import BestSellerCarousel from "./Carousel/BestSellerCarousel";
-import { getProducts } from "../apis/apis";
+import BestSellerCarousel from "../Carousel/BestSellerCarousel";
+import { getProducts } from "../../apis/apis";
 
 const CaroselContainer = styled.div`
   max-width: 1300px;
@@ -24,14 +24,12 @@ const SellerTitle = styled.div`
 
 function BestSeller() {
   const [isProducts, setProducts] = useState([]);
-  const [isLoading, setLoading] = useState(true);
 
   useEffect(() => {
     const fetchProducts = async () => {
       try {
         const products = await getProducts();
         setProducts(products);
-        setLoading(false);
       } catch (error) {
         console.log(error);
       }

@@ -1,21 +1,21 @@
 import "./App.css";
 import { BrowserRouter, Routes, Route } from "react-router-dom";
-import Nav from "./components/Nav";
+import { useEffect } from "react";
+import { getAuth, onAuthStateChanged } from "firebase/auth";
+import { useDispatch } from "react-redux";
+import { login } from "./reducers/userSlice";
+import { getUser } from "./apis/apis";
+import Nav from "./components/Common/Nav";
+import Footer from "./components/Common/Footer";
 import Main from "./pages/Main";
 import Login from "./pages/Login";
 import Shop from "./pages/Shop";
-import Footer from "./components/Footer";
 import ShopDetail from "./pages/ShopDetail";
 import Cart from "./pages/Cart";
 import Order from "./pages/Order";
 import ScrollToTop from "./hooks/ScrollToTop";
 import Signup from "./pages/Signup";
 import Wish from "./pages/Wish";
-import { useEffect } from "react";
-import { getAuth, onAuthStateChanged } from "firebase/auth";
-import { useDispatch } from "react-redux";
-import { login } from "./reducers/userSlice";
-import { getUser } from "./apis/apis";
 import Promotion from "./pages/Promotion";
 import Brand from "./pages/Brand";
 
@@ -39,6 +39,7 @@ function App() {
     return () => {
       unsubscribe();
     };
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   return (

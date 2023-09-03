@@ -1,8 +1,8 @@
 import React, { useEffect, useState } from "react";
 import styled from "styled-components";
 import { Link } from "react-router-dom";
-import { getDetailItem, getPromotions } from "../apis/apis";
-import PriceFormat from "../hooks/PriceFormat";
+import { getDetailItem, getPromotions } from "../../apis/apis";
+import PriceFormat from "../../hooks/PriceFormat";
 
 const PrmotionWrapper = styled.div`
   width: 100%;
